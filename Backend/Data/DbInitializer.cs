@@ -42,6 +42,32 @@ public class DbInitializer
         {
             context.Players.Add(p);
         }
+        
+        if (context.Teams.Any())
+        {
+            return;
+        }
+        
+        var teams = new Team[]
+        {
+            new Team
+            {
+                Name = "Team1"
+            },
+            new Team
+            {
+                Name = "Team2"
+            },
+            new Team
+            {
+                Name = "Team3"
+            },
+        };
+        
+        foreach (Team t in teams)
+        {
+            context.Teams.Add(t);
+        }
 
         context.SaveChanges();
     }

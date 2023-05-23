@@ -1,6 +1,7 @@
 using Backend.Data;
 using Backend.Enums;
 using Backend.Model;
+using Backend.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,8 +16,8 @@ builder.Services.AddDbContext<GoalContext>(options =>
 });
 
 // Add services
-// builder.Services.AddTransient<IRoomService, RoomService>();
-// builder.Services.AddTransient<IPotionService, PotionService>();
+builder.Services.AddTransient<IPlayerService, PlayerService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 // Set up endpoints and middleware
 builder.Services.AddControllersWithViews();

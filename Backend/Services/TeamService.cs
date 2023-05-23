@@ -61,13 +61,36 @@ public class TeamService : ITeamService
 
     public async Task<Team> AddPlayerToTeam(long teamId, long playerId)
     {
-        var team = await _context.Teams.FindAsync(teamId);
-        var player = await _context.Players.FindAsync(playerId);
+        var team = await _context.Teams
+            .Include(t => t.AllPlayers)
+            .FirstOrDefaultAsync(t => t.Id == teamId);
+        var player = await _context.Players
+            .Include(p => p.Team)
+            .FirstOrDefaultAsync(p => p.Id == playerId);
         if (team != null)
         {
-            team.AllPlayers = new List<Player> { player! };
-        }
+            if (player != null)
+            {
+                if (player.Team != null)
+                {
+                    player.Team.Add(team);
+                }
+                else
+                {
+                    player.Team = new List<Team> { team };
+                }
 
+                if (team.AllPlayers != null)
+                {
+                    team.AllPlayers.Add(player);
+                }
+                else
+                {
+                    team.AllPlayers = new List<Player> { player };
+                }
+                
+            }
+        }
         await _context.SaveChangesAsync();
         return team ?? throw new NotFoundException("Team Not Found!");
     }

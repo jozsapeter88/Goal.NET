@@ -12,35 +12,36 @@ public class UserService : IUserService
     
     public bool Login(string username, string password)
     {
-        var user = _dbContext.GoalUsers.Where(user => user.UserName.Equals(username)).First();
-        if (!user.Equals(null))
+        User? user;
+        try
         {
-            return user.CheckPassword(password); 
+            user = _dbContext.GoalUsers.First(u => u.UserName.Equals(username));
         }
-
-        return false;
+        catch (System.Exception e)
+        {
+            
+            return false;
+        }
+         
+        return !user.Equals(null) && user.CheckPassword(password);
     }
 
     public bool Register(string username, string password)
     {
-        var user = _dbContext.GoalUsers.Where(user => user.UserName.Equals(username)).First();
-        if (!user.Equals(null))
+        var user = _dbContext.GoalUsers.First(user => user.UserName.Equals(username));
+        if (user.Equals(null)) return false;
+        try
         {
-            try
+            _dbContext.GoalUsers.Add(new User
             {
-                _dbContext.GoalUsers.Add(new User
-                {
-                    UserName = username, 
-                    Password = password
-                });
-                return true;
-            }
-            catch (System.Exception e)
-            {
-                return false;
-            }
+                UserName = username, 
+                Password = password
+            });
+            return true;
         }
-
-        return false;
+        catch (System.Exception e)
+        {
+            return false;
+        }
     }
 }

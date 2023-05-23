@@ -1,7 +1,7 @@
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import "./SignIn.css"
 
-export default function SignIn() {
+const SignIn = ({onSubmit, showMsg}) => {
   return (
     <div>
       <Container>
@@ -17,12 +17,12 @@ export default function SignIn() {
                   <h2 className="fw-bold mb-2">Welcome!</h2>
                   <p className=" mb-5" >Please enter your username and password:</p>
                   <div className="mb-3">
-                    <Form>
-                      <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form onSubmit={onSubmit}>
+                      <Form.Group className="mb-3" controlId="formBasicUsername">
                         <Form.Label className="text-center">
-                          Email address
+                          Username
                         </Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control type="input" placeholder="Enter Username" />
                       </Form.Group>
 
                       <Form.Group
@@ -43,6 +43,11 @@ export default function SignIn() {
                         </Button>
                       </div>
                     </Form>
+                    <div className="mt-3" >
+                    <p className="mb-0  text-center" hidden={showMsg} id="not-valid">
+                        Username or password not valid.
+                      </p>
+                    </div>
                     <div className="mt-3">
                       <p className="mb-0  text-center">
                         Don't have an account?{" "}
@@ -61,3 +66,4 @@ export default function SignIn() {
     </div>
   );
 }
+export default SignIn

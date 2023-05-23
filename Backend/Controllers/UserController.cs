@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Controllers;
 [ApiController]
-[Route("/user")]
+[Route("/api/user")]
 public class UserController : ControllerBase
 {
    private IUserService _userService { get; }
@@ -14,13 +14,13 @@ public class UserController : ControllerBase
    {
       _userService = userService;
    }
-   [HttpGet("login")]
+   [HttpPost("login")]
    public ActionResult UserLogin([FromBody] User user)
    {
       if (_userService.Login(user.UserName, user.Password))
       {
          return Ok();
       }
-      return NotFound();
+      return Unauthorized();
    }
 }

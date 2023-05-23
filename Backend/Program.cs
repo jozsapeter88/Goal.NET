@@ -79,18 +79,4 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred migrating and seeding the database");
     }
 }
-
 app.Run();
-
-public static class SeedData
-{
-    public static void Populate(GoalContext dbContext)
-    {
-        var player1 = new Player
-        {
-            Name = "Jani", Position = PositionEnum.Goalkeeper, Nationality = NationalityEnum.Afghanistan, Score = 90
-        };
-        dbContext.Players.Add(player1);
-        dbContext.SaveChanges();
-    }
-}

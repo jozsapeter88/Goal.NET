@@ -42,6 +42,20 @@ public class DbInitializer
         {
             context.Players.Add(p);
         }
+        
+        if (context.Teams.Any())
+        {
+            return;
+        }
+
+        var teams = new Team[]
+        {
+            new Team { Name = "Team 1", Overall = 90, Color = "Red"},
+            new Team { Name = "Team 2", Overall = 80, Color = "Yellow"},
+            new Team { Name = "Team 3", Overall = 60, Color = "Blue"},
+        };
+
+        context.Teams.AddRange(teams);
 
         context.SaveChanges();
     }

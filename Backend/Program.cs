@@ -18,6 +18,7 @@ builder.Services.AddDbContext<GoalContext>(options =>
 // Add services
 builder.Services.AddTransient<IPlayerService, PlayerService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ITeamService, TeamService>();
 
 // Set up endpoints and middleware
 builder.Services.AddControllersWithViews();

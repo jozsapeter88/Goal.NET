@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
-    [Route("/players]")]
+    [Route("/players")]
     [ApiController]
     public class PlayerController : ControllerBase
     {

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
+using Backend.Model;
 using Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +15,9 @@ public class UserController : ControllerBase
       _userService = userService;
    }
    [HttpGet("login")]
-   public ActionResult UserLogin([FromBody] string username, [FromBody] string password)
+   public ActionResult UserLogin([FromBody] User user)
    {
-      if (_userService.Login(username, password))
+      if (_userService.Login(user.UserName, user.Password))
       {
          return Ok();
       }

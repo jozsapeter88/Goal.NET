@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using Backend.Enums;
 
 namespace Backend.Model;
-
+[Serializable]
 public class Player
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

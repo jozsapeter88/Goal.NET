@@ -50,6 +50,11 @@ namespace Backend.Controllers
             return await _playerService.GetForwards();
         }
 
+        [HttpPost("admin/createPlayer")]
+        public async Task<Player> CreatePlayer([FromBody] Player player)
+        {
+            return await _playerService.CreatePlayerByAdmin(player);
+        }
         [HttpDelete("delete/{playerId}")]
         public async Task<List<Player>> DeletePlayer(long playerId)
         {

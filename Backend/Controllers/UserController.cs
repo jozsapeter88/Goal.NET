@@ -23,4 +23,14 @@ public class UserController : ControllerBase
       }
       return Unauthorized();
    }
+
+   [HttpPost("register")]
+   public ActionResult RegisterUser([FromBody] User user)
+   {
+      if (_userService.Register(user.UserName, user.Password))
+      {
+         return Ok();
+      }
+      return Unauthorized();
+   }
 }

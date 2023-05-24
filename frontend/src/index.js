@@ -7,12 +7,10 @@ import SignIn from './Pages/SignIn/SignIn';
 import Matches from './Components/Matches/Matches';
 import LoginForm from './Components/LoginForm';
 import RegisterForm from './Components/RegisterForm';
-import HomePage from './Pages/Home/HomePage';
-
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import PlayerCreator from './Components/PlayerCreator/PlayerCreator';
+import TeamCreator from './Components/TeamCreator/TeamCreator';
+import PlayerList from './Components/PlayerList/PlayerList';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import Root, { rootLoader } from "./routes/root";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -32,9 +30,18 @@ const router = createBrowserRouter([
     element: <RegisterForm />,
   },
   {
-    path: "/home",
-    element: <HomePage />,
+    path: "/createPlayer",
+    element: <PlayerCreator />,
   },
+  {
+    path: "/createTeam",
+    element: <TeamCreator />,
+  },
+  {
+    path: "/playerList",
+    element: <PlayerList />
+  }
+  
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <RouterProvider router={router} />

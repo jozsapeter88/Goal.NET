@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
 using Microsoft.AspNetCore.Http;
@@ -49,6 +50,30 @@ namespace Backend.Controllers
         {
             return await _playerService.GetForwards();
         }
+
+        [HttpGet("getNationalities")]
+        public Task<List<string>> GetNationalities()
+        {
+            var nationalityEnums =  Enum.GetNames(typeof(NationalityEnum)).ToList();
+            return Task.FromResult(nationalityEnums);
+        }
+        
+        [HttpGet("getPositions")]
+        public Task<List<string>> GetPositions()
+        {
+            var positionEnums =  Enum.GetNames(typeof(PositionEnum)).ToList();
+            return Task.FromResult(positionEnums);
+        }
+        
+        
+        [HttpGet("getGender")]
+        public Task<List<string>> GetGender()
+        {
+            var genderEnums =  Enum.GetNames(typeof(Gender)).ToList();
+            return Task.FromResult(genderEnums);
+        }
+        
+        
 
         [HttpPost("admin/createPlayer")]
         public async Task<Player> CreatePlayer([FromBody] Player player)

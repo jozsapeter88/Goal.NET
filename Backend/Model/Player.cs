@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Backend.Enums;
 
 namespace Backend.Model;
@@ -11,5 +12,6 @@ public class Player
     public PositionEnum Position { get; set; }
     public NationalityEnum Nationality { get; set; }
     public int Score { get; set; }
+    [JsonIgnore]
     public List<Team>? Team { get; set; }
 }

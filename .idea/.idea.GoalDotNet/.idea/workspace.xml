@@ -5,8 +5,32 @@
     <projectFile profileName="http">Backend/Backend.csproj</projectFile>
     <projectFile profileName="https">Backend/Backend.csproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7bd5cbc-7cec-4b59-a290-56f0744c1493" name="Changes" comment="" />
+    <list default="true" id="a7bd5cbc-7cec-4b59-a290-56f0744c1493" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Backend/Controllers/TeamController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Exception/NotFoundException.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Services/ITeamService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Services/TeamService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/Components/LoginForm.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/Components/TeamCreator/TeamCreator.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Controllers/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Controllers/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Controllers/UserController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Model/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Model/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Model/Team.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Model/Team.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Services/PlayerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Services/PlayerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Services/UserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/SignIn/SignIn.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Pages/SignIn/SignIn.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/SignIn/SignIn.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Pages/SignIn/SignIn.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/SignUp/SignUp.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Pages/SignUp/SignUp.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/SignUp/SignUp.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Pages/SignUp/SignUp.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,7 +39,15 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock://C:/ws/Goal.NET/Backend/Model/Team.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/ws/Goal.NET/Backend/Model/Team.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="false" />
   <component name="ProjectId" id="2PYgxuTVHUg4RSuzYU89GfjOWYd" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -99,6 +131,7 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="false" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>

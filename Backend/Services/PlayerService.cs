@@ -14,7 +14,9 @@ public class PlayerService: IPlayerService
     }
     public async Task<List<Player>> GetAllPlayers()
     {
-        return await _context.Players.ToListAsync();
+        return await _context.Players
+            .Include(p => p.Team)
+            .ToListAsync();
     }
 
     public Task<Player> CreatePlayerByAdmin()

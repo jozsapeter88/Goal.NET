@@ -17,6 +17,9 @@ img {
     -webkit-user-select: none;
     -ms-user-select: none;
  }
+ #not-valid {
+    color: red;
+ }
 
 @keyframes gradient {
     0% {

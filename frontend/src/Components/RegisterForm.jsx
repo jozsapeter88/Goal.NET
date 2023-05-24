@@ -1,9 +1,9 @@
 import { useState } from "react"
-import SignIn from "../Pages/SignIn/SignIn"
+import SignUp from "../Pages/SignUp/SignUp"
 
 const Authorize = (username, password) => {
     const loginObj = {"UserName": username, "Password": password}
-    return fetch("/api/user/login", {
+    return fetch("/api/user/register", {
         method: "POST", 
         headers: {
             "Content-Type": "application/json",
@@ -13,7 +13,7 @@ const Authorize = (username, password) => {
     }).then(res => res.status)
 }
 
-const LoginForm = () => {
+const RegisterForm = () => {
 
     const [showMsg, setShowMsg] = useState(true)
 
@@ -24,17 +24,17 @@ const LoginForm = () => {
         const authStatus = await Authorize(username, password);
         if(authStatus === 401) {
             setShowMsg(false);
-            console.error("Wrong login credentials!")
+            console.error("Username is already taken!")
         }
         else if(authStatus === 500){
             console.error("Can't communicate with server!")
         }
         else if(authStatus === 200){
-            console.log("Login successful!")
+            console.log("Registration successful!")
         }
     }
     
-    return <SignIn onSubmit={onSubmit} showMsg={showMsg}></SignIn>
+    return <SignUp onSubmit={onSubmit} showMsg={showMsg}></SignUp>
 }
 
-export default LoginForm
+export default RegisterForm

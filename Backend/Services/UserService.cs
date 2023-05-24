@@ -28,8 +28,11 @@ public class UserService : IUserService
 
     public bool Register(string username, string password)
     {
-        var user = _dbContext.GoalUsers.First(user => user.UserName.Equals(username));
-        if (user.Equals(null)) return false;
+        User? user = _dbContext.GoalUsers.FirstOrDefault(user => user.UserName.Equals(username));
+        if (user != null)
+        {
+            return false;
+        }
         try
         {
             _dbContext.GoalUsers.Add(new User
@@ -37,6 +40,7 @@ public class UserService : IUserService
                 UserName = username, 
                 Password = password
             });
+            _dbContext.SaveChangesAsync();
             return true;
         }
         catch (System.Exception e)

@@ -1,7 +1,7 @@
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import "./SignUp.css"
 
-export default function SignUp() {
+export default function SignUp({onSubmit, showMsg}) {
   return (
     <div>
       <Container>
@@ -17,12 +17,12 @@ export default function SignUp() {
                   <h2 className="fw-bold mb-2">Sign up</h2>
                   <p className=" mb-5" ></p>
                   <div className="mb-3">
-                    <Form>
-                      <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label className="text-center">
-                          Email address
+                    <Form onSubmit={onSubmit}>
+                      <Form.Group className="mb-3" controlId="formBasicUsername">
+                        <Form.Label className="text-center" >
+                          Username
                         </Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control type="input" placeholder="Enter username" style={{borderColor: showMsg ? '' : 'red'}}/>
                       </Form.Group>
 
                       <Form.Group
@@ -43,11 +43,16 @@ export default function SignUp() {
                         </Button>
                       </div>
                     </Form>
+                    <div className="mt-3" >
+                    <p className="mb-0  text-center" hidden={showMsg} id="not-valid">
+                        Username is already taken.
+                      </p>
+                    </div>
                     <div className="mt-3">
                       <p className="mb-0  text-center">
-                        Having troubles signing up?{" "}
-                        <a href="{''}" className="text-primary fw-bold">
-                          Help
+                        Already have an account?{" "}
+                        <a href="/" className="text-primary fw-bold">
+                          Sign in
                         </a>
                       </p>
                     </div>

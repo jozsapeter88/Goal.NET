@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
+using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +10,15 @@ namespace Backend.Controllers;
 [Route("/api/user")]
 public class UserController : ControllerBase
 {
-   private IUserService _userService { get; }
+   private IUserService UserService { get; }
    public UserController(IUserService userService)
    {
-      _userService = userService;
+      UserService = userService;
    }
    [HttpPost("login")]
    public ActionResult UserLogin([FromBody] User user)
    {
-      if (_userService.Login(user.UserName, user.Password))
+      if (UserService.Login(user.UserName, user.Password).Result)
       {
          return Ok();
       }
@@ -27,10 +28,17 @@ public class UserController : ControllerBase
    [HttpPost("register")]
    public ActionResult RegisterUser([FromBody] User user)
    {
-      if (_userService.Register(user.UserName, user.Password))
+      if (UserService.Register(user.UserName, user.Password).Result)
       {
          return Ok();
       }
       return Unauthorized();
+   }
+
+   [HttpGet("levels")]
+   public ActionResult<List<string>> ProvideUserLevels()
+   {
+      var userLevels = Enum.GetNames(typeof(UserLevel)).ToList();
+      return Ok(userLevels);
    }
 }

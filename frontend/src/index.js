@@ -7,6 +7,7 @@ import SignIn from './Pages/SignIn/SignIn';
 import Matches from './Components/Matches/Matches';
 import LoginForm from './Components/LoginForm';
 import RegisterForm from './Components/RegisterForm';
+import HomePage from './Pages/Home/HomePage';
 
 import {
   createBrowserRouter,
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegisterForm />,
+  },
+  {
+    path: "/home",
+    element: <HomePage />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(

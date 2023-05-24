@@ -6,10 +6,14 @@ const PlayerCreator = () => {
   const [nationalities, setNationalities] = useState([]);
   const [playerPosition, setPlayerPosition] = useState('');
   const [positions, setPositions] = useState([]);
+  const [playerGender, setPlayerGender] = useState('');
+  const [genders, setGenders] = useState([]);
+  const [playerOverall, setPlayerOverall] = useState('');
 
   useEffect(() => {
     fetchNationalities();
     fetchPositions();
+    fetchGenders();
   }, []);
 
   const fetchNationalities = async () => {
@@ -40,14 +44,32 @@ const PlayerCreator = () => {
     }
   };
 
+  const fetchGenders = async () => {
+    try {
+      const response = await fetch('/api/players/getGender');
+      if (response.ok) {
+        const data = await response.json();
+        setGenders(data);
+      } else {
+        console.error('Error fetching genders:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching genders:', error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Player Name:', playerName);
     console.log('Player Nationality:', playerNationality);
     console.log('Player Position:', playerPosition);
+    console.log('Player Gender:', playerGender);
+    console.log('Player Overall:', playerOverall);
     setPlayerName('');
     setPlayerNationality('');
     setPlayerPosition('');
+    setPlayerGender('');
+    setPlayerOverall('');
     createPlayer();
   };
 
@@ -55,7 +77,9 @@ const PlayerCreator = () => {
     const playerData = {
       name: playerName,
       nationality: playerNationality,
-      position: playerPosition
+      position: playerPosition,
+      gender: playerGender,
+      score: playerOverall
     };
 
     try {
@@ -134,6 +158,40 @@ const PlayerCreator = () => {
                   </option>
                 ))}
               </select>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="playerGender" className="form-label">
+                Player Gender
+              </label>
+              <select
+                className="form-control"
+                id="playerGender"
+                value={playerGender}
+                onChange={(e) => setPlayerGender(e.target.value)}
+                required
+              >
+                <option value="">Select Gender</option>
+                {genders.map((gender) => (
+                  <option key={gender} value={gender}>
+                    {gender}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="playerOverall" className="form-label">
+                Player Overall
+              </label>
+              <input
+                type="number"
+                className="form-control"
+                id="playerOverall"
+                value={playerOverall}
+                onChange={(e) => setPlayerOverall(e.target.value)}
+                min="1"
+                max="99"
+                required
+              />
             </div>
             <div className="text-center">
               <button type="submit" className="btn btn-primary">

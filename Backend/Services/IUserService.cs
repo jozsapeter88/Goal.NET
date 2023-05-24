@@ -4,8 +4,8 @@ namespace Backend.Services;
 
 public interface IUserService
 {
-    public bool Login(string username, string password);
+    public Task<Boolean> Login(string username, string password);
 
-    public bool Register(string username, string password);
+    public Task<Boolean> Register(string username, string password);
 
 }

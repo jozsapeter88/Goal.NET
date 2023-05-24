@@ -1,4 +1,5 @@
 ﻿using Backend.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services;
 
@@ -10,12 +11,12 @@ public class UserService : IUserService
         _dbContext = dbContext;
     }
     
-    public bool Login(string username, string password)
+    public async Task<Boolean> Login(string username, string password)
     {
         User? user;
         try
         {
-            user = _dbContext.GoalUsers.First(u => u.UserName.Equals(username));
+            user = await _dbContext.GoalUsers.FirstAsync(u => u.UserName.Equals(username));
         }
         catch (System.Exception e)
         {
@@ -26,9 +27,9 @@ public class UserService : IUserService
         return !user.Equals(null) && user.CheckPassword(password);
     }
 
-    public bool Register(string username, string password)
+    public async Task<Boolean> Register(string username, string password)
     {
-        User? user = _dbContext.GoalUsers.FirstOrDefault(user => user.UserName.Equals(username));
+        User? user = await _dbContext.GoalUsers.FirstOrDefaultAsync(user => user.UserName.Equals(username));
         if (user != null)
         {
             return false;
@@ -40,7 +41,7 @@ public class UserService : IUserService
                 UserName = username, 
                 Password = password
             });
-            _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
             return true;
         }
         catch (System.Exception e)

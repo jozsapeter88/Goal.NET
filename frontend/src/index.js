@@ -6,11 +6,12 @@ import DatePicker from './Components/DatePicker/DatePicker';
 import SignIn from './Pages/SignIn/SignIn';
 import Matches from './Components/Matches/Matches';
 import LoginForm from './Components/LoginForm';
+import TeamCreator from './Components/TeamCreator/TeamCreator';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <LoginForm />
+    <TeamCreator />
   </React.StrictMode>
 );
 

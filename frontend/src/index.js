@@ -7,6 +7,8 @@ import SignIn from './Pages/SignIn/SignIn';
 import Matches from './Components/Matches/Matches';
 import LoginForm from './Components/LoginForm';
 import RegisterForm from './Components/RegisterForm';
+import PlayerCreator from './Components/PlayerCreator/PlayerCreator';
+import TeamCreator from './Components/TeamCreator/TeamCreator';
 
 import {
   createBrowserRouter,
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <RegisterForm />,
+  },
+  {
+    path: "/createPlayer",
+    element: <PlayerCreator />,
+  },
+  {
+    path: "/createTeam",
+    element: <TeamCreator />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(

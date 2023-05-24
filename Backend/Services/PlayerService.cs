@@ -19,9 +19,18 @@ public class PlayerService: IPlayerService
             .ToListAsync();
     }
 
-    public Task<Player> CreatePlayerByAdmin()
+    public async Task<Player> CreatePlayerByAdmin(Player player)
     {
-        throw new NotImplementedException();
+        var newPlayer = new Player
+        {
+            Name = player.Name,
+            Nationality = player.Nationality,
+            Position = player.Position,
+            Score = player.Score
+        };
+        _context.Players.Add(newPlayer);
+        await _context.SaveChangesAsync();
+        return newPlayer;
     }
 
     public async Task<List<Player>> GetGoalKeepers()

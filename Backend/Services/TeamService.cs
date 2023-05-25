@@ -25,8 +25,7 @@ public class TeamService : ITeamService
 
     public async Task<Team> GetTeam(long teamId)
     {
-        var team = await _context.Teams
-            .Include(t => t.AllPlayers)
+        var team = await _context.Teams.Include(t => t.AllPlayers)
             .FirstOrDefaultAsync(t => t.Id == teamId);
          return team ?? throw new InvalidOperationException();
     }

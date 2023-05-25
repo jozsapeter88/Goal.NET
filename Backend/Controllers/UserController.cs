@@ -4,6 +4,7 @@ using Backend.Model;
 using Backend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 
 namespace Backend.Controllers;
 [ApiController]
@@ -40,5 +41,23 @@ public class UserController : ControllerBase
    {
       var userLevels = Enum.GetNames(typeof(UserLevel)).ToList();
       return Ok(userLevels);
+   }
+   
+   [HttpGet("getall")]
+   public ActionResult<Dictionary<string, UserLevel>> ProvideUsers()
+   {
+      var users = UserService.GetAllUsers();
+      return Ok(users.Result);
+   }
+
+   [HttpPost("update")]
+   public ActionResult UpdateUser([FromBody] User user)
+   {
+      if (UserService.UpdateUser(user).Result)
+      {
+         return Ok();
+      }
+
+      return Unauthorized();
    }
 }

@@ -10,20 +10,20 @@ import RegisterForm from './Components/RegisterForm';
 import PlayerCreator from './Components/PlayerCreator/PlayerCreator';
 import TeamCreator from './Components/TeamCreator/TeamCreator';
 import PlayerList from './Components/PlayerList/PlayerList';
+import HomePage from './Pages/Home/HomePage';
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import Root, { rootLoader } from "./routes/root";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(
-//   <React.StrictMode>
-//     <LoginForm />
-//   </React.StrictMode>
-// );
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LoginForm />,
+  },
+  {
+    path: "/home",
+    element: <HomePage />,
   },
   {
     path: "/register",
@@ -36,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/createTeam",
     element: <TeamCreator />,
+  },
+  {
+    path: "/playerList",
+    element: <PlayerList />
   },
   {
     path: "/playerList",

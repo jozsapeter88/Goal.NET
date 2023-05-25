@@ -1,0 +1,13 @@
+.logo {
+    margin-right: 10px;
+  }
+  
+  .logo img:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .team-manager-link {
+    font-weight: bold;
+  }
+  

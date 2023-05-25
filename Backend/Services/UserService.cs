@@ -1,4 +1,5 @@
-﻿using Backend.Model;
+﻿using Backend.Enums;
+using Backend.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services;
@@ -6,11 +7,12 @@ namespace Backend.Services;
 public class UserService : IUserService
 {
     private GoalContext _dbContext { get; }
+
     public UserService(GoalContext dbContext)
     {
         _dbContext = dbContext;
     }
-    
+
     public async Task<Boolean> Login(string username, string password)
     {
         User? user;
@@ -20,10 +22,10 @@ public class UserService : IUserService
         }
         catch (System.Exception e)
         {
-            
+
             return false;
         }
-         
+
         return !user.Equals(null) && user.CheckPassword(password);
     }
 
@@ -34,11 +36,12 @@ public class UserService : IUserService
         {
             return false;
         }
+
         try
         {
             _dbContext.GoalUsers.Add(new User
             {
-                UserName = username, 
+                UserName = username,
                 Password = password,
                 UserLevel = 0
             });
@@ -50,4 +53,32 @@ public class UserService : IUserService
             return false;
         }
     }
+
+    public async Task<Dictionary<string, UserLevel>> GetAllUsers()
+    {
+        Dictionary<string, UserLevel> usersWithoutPass = new Dictionary<string, UserLevel>();
+        var userList = await _dbContext.GoalUsers.ToListAsync();
+        foreach (var user in userList)
+        {
+            usersWithoutPass.Add(user.UserName, user.UserLevel);
+        }
+
+        return usersWithoutPass;
+    }
+
+    public async Task<Boolean> UpdateUser(User user)
+    {
+        var userToUpdate = await _dbContext.GoalUsers.FirstOrDefaultAsync(u => u.UserName.Equals(user.UserName));
+        if (userToUpdate != null)
+        {
+            userToUpdate.UserLevel = user.UserLevel;
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+        else return false;
+
+    }
+
+
 }
+

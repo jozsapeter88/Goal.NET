@@ -9,5 +9,6 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<Player, PlayerDto>();
         CreateMap<PlayerDto, Player>();
+        CreateMap<TeamCreateDto, Team>();
     }
 }

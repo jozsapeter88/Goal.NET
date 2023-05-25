@@ -1,3 +1,5 @@
+using AutoMapper;
+using Backend.DTOs;
 using Backend.Exception;
 using Backend.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +10,12 @@ namespace Backend.Services;
 public class TeamService : ITeamService
 {
     private readonly GoalContext _context;
+    private readonly IMapper _mapper;
 
-    public TeamService(GoalContext context)
+    public TeamService(GoalContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     public async Task<List<Team>> GetAllTeams()
@@ -24,6 +28,22 @@ public class TeamService : ITeamService
         var team = await _context.Teams.Include(t => t.AllPlayers)
             .FirstOrDefaultAsync(t => t.Id == teamId);
          return team ?? throw new InvalidOperationException();
+    }
+
+    public async Task<List<Team>> GetTeamsOfUser(long userId)
+    {
+        var user = await _context.GoalUsers
+            .Include(u => u.Teams)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+        if (user != null)
+        {
+            if (user.Teams != null)
+            {
+                return user.Teams.ToList();
+            }
+            throw new NotFoundException("User doesn't have teams yet!");
+        }
+        throw new NotFoundException("User Not Found!");
     }
 
     public async Task<Team> CreateTeam([FromBody] Team team)
@@ -96,13 +116,25 @@ public class TeamService : ITeamService
         return team ?? throw new NotFoundException("Team Not Found!");
     }
 
-    public Task<List<Team>> AddTeamToUser(long userId, Team team)
+    public async Task<List<Team>> AddTeamToUser(long userId, TeamCreateDto team)
     {
-        throw new NotImplementedException();
-    }
+        var user = await _context.GoalUsers.FindAsync(userId);
+        var newTeam = _mapper.Map<Team>(team);
+        _context.Teams.Add(newTeam);
+        if (user != null)
+        {
+            if (user.Teams == null)
+            {
+                user.Teams = new List<Team> { newTeam };
+            }
+            else
+            {
+                user.Teams.Add(newTeam);
+            }
+        }
 
-    public Task<List<Team>> GetTeamsOfAUser(long userId, Team team)
-    {
-        throw new NotImplementedException();
+        await _context.SaveChangesAsync();
+
+        return user?.Teams ?? throw new NotFoundException("User Not Found!");
     }
 }

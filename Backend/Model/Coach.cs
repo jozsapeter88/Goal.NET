@@ -9,7 +9,7 @@ public class Coach
     public long Id { get; set; }
     public string Name { get; set; }
     public NationalityEnum Nationality { get; set; }
-    public Gender Gender { get; set; }
+    public GenderEnum Gender { get; set; }
     public Team Team { get; set; }
     public long TeamId { get; set; }
 }

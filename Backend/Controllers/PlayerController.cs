@@ -69,7 +69,7 @@ namespace Backend.Controllers
         [HttpGet("getGender")]
         public Task<List<string>> GetGender()
         {
-            var genderEnums =  Enum.GetNames(typeof(Gender)).ToList();
+            var genderEnums =  Enum.GetNames(typeof(GenderEnum)).ToList();
             return Task.FromResult(genderEnums);
         }
         

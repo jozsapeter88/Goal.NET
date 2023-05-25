@@ -33,6 +33,13 @@ namespace Backend.Controllers
             return await _teamService.GetTeam(teamId);
         }
 
+        [HttpGet("user/{userId}")]
+        public async Task<List<Team>> GetTeamsOfUser(long userId)
+        {
+            return await _teamService.GetTeamsOfUser(userId);
+        }
+
+
         [HttpPost("addTeam")]
         public async Task<Team> CreateTeam([FromBody] Team team)
         {

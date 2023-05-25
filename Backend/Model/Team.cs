@@ -14,6 +14,6 @@ public class Team
     public List<Player>? AllPlayers { get; set; }
     public int? Overall { get; set; }
     public string Color { get; set; } = string.Empty;
-    
+    [JsonIgnore]
     public User? User { get; set; }
 }

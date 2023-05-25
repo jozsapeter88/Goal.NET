@@ -30,6 +30,22 @@ public class TeamService : ITeamService
          return team ?? throw new InvalidOperationException();
     }
 
+    public async Task<List<Team>> GetTeamsOfUser(long userId)
+    {
+        var user = await _context.GoalUsers
+            .Include(u => u.Teams)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+        if (user != null)
+        {
+            if (user.Teams != null)
+            {
+                return user.Teams.ToList();
+            }
+            throw new NotFoundException("User doesn't have teams yet!");
+        }
+        throw new NotFoundException("User Not Found!");
+    }
+
     public async Task<Team> CreateTeam([FromBody] Team team)
     {
         var newTeam = new Team()
@@ -104,6 +120,7 @@ public class TeamService : ITeamService
     {
         var user = await _context.GoalUsers.FindAsync(userId);
         var newTeam = _mapper.Map<Team>(team);
+        _context.Teams.Add(newTeam);
         if (user != null)
         {
             if (user.Teams == null)
@@ -119,10 +136,5 @@ public class TeamService : ITeamService
         await _context.SaveChangesAsync();
 
         return user?.Teams ?? throw new NotFoundException("User Not Found!");
-    }
-
-    public Task<List<Team>> GetTeamsOfAUser(long userId, Team team)
-    {
-        throw new NotImplementedException();
     }
 }

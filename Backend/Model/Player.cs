@@ -11,6 +11,8 @@ public class Player
     public string Name { get; set; }
     public PositionEnum Position { get; set; }
     public NationalityEnum Nationality { get; set; }
+    
+    public GenderEnum Gender { get; set; }
     public int Score { get; set; }
     [JsonIgnore]
     public List<Team>? Team { get; set; }

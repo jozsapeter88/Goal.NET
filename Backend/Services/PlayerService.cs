@@ -1,3 +1,5 @@
+using AutoMapper;
+using Backend.DTOs;
 using Backend.Enums;
 using Backend.Model;
 using Microsoft.EntityFrameworkCore;
@@ -7,50 +9,66 @@ namespace Backend.Services;
 public class PlayerService: IPlayerService
 {
     private readonly GoalContext _context;
+    private readonly IMapper _mapper;
 
-    public PlayerService(GoalContext context)
+    public PlayerService(GoalContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
-    public async Task<List<Player>> GetAllPlayers()
+    public async Task<List<PlayerDto>> GetAllPlayers()
     {
-        return await _context.Players
+        var players = await _context.Players.ToListAsync(); 
+
+        var playerDtos = players.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
+
+        return playerDtos;
+        /*return await _context.Players
             .Include(p => p.Team)
-            .ToListAsync();
+            .ToListAsync();*/
     }
 
-    public async Task<Player> CreatePlayerByAdmin(Player player)
+    public async Task<Player> CreatePlayerByAdmin(PlayerDto player)
     {
-        var newPlayer = new Player
-        {
-            Name = player.Name,
-            Nationality = player.Nationality,
-            Position = player.Position,
-            Score = player.Score
-        };
+        var newPlayer = _mapper.Map<Player>(player);
+      
         _context.Players.Add(newPlayer);
         await _context.SaveChangesAsync();
         return newPlayer;
     }
 
-    public async Task<List<Player>> GetGoalKeepers()
+    public async Task<List<PlayerDto>> GetGoalKeepers()
     {
-        return await _context.Players.Where(p => p.Position == PositionEnum.Goalkeeper).ToListAsync();
+       var goalKeepers = await _context.Players.Where(p => p.Position == PositionEnum.Goalkeeper).ToListAsync();
+       var playerDtos = goalKeepers.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
+
+       return playerDtos;
+       
     }
 
-    public async Task<List<Player>> GetForwards()
+    public async Task<List<PlayerDto>> GetForwards()
     {
-        return await _context.Players.Where(p => p.Position == PositionEnum.Forward).ToListAsync();
+        var forwards = await _context.Players.Where(p => p.Position == PositionEnum.Forward).ToListAsync();
+        var playerDtos = forwards.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
+
+        return playerDtos;
+        
     }
 
-    public async Task<List<Player>> GetMidfielders()
+    public async Task<List<PlayerDto>> GetMidfielders()
     {
-        return await _context.Players.Where(p => p.Position == PositionEnum.Midfielder).ToListAsync();
+        var midfielders = await _context.Players.Where(p => p.Position == PositionEnum.Midfielder).ToListAsync();
+        var playerDtos = midfielders.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
+
+        return playerDtos;
     }
 
-    public async Task<List<Player>> GetDefenders()
+    public async Task<List<PlayerDto>> GetDefenders()
     {
-        return await _context.Players.Where(p => p.Position == PositionEnum.Defender).ToListAsync();
+        var defenders = await _context.Players.Where(p => p.Position == PositionEnum.Defender).ToListAsync();
+        var playerDtos = defenders.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
+
+        return playerDtos;
     }
 
     public async Task<List<Player>> DeletePlayer(long playerId)

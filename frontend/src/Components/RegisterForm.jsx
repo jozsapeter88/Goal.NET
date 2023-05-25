@@ -33,7 +33,7 @@ const RegisterForm = () => {
         else if(authStatus === 200){
             setShowMsg(true);
             console.log("Registration successful!")
-            navigate("/home");
+            navigate("/");
         }
     }
     

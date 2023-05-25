@@ -96,4 +96,14 @@ public class TeamService : ITeamService
         await _context.SaveChangesAsync();
         return team ?? throw new NotFoundException("Team Not Found!");
     }
+
+    public Task<List<Team>> AddTeamToUser(long userId, Team team)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<Team>> GetTeamsOfAUser(long userId, Team team)
+    {
+        throw new NotImplementedException();
+    }
 }

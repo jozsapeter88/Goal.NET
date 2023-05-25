@@ -8,7 +8,8 @@ public class Player
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long Id { get; set; }
-    public string Name { get; set; }
+
+    public string Name { get; set; } = string.Empty;
     public PositionEnum Position { get; set; }
     public NationalityEnum Nationality { get; set; }
     

@@ -11,4 +11,7 @@ public interface ITeamService
     Task<List<Team>> DeleteTeam(long teamId);
 
     Task<Team> AddPlayerToTeam(long teamId, long playerId);
+
+    Task<List<Team>> AddTeamToUser(long userId, Team team);
+    Task<List<Team>> GetTeamsOfAUser(long userId, Team team);
 }

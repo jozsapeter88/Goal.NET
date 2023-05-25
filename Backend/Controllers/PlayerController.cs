@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.DTOs;
 using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
@@ -22,31 +23,31 @@ namespace Backend.Controllers
         }
 
         [HttpGet("getAllPlayers")]
-        public async Task<List<Player>> GetAllPlayers()
+        public async Task<List<PlayerDto>> GetAllPlayers()
         {
             return await _playerService.GetAllPlayers();
         }
         
         [HttpGet("getGoalkeepers")]
-        public async Task<List<Player>> GetGoalkeepers()
+        public async Task<List<PlayerDto>> GetGoalkeepers()
         {
             return await _playerService.GetGoalKeepers();
         }
         
         [HttpGet("getDefenders")]
-        public async Task<List<Player>> GetDefenders()
+        public async Task<List<PlayerDto>> GetDefenders()
         {
             return await _playerService.GetDefenders();
         }
         
         [HttpGet("getMidfielders")]
-        public async Task<List<Player>> GetMidfielders()
+        public async Task<List<PlayerDto>> GetMidfielders()
         {
             return await _playerService.GetMidfielders();
         }
         
         [HttpGet("getForwards")]
-        public async Task<List<Player>> GetForwards()
+        public async Task<List<PlayerDto>> GetForwards()
         {
             return await _playerService.GetForwards();
         }
@@ -76,12 +77,12 @@ namespace Backend.Controllers
         
 
         [HttpPost("admin/createPlayer")]
-        public async Task<Player> CreatePlayer([FromBody] Player player)
+        public async Task<Player> CreatePlayer([FromBody] PlayerDto player)
         {
             return await _playerService.CreatePlayerByAdmin(player);
         }
         [HttpDelete("delete/{playerId}")]
-        public async Task<List<Player>> DeletePlayer(long playerId)
+        public async Task<List<PlayerDto>> DeletePlayer(long playerId)
         {
             await _playerService.DeletePlayer(playerId);
             return await _playerService.GetAllPlayers();

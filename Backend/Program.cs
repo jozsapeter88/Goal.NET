@@ -1,3 +1,4 @@
+using AutoMapper;
 using Backend.Data;
 using Backend.Enums;
 using Backend.Model;
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<GoalContext>(options =>
 builder.Services.AddTransient<IPlayerService, PlayerService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITeamService, TeamService>();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // Set up endpoints and middleware
 builder.Services.AddControllersWithViews();

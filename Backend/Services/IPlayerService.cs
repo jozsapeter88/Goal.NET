@@ -1,15 +1,16 @@
+using Backend.DTOs;
 using Backend.Model;
 
 namespace Backend.Services;
 
 public interface IPlayerService
 {
-    Task<List<Player>> GetAllPlayers();
-    Task<Player> CreatePlayerByAdmin(Player player);
-    Task<List<Player>> GetGoalKeepers();
-    Task<List<Player>> GetForwards();
-    Task<List<Player>> GetMidfielders();
-    Task<List<Player>> GetDefenders();
+    Task<List<PlayerDto>> GetAllPlayers();
+    Task<Player> CreatePlayerByAdmin(PlayerDto player);
+    Task<List<PlayerDto>> GetGoalKeepers();
+    Task<List<PlayerDto>> GetForwards();
+    Task<List<PlayerDto>> GetMidfielders();
+    Task<List<PlayerDto>> GetDefenders();
   
     Task<List<Player>> DeletePlayer(long playerId);
 

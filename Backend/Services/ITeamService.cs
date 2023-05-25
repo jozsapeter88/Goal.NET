@@ -1,3 +1,4 @@
+using Backend.DTOs;
 using Backend.Model;
 
 namespace Backend.Services;
@@ -12,6 +13,6 @@ public interface ITeamService
 
     Task<Team> AddPlayerToTeam(long teamId, long playerId);
 
-    Task<List<Team>> AddTeamToUser(long userId, Team team);
+    Task<List<Team>> AddTeamToUser(long userId, TeamCreateDto team);
     Task<List<Team>> GetTeamsOfAUser(long userId, Team team);
 }

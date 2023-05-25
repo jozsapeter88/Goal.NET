@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.DTOs;
 using Backend.Model;
 using Backend.Services;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +37,12 @@ namespace Backend.Controllers
         public async Task<Team> CreateTeam([FromBody] Team team)
         {
             return await _teamService.CreateTeam(team);
+        }
+
+        [HttpPost("addTeam/{userId}")]
+        public async Task<List<Team>> CreateTeamOfUser(long userId, TeamCreateDto team)
+        {
+           return await _teamService.AddTeamToUser(userId, team);
         }
 
         [HttpPut("updateTeam/{teamId}")]

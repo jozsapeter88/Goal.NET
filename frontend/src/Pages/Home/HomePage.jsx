@@ -1,9 +1,14 @@
 import "./HomePage.css"
-import Menu from "../../Components/Menu"
+import Menu from "../../Components/Menu/Menu"
+import Dashboard from '../../Components/Dashboard/Dashboard'
 
-const HomePage = ({}) => {
+
+const HomePage = () => {
     return (
-    <Menu></Menu>
+    <div>
+    <Menu />
+    <Dashboard />
+    </div>
     )
         
 }

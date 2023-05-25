@@ -1,5 +1,6 @@
 import { useState } from "react"
 import SignIn from "../Pages/SignIn/SignIn"
+import { useNavigate } from "react-router-dom";
 
 const Authorize = (username, password) => {
     const loginObj = {"UserName": username, "Password": password}
@@ -14,7 +15,7 @@ const Authorize = (username, password) => {
 }
 
 const LoginForm = () => {
-
+    const navigate = useNavigate();
     const [showMsg, setShowMsg] = useState(true)
 
     const onSubmit = async (e) => {
@@ -31,6 +32,7 @@ const LoginForm = () => {
         }
         else if(authStatus === 200){
             console.log("Login successful!")
+            navigate("/home");
         }
     }
     

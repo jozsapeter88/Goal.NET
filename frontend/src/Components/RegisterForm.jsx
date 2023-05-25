@@ -1,5 +1,6 @@
 import { useState } from "react"
 import SignUp from "../Pages/SignUp/SignUp"
+import { useNavigate } from "react-router-dom";
 
 const Authorize = (username, password) => {
     const loginObj = {"UserName": username, "Password": password}
@@ -14,7 +15,7 @@ const Authorize = (username, password) => {
 }
 
 const RegisterForm = () => {
-
+    const navigate = useNavigate();
     const [showMsg, setShowMsg] = useState(true)
 
     const onSubmit = async (e) => {
@@ -32,6 +33,7 @@ const RegisterForm = () => {
         else if(authStatus === 200){
             setShowMsg(true);
             console.log("Registration successful!")
+            navigate("/home");
         }
     }
     

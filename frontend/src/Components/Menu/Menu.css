@@ -1,12 +1,7 @@
-.logo {
-    margin-right: 10px;
-  }
-  
-  .logo img:hover {
-    opacity: 0.8;
-    transition: opacity 0.3s ease-in-out;
-  }
-  
+.logo-image:hover {
+  opacity: 0.8; /* Reduce opacity on hover */
+  cursor: pointer; /* Show pointer cursor on hover */
+}
   .team-manager-link {
     font-weight: bold;
   }

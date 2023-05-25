@@ -19,6 +19,7 @@ const LoginForm = () => {
     const [showMsg, setShowMsg] = useState(true)
 
     const onSubmit = async (e) => {
+        setShowMsg(true);
         e.preventDefault();
         const username = e.target.formBasicUsername.value;
         const password = e.target.formBasicPassword.value;

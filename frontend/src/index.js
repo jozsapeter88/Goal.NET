@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import DatePicker from './Components/DatePicker/DatePicker';
 import SignIn from './Pages/SignIn/SignIn';
 import Matches from './Components/Matches/Matches';
+import UserEditor from './Components/AdminTools/UserEditor';
 import HomePage from './Pages/Home/HomePage';
 import LoginForm from './Components/LoginForm';
 import RegisterForm from './Components/RegisterForm';
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: "/playerList",
     element: <PlayerList />
+  },
+  {
+    path: "/admin",
+    element: <UserEditor />
   }
   
 ]);

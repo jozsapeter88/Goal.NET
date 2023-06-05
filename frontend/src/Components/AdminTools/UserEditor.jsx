@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import { useFetcher } from 'react-router-dom';
 
 
-const UserCreator = () => {
+const UserEditor = () => {
     const [UserLevels, setUserLevels] = useState('');
     const [Users, setUsers] = useState('');
     const [UserNames, setUserNames] = useState([]);
@@ -126,4 +126,4 @@ const UserCreator = () => {
     );
 };
 
-export default UserCreator;
+export default UserEditor;

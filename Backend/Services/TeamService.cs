@@ -46,7 +46,7 @@ public class TeamService : ITeamService
         throw new NotFoundException("User Not Found!");
     }
 
-    public async Task<Team> CreateTeam([FromBody] Team team)
+    public async Task<Team> CreateTeam(TeamCreateDto team)
     {
         var newTeam = new Team()
         {

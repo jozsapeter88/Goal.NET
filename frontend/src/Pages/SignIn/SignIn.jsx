@@ -44,7 +44,7 @@ const SignIn = ({onSubmit, showMsg}) => {
                       </div>
                     </Form>
                     <div className="mt-3" >
-                    <p className="mb-0  text-center" hidden={showMsg} id="not-valid">
+                    <p className="mb-0  text-center" style={{visibility: !showMsg ? 'visible' : 'hidden'}} id="not-valid">
                         Username or password not valid.
                       </p>
                     </div>

@@ -8,7 +8,7 @@ public interface ITeamService
     Task<List<Team>> GetAllTeams();
     Task<Team> GetTeam(long teamId);
     Task<List<Team>> GetTeamsOfUser(long userId);
-    Task<Team> CreateTeam(Team team);
+    Task<Team> CreateTeam(TeamCreateDto team);
     Task<Team> UpdateTeam(long teamId, Team team);
     Task<List<Team>> DeleteTeam(long teamId);
 

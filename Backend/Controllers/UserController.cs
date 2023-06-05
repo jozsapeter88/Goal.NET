@@ -43,7 +43,7 @@ public class UserController : ControllerBase
       return Ok(userLevels);
    }
    
-   [HttpGet("getall")]
+   [HttpGet("getAll")]
    public ActionResult<Dictionary<string, UserLevel>> ProvideUsers()
    {
       var users = UserService.GetAllUsers();

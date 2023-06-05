@@ -3,6 +3,7 @@ using Backend.Data;
 using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,6 +23,13 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITeamService, TeamService>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+// Add cookie
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/";
+        options.Cookie.Name = "GoalDotNetCookie";
+    });
 // Set up endpoints and middleware
 builder.Services.AddControllersWithViews();
 
@@ -59,6 +67,7 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

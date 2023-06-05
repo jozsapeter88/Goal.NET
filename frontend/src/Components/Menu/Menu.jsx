@@ -6,6 +6,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import './Menu.css';
 
 function Menu() {
+
+  const userName = "username";
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
@@ -22,7 +25,7 @@ function Menu() {
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav className="me-auto">
             <Nav.Link href="/teamManager">Team Manager</Nav.Link>
-            <NavDropdown title="Profile" id="basic-nav-dropdown">
+            <NavDropdown title= {`Welcome ${userName}`} id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>

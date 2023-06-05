@@ -2,9 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import DatePicker from './Components/DatePicker/DatePicker';
-import SignIn from './Pages/SignIn/SignIn';
-import Matches from './Components/Matches/Matches';
 import UserEditor from './Components/AdminTools/UserEditor';
 import HomePage from './Pages/Home/HomePage';
 import LoginForm from './Components/LoginForm';
@@ -12,7 +9,6 @@ import RegisterForm from './Components/RegisterForm';
 import PlayerCreator from './Components/PlayerCreator/PlayerCreator';
 import TeamCreator from './Components/TeamCreator/TeamCreator';
 import PlayerList from './Components/PlayerList/PlayerList';
-import UserEditor from './Components/AdminTools/UserEditor'
 import TeamManager from './Components/TeamManager/TeamManager'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 

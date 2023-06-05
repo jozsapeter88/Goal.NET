@@ -12,7 +12,6 @@ import RegisterForm from './Components/RegisterForm';
 import PlayerCreator from './Components/PlayerCreator/PlayerCreator';
 import TeamCreator from './Components/TeamCreator/TeamCreator';
 import PlayerList from './Components/PlayerList/PlayerList';
-import UserEditor from './Components/AdminTools/UserEditor'
 import TeamManager from './Components/TeamManager/TeamManager'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 

@@ -1,17 +1,24 @@
 import { useState } from "react"
 import SignUp from "../Pages/SignUp/SignUp"
 import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 
-const Authorize = (username, password) => {
+const Authorize = async (username, password) => {
+    let status;
+    let token;
     const loginObj = {"UserName": username, "Password": password}
-    return fetch("/api/user/register", {
+    await fetch("/api/user/register", {
         method: "POST", 
         headers: {
             "Content-Type": "application/json",
             // 'Accept': ''
         }, 
         body: JSON.stringify(loginObj)
-    }).then(res => res.status)
+    }).then(res =>{
+        status = res.status;
+        token = res.body;
+    })
+    return {"status": status, "token": token};
 }
 
 const RegisterForm = () => {
@@ -22,15 +29,16 @@ const RegisterForm = () => {
         e.preventDefault();
         const username = e.target.formBasicUsername.value;
         const password = e.target.formBasicPassword.value;
-        const authStatus = await Authorize(username, password);
-        if(authStatus === 401) {
+        const auth = await Authorize(username, password);
+        if(auth.status === 401) {
             setShowMsg(false);
             console.error("Username is already taken!")
         }
-        else if(authStatus === 500){
+        else if(auth.status === 500){
             console.error("Can't communicate with server!")
         }
-        else if(authStatus === 200){
+        else if(auth.status === 200){
+            Cookies.set("token", auth.token)
             setShowMsg(true);
             console.log("Registration successful!")
             navigate("/");

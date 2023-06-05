@@ -41,7 +41,7 @@ namespace Backend.Controllers
 
 
         [HttpPost("addTeam")]
-        public async Task<Team> CreateTeam([FromBody] Team team)
+        public async Task<Team> CreateTeam([FromBody] TeamCreateDto team)
         {
             return await _teamService.CreateTeam(team);
         }

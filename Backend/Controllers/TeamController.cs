@@ -39,6 +39,12 @@ namespace Backend.Controllers
             return await _teamService.GetTeamsOfUser(userId);
         }
 
+        [HttpGet("user/{userId}/{teamId}")]
+        public async Task<List<Player>> GetPlayersOfTeam(long userId, long teamId)
+        {
+            return await _teamService.GetPlayersOfTeam(userId, teamId);
+        }
+
 
         [HttpPost("addTeam")]
         public async Task<Team> CreateTeam([FromBody] TeamCreateDto team)
@@ -58,10 +64,10 @@ namespace Backend.Controllers
             return await _teamService.UpdateTeam(teamId, team);
         }
 
-        [HttpPut("addPlayerToTeam/{teamId}/{playerId}")]
-        public async Task<Team> AddPlayer(long teamId, long playerId)
+        [HttpPut("addPlayerToTeam/{userId}/{teamId}/{playerId}")]
+        public async Task<Team> AddPlayer(long userId,long teamId, long playerId)
         {
-            return await _teamService.AddPlayerToTeam(teamId, playerId);
+            return await _teamService.AddPlayerToTeam(userId,teamId, playerId);
         }
 
         [HttpDelete("delete/{teamId}")]

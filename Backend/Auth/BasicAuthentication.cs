@@ -30,7 +30,7 @@ public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSc
     {
         var endpoint = Context.GetEndpoint();
 
-        if (endpoint?.Metadata?.GetMetadata<IAllowAnonymous>() != null)
+        if (endpoint?.Metadata?.GetMetadata<Authorization>() == null)
         {
             return AuthenticateResult.NoResult();
         }
@@ -38,7 +38,7 @@ public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSc
         //  Get login parameters from cookies
         if (Request.Cookies.ContainsKey("token"))
         {
-          token = Request.Cookies["token"].Split(" ")[1]; 
+          token = Request.Cookies["token"].Split(" ")[1];
         }
         string[] tokenParts = Encoding.UTF8.GetString(Convert.FromBase64String(token)).Split(":");
         string username = tokenParts[0];

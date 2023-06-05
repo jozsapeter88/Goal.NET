@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Backend.DTOs;
 using Backend.Model;
 using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet("getAllTeams")]
+        [Authorize(Roles = "0")]
         public async Task<List<Team>> GetAllTeams()
         {
             return await _teamService.GetAllTeams();
@@ -34,6 +36,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet("user/{userId}")]
+        [Authorize(Roles = "0")]
         public async Task<List<Team>> GetTeamsOfUser(long userId)
         {
             return await _teamService.GetTeamsOfUser(userId);

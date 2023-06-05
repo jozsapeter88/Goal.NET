@@ -12,15 +12,11 @@ import RegisterForm from './Components/RegisterForm';
 import PlayerCreator from './Components/PlayerCreator/PlayerCreator';
 import TeamCreator from './Components/TeamCreator/TeamCreator';
 import PlayerList from './Components/PlayerList/PlayerList';
+import UserEditor from './Components/AdminTools/UserEditor'
+import TeamManager from './Components/TeamManager/TeamManager'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import Root, { rootLoader } from "./routes/root";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(
-//   <React.StrictMode>
-//     <LoginForm />
-//   </React.StrictMode>
-// );
 
 const router = createBrowserRouter([
   {
@@ -48,8 +44,13 @@ const router = createBrowserRouter([
     element: <PlayerList />
   },
   {
-    path: "/admin",
+
+    path: "/userEditor",
     element: <UserEditor />
+  },
+  {
+    path: "/teamManager",
+    element: <TeamManager />
   }
   
 ]);

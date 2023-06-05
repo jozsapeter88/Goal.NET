@@ -1,22 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { Collapse, Card, Button, Row, Col, Form } from "react-bootstrap";
+import { Collapse, Card, Button, Row, Col, Table, Modal } from "react-bootstrap";
 import Loading from "../Loading";
 import "./Dashboard.css";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
-  const [showCreateTeam, setShowCreateTeam] = useState(false);
-  const [showCreatePlayer, setShowCreatePlayer] = useState(false);
+  const [expandedMatchId, setExpandedMatchId] = useState(null);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [selectedMatchDetails, setSelectedMatchDetails] = useState("");
 
-  const fetchTeamsOfUser = (userId, signal) => {
-    return fetch(`http://localhost:3000/api/teams/user/${userId}`, {
-      signal,
-    }).then((res) => res.json());
+  const fetchTeamsOfUser = async (userId) => {
+    try {
+      const response = await fetch(`/api/teams/user/${userId}`);
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        console.error("Error fetching teams:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching teams:", error);
+    }
+    return [];
   };
 
   useEffect(() => {
-    const controller = new AbortController();
     const userId = 1;
     fetchTeamsOfUser(userId)
       .then((teamsData) => {
@@ -24,13 +33,9 @@ const Dashboard = () => {
         setLoading(false);
       })
       .catch((error) => {
-        if (error.name !== "AbortError") {
-          setTeams([]);
-          throw error;
-        }
+        setTeams([]);
+        console.error("Error fetching teams:", error);
       });
-
-    return () => controller.abort();
   }, []);
 
   if (loading) {
@@ -45,32 +50,98 @@ const Dashboard = () => {
     );
   };
 
-  const handleToggleCreateTeam = () => {
-    setShowCreateTeam(!showCreateTeam);
-    setShowCreatePlayer(false);
+  const handleMatchClick = (matchId, matchDetails) => {
+    setExpandedMatchId((prevMatchId) => (prevMatchId === matchId ? null : matchId));
+    setSelectedMatchDetails(matchDetails);
+    setShowDetailsModal(true);
   };
 
-  const handleToggleCreatePlayer = () => {
-    setShowCreatePlayer(!showCreatePlayer);
-    setShowCreateTeam(false);
+  const handleCloseModal = () => {
+    setShowDetailsModal(false);
   };
 
-  const handleCreateTeam = (event) => {
-    event.preventDefault();
-  };
-
-  const handleCreatePlayer = (event) => {
-    event.preventDefault();
-  };
+  /*-------------------Hardcoded match history data-------------------*/
+  const matchHistory = [
+    {
+      id: 1,
+      team1: "Real Madrid",
+      team2: "Barcelona",
+      score: "2-1",
+      details: "Match details for Real Madrid vs Barcelona...",
+    },
+    {
+      id: 2,
+      team1: "Liverpool",
+      team2: "Manchester City",
+      score: "0-0",
+      details: "Match details for Liverpool vs Manchester City...",
+    },
+    {
+      id: 3,
+      team1: "Bayern Munich",
+      team2: "Paris Saint-Germain",
+      score: "3-2",
+      details: "Match details for Bayern Munich vs Paris Saint-Germain...",
+    },
+    {
+      id: 4,
+      team1: "Manchester United",
+      team2: "Chelsea",
+      score: "1-1",
+      details: "Match details for Manchester United vs Chelsea...",
+    },
+    {
+      id: 5,
+      team1: "Juventus",
+      team2: "AC Milan",
+      score: "2-0",
+      details: "Match details for Juventus vs AC Milan...",
+    },
+    {
+      id: 6,
+      team1: "Borussia Dortmund",
+      team2: "RB Leipzig",
+      score: "2-2",
+      details: "Match details for Borussia Dortmund vs RB Leipzig...",
+    },
+    {
+      id: 7,
+      team1: "Arsenal",
+      team2: "Tottenham Hotspur",
+      score: "1-0",
+      details: "Match details for Arsenal vs Tottenham Hotspur...",
+    },
+    {
+      id: 8,
+      team1: "Inter Milan",
+      team2: "Lazio",
+      score: "3-1",
+      details: "Match details for Inter Milan vs Lazio...",
+    },
+    {
+      id: 9,
+      team1: "Atletico Madrid",
+      team2: "Sevilla",
+      score: "2-2",
+      details: "Match details for Atletico Madrid vs Sevilla...",
+    },
+    {
+      id: 10,
+      team1: "Ajax",
+      team2: "PSV Eindhoven",
+      score: "2-1",
+      details: "Match details for Ajax vs PSV Eindhoven...",
+    },
+  ];
 
   return (
     <div>
       <div className="MyTeams">
-        <h1>My Teams</h1>
+        <h1 style={{ color: "white" }}>My Teams</h1>
       </div>
       <div className="dashboard-container">
         <Row>
-          <Col sm={8}>
+          <Col sm={4}>
             {teams.map((team) => (
               <Card key={team.id} bg="dark" text="white" className="team-card">
                 <Card.Header>
@@ -79,6 +150,7 @@ const Dashboard = () => {
                     onClick={() => handleToggleDetails(team.id)}
                     aria-controls={`details-collapse-${team.id}`}
                     aria-expanded={team.showDetails}
+                    className="team-card-title"
                   >
                     {team.name}
                   </Button>
@@ -106,15 +178,8 @@ const Dashboard = () => {
                                     <td>{player.score}</td>
                                   </tr>
                                 ))
-                              : console.log("no players yet")}
+                              : null}
                           </tbody>
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            className="ml-2"
-                          >
-                            Add Player
-                          </Button>
                         </table>
                       )}
                     </Card.Body>
@@ -123,90 +188,49 @@ const Dashboard = () => {
               </Card>
             ))}
           </Col>
-          <Col sm={4}>
-            <div className="create-cards-container">
-              <Card
-                bg="dark"
-                text="white"
-                className={`create-card ${showCreateTeam ? "active" : ""}`}
-              >
-                <Card.Header>
-                  <Button
-                    variant="link"
-                    onClick={handleToggleCreateTeam}
-                    aria-controls="create-team-collapse"
-                    aria-expanded={showCreateTeam}
-                  >
-                    Create New Team
-                  </Button>
-                </Card.Header>
-                <Collapse in={showCreateTeam}>
-                  <div id="create-team-collapse">
-                    <Card.Body>
-                      <Form onSubmit={handleCreateTeam}>
-                        <Form.Group controlId="teamName">
-                          <Form.Label>Name</Form.Label>
-                          <Form.Control type="text" required />
-                        </Form.Group>
-                        <Form.Group controlId="teamColor">
-                          <Form.Label>Color</Form.Label>
-                          <Form.Control type="text" required />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">
-                          Create
-                        </Button>
-                      </Form>
-                    </Card.Body>
-                  </div>
-                </Collapse>
-              </Card>
-              <Card
-                bg="dark"
-                text="white"
-                className={`create-card ${showCreatePlayer ? "active" : ""}`}
-              >
-                <Card.Header>
-                  <Button
-                    variant="link"
-                    onClick={handleToggleCreatePlayer}
-                    aria-controls="create-player-collapse"
-                    aria-expanded={showCreatePlayer}
-                  >
-                    Create New Player
-                  </Button>
-                </Card.Header>
-                <Collapse in={showCreatePlayer}>
-                  <div id="create-player-collapse">
-                    <Card.Body>
-                      <Form onSubmit={handleCreatePlayer}>
-                        <Form.Group controlId="playerName">
-                          <Form.Label>Name</Form.Label>
-                          <Form.Control type="text" required />
-                        </Form.Group>
-                        <Form.Group controlId="playerPosition">
-                          <Form.Label>Position</Form.Label>
-                          <Form.Control type="text" required />
-                        </Form.Group>
-                        <Form.Group controlId="playerNationality">
-                          <Form.Label>Nationality</Form.Label>
-                          <Form.Control type="text" required />
-                        </Form.Group>
-                        <Form.Group controlId="playerScore">
-                          <Form.Label>Overall</Form.Label>
-                          <Form.Control type="number" required />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">
-                          Create
-                        </Button>
-                      </Form>
-                    </Card.Body>
-                  </div>
-                </Collapse>
-              </Card>
-            </div>
+          <Col sm={4} className="mb-4">
+            <Card bg="dark" text="white">
+              <Card.Body>
+                <h4>Previous Match History</h4>
+                <Table striped bordered hover variant="dark">
+                  <thead>
+                    <tr>
+                      <th>Team 1</th>
+                      <th>Team 2</th>
+                      <th>Score</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {matchHistory.map((match) => (
+                      <React.Fragment key={match.id}>
+                        <tr onClick={() => handleMatchClick(match.id, match.details)}>
+                          <td>{match.team1}</td>
+                          <td>{match.team2}</td>
+                          <td>{match.score}</td>
+                          <td>
+                          </td>
+                        </tr>
+                      </React.Fragment>
+                    ))}
+                  </tbody>
+                </Table>
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
       </div>
+      <Modal show={showDetailsModal} onHide={handleCloseModal} size="lg" centered>
+        <Modal.Header>
+          <Modal.Title>Match Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{selectedMatchDetails}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

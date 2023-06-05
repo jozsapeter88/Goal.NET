@@ -1,9 +1,15 @@
-﻿using System.Runtime.InteropServices.JavaScript;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Runtime.InteropServices.JavaScript;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NuGet.Protocol;
 
 namespace Backend.Controllers;
@@ -31,12 +37,14 @@ public class UserController : ControllerBase
    {
       if (UserService.Register(user.UserName, user.Password).Result)
       {
-         return Ok();
+         var token = GenerateJWT(user);
+         return Ok(token);
       }
       return Unauthorized();
    }
 
    [HttpGet("levels")]
+   [Authorize]
    public ActionResult<List<string>> ProvideUserLevels()
    {
       var userLevels = Enum.GetNames(typeof(UserLevel)).ToList();
@@ -59,5 +67,20 @@ public class UserController : ControllerBase
       }
 
       return Unauthorized();
+   }
+
+   private string GenerateJWT(User user)
+   {
+      var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoalDotNetIsTheBestProjectOfCodeCool"));
+      var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+ 
+      var token = new JwtSecurityToken(
+         claims: new [] {
+            new Claim(ClaimTypes.Authentication, $"{user.UserName}:{user.Password}")
+         },
+         signingCredentials: creds
+         );
+ 
+      return new JwtSecurityTokenHandler().WriteToken(token);
    }
 }

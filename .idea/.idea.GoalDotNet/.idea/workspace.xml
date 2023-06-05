@@ -10,26 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a7bd5cbc-7cec-4b59-a290-56f0744c1493" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/Controllers/TeamController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/Exception/NotFoundException.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/Services/ITeamService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/Services/TeamService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/Components/LoginForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/Components/TeamCreator/TeamCreator.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Controllers/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Controllers/PlayerController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Auth/BasicAuthentication.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.GoalDotNet/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GoalDotNet/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Controllers/UserController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Model/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Model/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Model/Team.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Model/Team.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Model/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Model/User.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Services/PlayerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Services/PlayerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Services/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Services/IUserService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Services/UserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/SignIn/SignIn.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Pages/SignIn/SignIn.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/SignIn/SignIn.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Pages/SignIn/SignIn.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/SignUp/SignUp.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Pages/SignUp/SignUp.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Components/SignUp/SignUp.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Pages/SignUp/SignUp.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,11 +24,19 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://C:/ws/Goal.NET/Backend/Model/Team.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/ws/Goal.NET/Backend/Model/Team.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d9d9faea5e6ed6438a777ef8c6eed41261f81d8e86488ed923ad92564f54e/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e74356f198b598e97eaeea83e8b7b1f2bfe27c0a39fedf86bb7dc44827fbda/ActionMethodExecutor.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="false" />
   <component name="ProjectId" id="2PYgxuTVHUg4RSuzYU89GfjOWYd" />
@@ -52,24 +47,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "XThreadsFramesViewSplitterKey": "0.49542683",
+    "git-widget-placeholder": "main",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\jozsa\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\jozsa\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\jozsa\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\szova\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\DecompilerCache",
+      "C:\\Users\\szova\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\SourcesCache",
+      "C:\\Users\\szova\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.Backend: IIS Express">
+}]]></component>
+  <component name="RunManager" selected=".NET Launch Settings Profile.Backend: http">
     <configuration name="Backend: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Backend/Backend.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net7.0" />
@@ -125,14 +121,26 @@
       <option name="presentableId" value="Default" />
       <updated>1683639681089</updated>
       <workItem from="1683639681091" duration="105000" />
+      <workItem from="1685957110130" duration="8043000" />
     </task>
+    <task id="LOCAL-00001" summary="hotfix (Gender-&gt;GenderEnum rename)">
+      <created>1684933688737</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1684933688737</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="false" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="hotfix (Gender-&gt;GenderEnum rename)" />
+    <option name="LAST_COMMIT_MESSAGE" value="hotfix (Gender-&gt;GenderEnum rename)" />
   </component>
 </project>

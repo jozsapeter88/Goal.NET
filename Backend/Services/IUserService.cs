@@ -14,4 +14,6 @@ public interface IUserService
 
     public Task<Boolean> UpdateUser(User user);
 
+    public Task<User> GetUser(string username);
+
 }

@@ -1,5 +1,7 @@
 ﻿using Backend.Enums;
+using Backend.Exception;
 using Backend.Model;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services;
@@ -79,6 +81,14 @@ public class UserService : IUserService
 
     }
 
-
+    public async Task<User> GetUser(string username)
+    {
+        var user = await _dbContext.GoalUsers.FirstOrDefaultAsync(u => u.UserName.Equals(username));
+        if (user != null)
+        {
+            return user;
+        }
+        throw new NotFoundException("User not found");
+    }
 }
 

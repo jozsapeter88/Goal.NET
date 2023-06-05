@@ -2,13 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Collapse, Card, Button, Row, Col, Table, Modal } from "react-bootstrap";
 import Loading from "../Loading";
 import "./Dashboard.css";
+import { useParams } from "react-router-dom";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
+  const [players, setPlayers] = useState([]);
   const [expandedMatchId, setExpandedMatchId] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedMatchDetails, setSelectedMatchDetails] = useState("");
+  //const { userId } = useParams();
+  const userId = 1;
+  console.log(players.length);
 
   const fetchTeamsOfUser = async (userId) => {
     try {
@@ -24,9 +29,23 @@ const Dashboard = () => {
     }
     return [];
   };
+  const fetchPlayersOfUsersTeam = async(userId, teamId) => {
+    try {
+      const response = await fetch(`/api/teams/user/${userId}/${teamId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setPlayers(data);
+      } else {
+        console.error("Error fetching players:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching players:", error);
+    }
+    return [];
+  };
 
   useEffect(() => {
-    const userId = 1;
+    
     fetchTeamsOfUser(userId)
       .then((teamsData) => {
         setTeams(teamsData);
@@ -43,6 +62,7 @@ const Dashboard = () => {
   }
 
   const handleToggleDetails = (teamId) => {
+    fetchPlayersOfUsersTeam(userId, teamId)
     setTeams((prevTeams) =>
       prevTeams.map((team) =>
         team.id === teamId ? { ...team, showDetails: !team.showDetails } : team
@@ -169,8 +189,8 @@ const Dashboard = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {team.allPlayers
-                              ? team.allPlayers.map((player) => (
+                            {players
+                              ? players.map((player) => (
                                   <tr key={player.id}>
                                     <td>{player.name}</td>
                                     <td>{player.position}</td>

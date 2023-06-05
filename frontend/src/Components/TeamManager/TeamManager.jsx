@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Collapse, Card, Button, Row, Col, Form, Alert } from "react-bootstrap";
+import {
+  Collapse,
+  Card,
+  Button,
+  Row,
+  Col,
+  Form,
+  Alert,
+  ListGroup,
+  Modal,
+} from "react-bootstrap";
 import Loading from "../Loading";
 import Menu from "../../Components/Menu/Menu";
 import "./TeamManager.css";
@@ -13,6 +23,8 @@ const TeamManager = () => {
   const [playerErrorMessage, setPlayerErrorMessage] = useState("");
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
   const [teamErrorMessage, setTeamErrorMessage] = useState("");
+  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [showManageTeamModal, setShowManageTeamModal] = useState(false);
 
   const fetchTeamsOfUser = (userId, signal) => {
     return fetch(`http://localhost:3000/api/teams/user/${userId}`, {
@@ -200,219 +212,291 @@ const TeamManager = () => {
     }
   };
 
+  const handleManageTeamModal = (team) => {
+    setSelectedTeam(team);
+    setShowManageTeamModal(true);
+  };
+
+  const handleCloseManageTeamModal = () => {
+    setShowManageTeamModal(false);
+    setSelectedTeam(null);
+  };
+
+  const handleDeleteTeam = async (teamId) => {
+    try {
+      const response = await fetch(`/api/teams/deleteTeam/${teamId}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        setTeams((prevTeams) => prevTeams.filter((team) => team.id !== teamId));
+        setTeamSuccessMessage("Team deleted successfully.");
+        setTeamErrorMessage("");
+      } else {
+        const errorText = await response.text();
+        console.error("Error deleting team:", errorText);
+        setTeamSuccessMessage("");
+        setTeamErrorMessage("Error deleting team: " + errorText);
+      }
+    } catch (error) {
+      console.error("Error deleting team:", error);
+      setTeamSuccessMessage("");
+      setTeamErrorMessage("Error deleting team: " + error.message);
+    }
+  };
+
   return (
-    <div>
-      <Menu />
-      {playerSuccessMessage && (
-        <Alert variant="success" onClose={() => setPlayerSuccessMessage("")}>
-          {" "}
-          <p>{playerSuccessMessage}</p>
-          <hr />
-          <div className="d-flex justify-content-end">
-            <Button
-              onClick={() => setPlayerSuccessMessage("")}
-              variant="outline-success"
-              size="sm"
-            >
-              Close
-            </Button>
-          </div>
-        </Alert>
-      )}
-      {playerErrorMessage && (
-        <Alert variant="danger" onClose={() => setPlayerErrorMessage("")}>
-          <p>{playerErrorMessage}</p>
-          <hr />
-          <div className="d-flex justify-content-end">
-            <Button
-              onClick={() => setPlayerErrorMessage("")}
-              variant="outline-danger"
-              size="sm"
-            >
-              Close
-            </Button>
-          </div>
-        </Alert>
-      )}
+    <>
+      <div>
+        <Menu />
+        {playerSuccessMessage && (
+          <Alert variant="success" onClose={() => setPlayerSuccessMessage("")}>
+            {" "}
+            <p>{playerSuccessMessage}</p>
+            <hr />
+            <div className="d-flex justify-content-end">
+              <Button
+                onClick={() => setPlayerSuccessMessage("")}
+                variant="outline-success"
+                size="sm"
+              >
+                Close
+              </Button>
+            </div>
+          </Alert>
+        )}
+        {playerErrorMessage && (
+          <Alert variant="danger" onClose={() => setPlayerErrorMessage("")}>
+            <p>{playerErrorMessage}</p>
+            <hr />
+            <div className="d-flex justify-content-end">
+              <Button
+                onClick={() => setPlayerErrorMessage("")}
+                variant="outline-danger"
+                size="sm"
+              >
+                Close
+              </Button>
+            </div>
+          </Alert>
+        )}
 
-      {teamSuccessMessage && (
-        <Alert variant="success" onClose={() => setTeamSuccessMessage("")}>
-          <p>{teamSuccessMessage}</p>
-          <hr />
-          <div className="d-flex justify-content-end">
-            <Button
-              onClick={() => setTeamSuccessMessage("")}
-              variant="outline-success"
-              size="sm"
-            >
-              Close
-            </Button>
-          </div>
-        </Alert>
-      )}
-      {teamErrorMessage && (
-        <Alert variant="danger" onClose={() => setTeamErrorMessage("")}>
-          <p>{teamErrorMessage}</p>
-          <hr />
-          <div className="d-flex justify-content-end">
-            <Button
-              onClick={() => setTeamErrorMessage("")}
-              variant="outline-danger"
-              size="sm"
-            >
-              Close
-            </Button>
-          </div>
-        </Alert>
-      )}
+        {teamSuccessMessage && (
+          <Alert variant="success" onClose={() => setTeamSuccessMessage("")}>
+            <p>{teamSuccessMessage}</p>
+            <hr />
+            <div className="d-flex justify-content-end">
+              <Button
+                onClick={() => setTeamSuccessMessage("")}
+                variant="outline-success"
+                size="sm"
+              >
+                Close
+              </Button>
+            </div>
+          </Alert>
+        )}
+        {teamErrorMessage && (
+          <Alert variant="danger" onClose={() => setTeamErrorMessage("")}>
+            <p>{teamErrorMessage}</p>
+            <hr />
+            <div className="d-flex justify-content-end">
+              <Button
+                onClick={() => setTeamErrorMessage("")}
+                variant="outline-danger"
+                size="sm"
+              >
+                Close
+              </Button>
+            </div>
+          </Alert>
+        )}
 
-      <div className="MyTeams"></div>
+        <div className="MyTeams"></div>
+        <div className="dashboard-container">
+            <Col sm={4}>
+              <div className="create-cards-container">
+                <Card
+                  bg="dark"
+                  text="white"
+                  className={`create-card ${showCreateTeam ? "active" : ""}`}
+                >
+                  <Card.Header>
+                    <Button
+                      variant="link"
+                      onClick={handleToggleCreateTeam}
+                      aria-controls="create-team-collapse"
+                      aria-expanded={showCreateTeam}
+                    >
+                      <b>Create Team</b>
+                    </Button>
+                  </Card.Header>
+                  <Collapse in={showCreateTeam}>
+                    <div id="create-team-collapse">
+                      <Card.Body>
+                        <Form onSubmit={handleCreateTeam}>
+                          <Form.Group controlId="teamName">
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control
+                              type="text"
+                              required
+                              value={teamName}
+                              onChange={(e) => setTeamName(e.target.value)}
+                            />
+                          </Form.Group>
+                          <Form.Group controlId="teamColor">
+                            <Form.Label>Color</Form.Label>
+                            <Form.Control
+                              type="text"
+                              required
+                              value={teamColor}
+                              onChange={(e) => setTeamColor(e.target.value)}
+                            />
+                          </Form.Group>
+                          <Button variant="primary" type="submit">
+                            Create
+                          </Button>
+                        </Form>
+                      </Card.Body>
+                    </div>
+                  </Collapse>
+                </Card>
+                <Card
+                  bg="dark"
+                  text="white"
+                  className={`create-card ${showCreatePlayer ? "active" : ""}`}
+                >
+                  <Card.Header>
+                    <Button
+                      variant="link"
+                      onClick={handleToggleCreatePlayer}
+                      aria-controls="create-player-collapse"
+                      aria-expanded={showCreatePlayer}
+                    >
+                      <b>Create Player</b>
+                    </Button>
+                  </Card.Header>
+                  <Collapse in={showCreatePlayer}>
+                    <div id="create-player-collapse">
+                      <Card.Body>
+                        <Form onSubmit={handleCreatePlayer}>
+                          <Form.Group controlId="formPlayerName">
+                            <Form.Label>Player Name</Form.Label>
+                            <Form.Control
+                              type="text"
+                              placeholder="Enter player name"
+                              value={playerName}
+                              onChange={(e) => setPlayerName(e.target.value)}
+                            />
+                          </Form.Group>
+                          <Form.Group controlId="formPlayerNationality">
+                            <Form.Label>Nationality</Form.Label>
+                            <Form.Control
+                              as="select"
+                              value={playerNationality}
+                              onChange={(e) =>
+                                setPlayerNationality(e.target.value)
+                              }
+                            >
+                              <option value="">Select nationality</option>
+                              {nationalities.map((nationality) => (
+                                <option key={nationality} value={nationality}>
+                                  {nationality}
+                                </option>
+                              ))}
+                            </Form.Control>
+                          </Form.Group>
+                          <Form.Group controlId="formPlayerPosition">
+                            <Form.Label>Position</Form.Label>
+                            <Form.Control
+                              as="select"
+                              value={playerPosition}
+                              onChange={(e) =>
+                                setPlayerPosition(e.target.value)
+                              }
+                            >
+                              <option value="">Select position</option>
+                              {positions.map((position) => (
+                                <option key={position} value={position}>
+                                  {position}
+                                </option>
+                              ))}
+                            </Form.Control>
+                          </Form.Group>
+                          <Form.Group controlId="formPlayerGender">
+                            <Form.Label>Gender</Form.Label>
+                            <Form.Control
+                              as="select"
+                              value={playerGender}
+                              onChange={(e) => setPlayerGender(e.target.value)}
+                            >
+                              <option value="">Select gender</option>
+                              {genders.map((gender) => (
+                                <option key={gender} value={gender}>
+                                  {gender}
+                                </option>
+                              ))}
+                            </Form.Control>
+                          </Form.Group>
+                          <Form.Group controlId="formPlayerOverall">
+                            <Form.Label>Overall Score</Form.Label>
+                            <Form.Control
+                              type="number"
+                              placeholder="Enter overall score"
+                              value={playerOverall}
+                              onChange={(e) => setPlayerOverall(e.target.value)}
+                            />
+                          </Form.Group>
+                          <Button variant="primary" type="submit">
+                            Create
+                          </Button>
+                        </Form>
+                      </Card.Body>
+                    </div>
+                  </Collapse>
+                </Card>
+              </div>
+            </Col>
+        </div>
+      </div>
       <div className="dashboard-container">
-        <Row>
           <Col sm={4}>
-            <div className="create-cards-container">
-              <Card
-                bg="dark"
-                text="white"
-                className={`create-card ${showCreateTeam ? "active" : ""}`}
-              >
-                <Card.Header>
-                  <Button
-                    variant="link"
-                    onClick={handleToggleCreateTeam}
-                    aria-controls="create-team-collapse"
-                    aria-expanded={showCreateTeam}
+            <div className="manage-team-container">
+              <h3>Manage Your Team</h3>
+              <ListGroup>
+                {teams.map((team) => (
+                  <ListGroup.Item
+                    key={team.id}
+                    action
+                    onClick={() => handleManageTeamModal(team)}
                   >
-                    <b>Create Team</b>
-                  </Button>
-                </Card.Header>
-                <Collapse in={showCreateTeam}>
-                  <div id="create-team-collapse">
-                    <Card.Body>
-                      <Form onSubmit={handleCreateTeam}>
-                        <Form.Group controlId="teamName">
-                          <Form.Label>Name</Form.Label>
-                          <Form.Control
-                            type="text"
-                            required
-                            value={teamName}
-                            onChange={(e) => setTeamName(e.target.value)}
-                          />
-                        </Form.Group>
-                        <Form.Group controlId="teamColor">
-                          <Form.Label>Color</Form.Label>
-                          <Form.Control
-                            type="text"
-                            required
-                            value={teamColor}
-                            onChange={(e) => setTeamColor(e.target.value)}
-                          />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">
-                          Create
-                        </Button>
-                      </Form>
-                    </Card.Body>
-                  </div>
-                </Collapse>
-              </Card>
-              <Card
-                bg="dark"
-                text="white"
-                className={`create-card ${showCreatePlayer ? "active" : ""}`}
-              >
-                <Card.Header>
-                  <Button
-                    variant="link"
-                    onClick={handleToggleCreatePlayer}
-                    aria-controls="create-player-collapse"
-                    aria-expanded={showCreatePlayer}
-                  >
-                    <b>Create Player</b>
-                  </Button>
-                </Card.Header>
-                <Collapse in={showCreatePlayer}>
-                  <div id="create-player-collapse">
-                    <Card.Body>
-                      <Form onSubmit={handleCreatePlayer}>
-                        <Form.Group controlId="formPlayerName">
-                          <Form.Label>Player Name</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter player name"
-                            value={playerName}
-                            onChange={(e) => setPlayerName(e.target.value)}
-                          />
-                        </Form.Group>
-                        <Form.Group controlId="formPlayerNationality">
-                          <Form.Label>Nationality</Form.Label>
-                          <Form.Control
-                            as="select"
-                            value={playerNationality}
-                            onChange={(e) =>
-                              setPlayerNationality(e.target.value)
-                            }
-                          >
-                            <option value="">Select nationality</option>
-                            {nationalities.map((nationality) => (
-                              <option key={nationality} value={nationality}>
-                                {nationality}
-                              </option>
-                            ))}
-                          </Form.Control>
-                        </Form.Group>
-                        <Form.Group controlId="formPlayerPosition">
-                          <Form.Label>Position</Form.Label>
-                          <Form.Control
-                            as="select"
-                            value={playerPosition}
-                            onChange={(e) => setPlayerPosition(e.target.value)}
-                          >
-                            <option value="">Select position</option>
-                            {positions.map((position) => (
-                              <option key={position} value={position}>
-                                {position}
-                              </option>
-                            ))}
-                          </Form.Control>
-                        </Form.Group>
-                        <Form.Group controlId="formPlayerGender">
-                          <Form.Label>Gender</Form.Label>
-                          <Form.Control
-                            as="select"
-                            value={playerGender}
-                            onChange={(e) => setPlayerGender(e.target.value)}
-                          >
-                            <option value="">Select gender</option>
-                            {genders.map((gender) => (
-                              <option key={gender} value={gender}>
-                                {gender}
-                              </option>
-                            ))}
-                          </Form.Control>
-                        </Form.Group>
-                        <Form.Group controlId="formPlayerOverall">
-                          <Form.Label>Overall Score</Form.Label>
-                          <Form.Control
-                            type="number"
-                            placeholder="Enter overall score"
-                            value={playerOverall}
-                            onChange={(e) => setPlayerOverall(e.target.value)}
-                          />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">
-                          Create
-                        </Button>
-                      </Form>
-                    </Card.Body>
-                  </div>
-                </Collapse>
-              </Card>
+                    {team.name}
+                  </ListGroup.Item>
+                ))}
+              </ListGroup>
             </div>
           </Col>
-        </Row>
       </div>
-    </div>
+
+      {/* Manage Team Modal */}
+      {selectedTeam && (
+        <Modal show={showManageTeamModal} onHide={handleCloseManageTeamModal}>
+          <Modal.Header>
+            <Modal.Title>Manage Team: {selectedTeam.name}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Button variant="success">Add a Player</Button>{" "}
+            <Button variant="warning">Edit Name</Button>{" "}
+            <Button
+              variant="danger"
+              onClick={() => handleDeleteTeam(selectedTeam.id)}
+            >
+              Delete
+            </Button>
+          </Modal.Body>
+        </Modal>
+      )}
+    </>
   );
 };
 

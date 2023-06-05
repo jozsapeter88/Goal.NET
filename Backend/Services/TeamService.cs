@@ -35,16 +35,42 @@ public class TeamService : ITeamService
         var user = await _context.GoalUsers
             .Include(u => u.Teams)
             .FirstOrDefaultAsync(u => u.Id == userId);
+
         if (user != null)
         {
+           
             if (user.Teams != null)
             {
                 return user.Teams.ToList();
+
             }
             throw new NotFoundException("User doesn't have teams yet!");
         }
         throw new NotFoundException("User Not Found!");
     }
+
+    public async Task<List<Player>> GetPlayersOfTeam(long userId, long teamId)
+    {
+        var players = new List<Player>();
+        var user = await _context.GoalUsers
+            .Include(u => u.Teams)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+        var team = await _context.Teams
+            .Include(t => t.AllPlayers)
+            .FirstOrDefaultAsync(t => t.Id == teamId);
+        if (user != null && team != null)
+        {
+            if (user.Teams != null && user.Teams.Contains(team))
+            {
+                if (team.AllPlayers != null) return team.AllPlayers.ToList();
+                throw new NotFoundException("No team or user found!");
+
+            }
+        }
+
+        throw new NotFoundException("No team or user found!");
+    }
+
 
     public async Task<Team> CreateTeam(TeamCreateDto team)
     {
@@ -80,11 +106,13 @@ public class TeamService : ITeamService
         return await _context.Teams.ToListAsync();
     }
 
-    public async Task<Team> AddPlayerToTeam(long teamId, long playerId)
+    public async Task<Team> AddPlayerToTeam(long userId, long teamId, long playerId)
     {
-        var team = await _context.Teams
-            .Include(t => t.AllPlayers)
-            .FirstOrDefaultAsync(t => t.Id == teamId);
+        var user = await _context.GoalUsers
+            .Include(u => u.Teams)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+        var team = user?.Teams?
+            .FirstOrDefault(t => t.Id == teamId);
         var player = await _context.Players
             .Include(p => p.Team)
             .FirstOrDefaultAsync(p => p.Id == playerId);

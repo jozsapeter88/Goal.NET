@@ -2,6 +2,7 @@
 using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
@@ -27,8 +28,9 @@ public class UserController : ControllerBase
    }
 
    [HttpPost("register")]
+   
    public ActionResult RegisterUser([FromBody] User user)
-   {
+   { 
       if (UserService.Register(user.UserName, user.Password).Result)
       {
          return Ok();
@@ -39,6 +41,7 @@ public class UserController : ControllerBase
    [HttpGet("levels")]
    public ActionResult<List<string>> ProvideUserLevels()
    {
+      
       var userLevels = Enum.GetNames(typeof(UserLevel)).ToList();
       return Ok(userLevels);
    }

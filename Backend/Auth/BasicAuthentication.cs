@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
+using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
 using Microsoft.AspNetCore.Authentication;

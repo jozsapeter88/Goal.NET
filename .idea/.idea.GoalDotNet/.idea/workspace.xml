@@ -9,14 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7bd5cbc-7cec-4b59-a290-56f0744c1493" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/Auth/BasicAuthentication.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.GoalDotNet/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GoalDotNet/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="a7bd5cbc-7cec-4b59-a290-56f0744c1493" name="Changes" comment="implement authentication">
+      <change beforePath="$PROJECT_DIR$/Backend/Auth/BasicAuthentication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Auth/BasicAuthentication.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Controllers/UserController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Model/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Model/User.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Services/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Services/IUserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Services/UserService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +116,7 @@
       <option name="presentableId" value="Default" />
       <updated>1683639681089</updated>
       <workItem from="1683639681091" duration="105000" />
-      <workItem from="1685957110130" duration="8043000" />
+      <workItem from="1685957110130" duration="8800000" />
     </task>
     <task id="LOCAL-00001" summary="hotfix (Gender-&gt;GenderEnum rename)">
       <created>1684933688737</created>
@@ -130,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684933688737</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="implement authentication">
+      <created>1685967210609</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1685967210609</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -141,6 +143,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="hotfix (Gender-&gt;GenderEnum rename)" />
-    <option name="LAST_COMMIT_MESSAGE" value="hotfix (Gender-&gt;GenderEnum rename)" />
+    <MESSAGE value="implement authentication" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement authentication" />
   </component>
 </project>

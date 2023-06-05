@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Extensions;
 using NuGet.Protocol;
 
 namespace Backend.Controllers;
@@ -27,7 +28,8 @@ public class UserController : ControllerBase
    {
       if (UserService.Login(user.UserName, user.Password).Result)
       {
-         return Ok();
+         var token = GenerateJWT(user);
+         return Ok(token);
       }
       return Unauthorized();
    }
@@ -44,7 +46,7 @@ public class UserController : ControllerBase
    }
 
    [HttpGet("levels")]
-   [Authorize]
+   [Authorize(Roles = "2")]
    public ActionResult<List<string>> ProvideUserLevels()
    {
       var userLevels = Enum.GetNames(typeof(UserLevel)).ToList();
@@ -52,6 +54,7 @@ public class UserController : ControllerBase
    }
    
    [HttpGet("getAll")]
+   [Authorize(Roles = "1")]
    public ActionResult<Dictionary<string, UserLevel>> ProvideUsers()
    {
       var users = UserService.GetAllUsers();
@@ -59,6 +62,7 @@ public class UserController : ControllerBase
    }
 
    [HttpPost("update")]
+   [Authorize(Roles = "2")]
    public ActionResult UpdateUser([FromBody] User user)
    {
       if (UserService.UpdateUser(user).Result)

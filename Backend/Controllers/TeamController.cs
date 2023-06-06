@@ -36,7 +36,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        [Authorize(Roles = "0")]
+        [Authorize]
         public async Task<List<Team>> GetTeamsOfUser(long userId)
         {
             return await _teamService.GetTeamsOfUser(userId);

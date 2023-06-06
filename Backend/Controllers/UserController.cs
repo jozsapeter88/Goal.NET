@@ -73,18 +73,39 @@ public class UserController : ControllerBase
       return Unauthorized();
    }
 
-   private string GenerateJWT(User user)
+   private string Generate(User user)
    {
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoalDotNetIsTheBestProjectOfCodeCool"));
       var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
- 
+      var expirationTime = DateTime.UtcNow.AddHours(1);
       var token = new JwtSecurityToken(
-         claims: new [] {
+         claims: new[]
+         {
             new Claim(ClaimTypes.Authentication, $"{user.UserName}:{user.Password}")
          },
+         expires: expirationTime,
          signingCredentials: creds
          );
  
+      return new JwtSecurityTokenHandler().WriteToken(token);
+   }
+   private string GenerateJWT(User user)
+   {
+      var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoalDotNetIsTheBestProjectOfCodeCool"));
+      var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+      var claims = new[]
+      {
+         new Claim(ClaimTypes.NameIdentifier, user.UserName),
+         new Claim(ClaimTypes.Role, nameof(user.UserLevel))
+      };
+
+      var token = new JwtSecurityToken("http://localhost:5076/",
+         "http://localhost:5076/",
+         claims,
+         expires: DateTime.Now.AddHours(1),
+         signingCredentials: credentials);
+
       return new JwtSecurityTokenHandler().WriteToken(token);
    }
 }

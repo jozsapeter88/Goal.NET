@@ -9,9 +9,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7bd5cbc-7cec-4b59-a290-56f0744c1493" name="Changes" comment="implement authentication">
+    <list default="true" id="a7bd5cbc-7cec-4b59-a290-56f0744c1493" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.GoalDotNet/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GoalDotNet/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/Auth/BasicAuthentication.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Auth/BasicAuthentication.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Backend.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Backend.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Controllers/TeamController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Controllers/TeamController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Controllers/UserController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Dashboard/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Dashboard/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/LoginForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/LoginForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/RegisterForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/RegisterForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/TeamManager/TeamManager.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/TeamManager/TeamManager.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +36,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7ccc5288155573ff895068833e1a61b3f7698e0dcc952dfeadda23b6d343ea/EndpointMetadataCollection.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7f2081ecc4eb28a8b74ef842bd96fbdea04da8adca65a029c2777c21c7433e5/AuthorizeAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d9d9faea5e6ed6438a777ef8c6eed41261f81d8e86488ed923ad92564f54e/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e74356f198b598e97eaeea83e8b7b1f2bfe27c0a39fedf86bb7dc44827fbda/ActionMethodExecutor.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -47,7 +58,6 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.49542683",
     "git-widget-placeholder": "main",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
@@ -116,23 +126,16 @@
       <option name="presentableId" value="Default" />
       <updated>1683639681089</updated>
       <workItem from="1683639681091" duration="105000" />
-      <workItem from="1685957110130" duration="8800000" />
+      <workItem from="1686037524114" duration="9736000" />
     </task>
-    <task id="LOCAL-00001" summary="hotfix (Gender-&gt;GenderEnum rename)">
-      <created>1684933688737</created>
+    <task id="LOCAL-00001" summary="start implementation of authorization">
+      <created>1685970970398</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1684933688737</updated>
+      <updated>1685970970398</updated>
     </task>
-    <task id="LOCAL-00002" summary="implement authentication">
-      <created>1685967210609</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1685967210609</updated>
-    </task>
-    <option name="localTasksCounter" value="3" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,8 +145,7 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="hotfix (Gender-&gt;GenderEnum rename)" />
-    <MESSAGE value="implement authentication" />
-    <option name="LAST_COMMIT_MESSAGE" value="implement authentication" />
+    <MESSAGE value="start implementation of authorization" />
+    <option name="LAST_COMMIT_MESSAGE" value="start implementation of authorization" />
   </component>
 </project>

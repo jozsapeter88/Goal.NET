@@ -1,16 +1,18 @@
+using System.Text;
 using AutoMapper;
-using Backend.Auth;
 using Backend.Data;
 using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.IdentityModel.Tokens;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,22 +23,30 @@ builder.Services.AddDbContext<GoalContext>(options =>
 });
 
 // Add services
+builder.Services.AddControllersWithViews();
+//  builder.Services.AddControllers();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IPlayerService, PlayerService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITeamService, TeamService>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // Add cookie
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/";
-        options.Cookie.Name = "GoalDotNetCookie";
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options => {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "http://localhost:5076/",
+            ValidAudience = "http://localhost:5076/",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoalDotNetIsTheBestProjectOfCodeCool"))
+        };
     });
-builder.Services.AddAuthentication("BasicAuthentication")
-    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 // Set up endpoints and middleware
-builder.Services.AddControllersWithViews();
+//
 
 var app = builder.Build();
 

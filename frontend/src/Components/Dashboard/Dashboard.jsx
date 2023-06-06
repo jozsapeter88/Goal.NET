@@ -5,15 +5,19 @@ import "./Dashboard.css";
 import Cookie from "universal-cookie";
 import useCookies from "react-cookie/cjs/useCookies";
 
+import { useParams } from "react-router-dom";
 
 const Dashboard = () => {
   const [cookies, setCookies] = useCookies();
   const [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
+  const [players, setPlayers] = useState([]);
   const [expandedMatchId, setExpandedMatchId] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedMatchDetails, setSelectedMatchDetails] = useState("");
-  
+  //const { userId } = useParams();
+  const userId = 1;
+  console.log(players.length);
 
   const fetchTeamsOfUser = async (userId) => {
     try {
@@ -30,6 +34,20 @@ const Dashboard = () => {
       }
     } catch (error) {
       console.error("Error fetching teams:", error);
+    }
+    return [];
+  };
+  const fetchPlayersOfUsersTeam = async(userId, teamId) => {
+    try {
+      const response = await fetch(`/api/teams/user/${userId}/${teamId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setPlayers(data);
+      } else {
+        console.error("Error fetching players:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching players:", error);
     }
     return [];
   };
@@ -52,6 +70,7 @@ const Dashboard = () => {
   }
 
   const handleToggleDetails = (teamId) => {
+    fetchPlayersOfUsersTeam(userId, teamId)
     setTeams((prevTeams) =>
       prevTeams.map((team) =>
         team.id === teamId ? { ...team, showDetails: !team.showDetails } : team
@@ -178,15 +197,15 @@ const Dashboard = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {team.allPlayers
-                              ? team.allPlayers.map((player) => (
-                                <tr key={player.id}>
-                                  <td>{player.name}</td>
-                                  <td>{player.position}</td>
-                                  <td>{player.nationality}</td>
-                                  <td>{player.score}</td>
-                                </tr>
-                              ))
+                            {players
+                              ? players.map((player) => (
+                                  <tr key={player.id}>
+                                    <td>{player.name}</td>
+                                    <td>{player.position}</td>
+                                    <td>{player.nationality}</td>
+                                    <td>{player.score}</td>
+                                  </tr>
+                                ))
                               : null}
                           </tbody>
                         </table>

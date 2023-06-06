@@ -35,8 +35,9 @@ public class UserController : ControllerBase
    }
 
    [HttpPost("register")]
+   
    public ActionResult RegisterUser([FromBody] User user)
-   {
+   { 
       if (UserService.Register(user.UserName, user.Password).Result)
       {
          var token = GenerateJWT(user);
@@ -49,6 +50,7 @@ public class UserController : ControllerBase
    [Authorize(Roles = "2")]
    public ActionResult<List<string>> ProvideUserLevels()
    {
+      
       var userLevels = Enum.GetNames(typeof(UserLevel)).ToList();
       return Ok(userLevels);
    }

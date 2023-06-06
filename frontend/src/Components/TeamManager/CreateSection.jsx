@@ -11,7 +11,7 @@ import {
   Modal,
 } from "react-bootstrap";
 import Loading from "../Loading";
-import "./TeamManager.css";
+import "./CreateSection";
 
 const CreateSection = () => {
   const [loading, setLoading] = useState(true);

@@ -1,28 +1,26 @@
 import { useState } from "react"
 import SignIn from "../Pages/SignIn/SignIn"
 import { useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
+import Cookie from "universal-cookie";
+import { useCookies } from "react-cookie";
 
 const Authorize = async (username, password) => {
-    let status;
-    let token;
     const loginObj = {"UserName": username, "Password": password}
-    await fetch("/api/user/login", {
+    return await fetch("/api/user/login", {
         method: "POST", 
         headers: {
-            "Content-Type": "application/json",
-            // 'Accept': ''
+            "Content-Type": "application/json"
         }, 
         body: JSON.stringify(loginObj)
     }).then(res => {
-        status = res.status;
-        token = res.body;
+       return  {"status": res.status, "token": res.text()}; 
     })
-    return {"status": status, "token": token};
+     
 }
 
 const LoginForm = () => {
     const navigate = useNavigate();
+    const [cookies, setCookie] = useCookies();
     const [showMsg, setShowMsg] = useState(true)
 
     const onSubmit = async (e) => {
@@ -39,8 +37,9 @@ const LoginForm = () => {
             console.error("Can't communicate with server!")
         }
         else if(auth.status === 200){
-            Cookies.set("token", auth.token)
+            setCookie("token", await auth.token)
             console.log("Login successful!")
+            console.log(cookies["token"])
             navigate("/home");
         }
     }

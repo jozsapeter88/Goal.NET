@@ -2,17 +2,26 @@ import React, { useState, useEffect } from "react";
 import { Collapse, Card, Button, Row, Col, Table, Modal } from "react-bootstrap";
 import Loading from "../Loading";
 import "./Dashboard.css";
+import Cookie from "universal-cookie";
+import useCookies from "react-cookie/cjs/useCookies";
+
 
 const Dashboard = () => {
+  const [cookies, setCookies] = useCookies();
   const [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
   const [expandedMatchId, setExpandedMatchId] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedMatchDetails, setSelectedMatchDetails] = useState("");
+  
 
   const fetchTeamsOfUser = async (userId) => {
     try {
-      const response = await fetch(`/api/teams/user/${userId}`);
+      const response = await fetch(`/api/teams/user/${userId}`, {
+        headers: {
+          'Authorization': "Bearer " + cookies["token"]
+        }
+      });
       if (response.ok) {
         const data = await response.json();
         return data;
@@ -171,13 +180,13 @@ const Dashboard = () => {
                           <tbody>
                             {team.allPlayers
                               ? team.allPlayers.map((player) => (
-                                  <tr key={player.id}>
-                                    <td>{player.name}</td>
-                                    <td>{player.position}</td>
-                                    <td>{player.nationality}</td>
-                                    <td>{player.score}</td>
-                                  </tr>
-                                ))
+                                <tr key={player.id}>
+                                  <td>{player.name}</td>
+                                  <td>{player.position}</td>
+                                  <td>{player.nationality}</td>
+                                  <td>{player.score}</td>
+                                </tr>
+                              ))
                               : null}
                           </tbody>
                         </table>

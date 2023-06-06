@@ -3,6 +3,8 @@ import { Collapse, Card, Button, Row, Col, Form, Alert } from "react-bootstrap";
 import Loading from "../Loading";
 import Menu from "../../Components/Menu/Menu";
 import "./TeamManager.css";
+import Cookie from "universal-cookie";
+
 
 const TeamManager = () => {
   const [loading, setLoading] = useState(true);
@@ -15,7 +17,11 @@ const TeamManager = () => {
   const [teamErrorMessage, setTeamErrorMessage] = useState("");
 
   const fetchTeamsOfUser = (userId, signal) => {
+    const cookies = Cookie();
     return fetch(`http://localhost:3000/api/teams/user/${userId}`, {
+      headers: {
+        'Cookie': cookies.get("token")
+      },
       signal,
     }).then((res) => res.json());
   };

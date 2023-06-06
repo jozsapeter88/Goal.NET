@@ -48,7 +48,7 @@ public class UserController : ControllerBase
    }
 
    [HttpGet("levels")]
-   [Authorize(Roles = "2")]
+   [Authorize(Roles = "Admin")]
    public ActionResult<List<string>> ProvideUserLevels()
    {
       
@@ -57,7 +57,7 @@ public class UserController : ControllerBase
    }
    
    [HttpGet("getAll")]
-   [Authorize(Roles = "1")]
+   [Authorize(Roles = "Operator,Admin")]
    public ActionResult<Dictionary<string, UserLevel>> ProvideUsers()
    {
       var users = UserService.GetAllUsers();
@@ -65,7 +65,7 @@ public class UserController : ControllerBase
    }
 
    [HttpPost("update")]
-   [Authorize(Roles = "2")]
+   [Authorize(Roles = "Admin")]
    public ActionResult UpdateUser([FromBody] User user)
    {
       if (UserService.UpdateUser(user).Result)

@@ -1,20 +1,12 @@
+import { Table } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Row,
-  Col,
-  Alert,
-  ListGroup,
-  Modal,
-} from "react-bootstrap";
+import { Button, Row, Col, Alert, ListGroup, Modal } from "react-bootstrap";
 import Loading from "../Loading";
-import "./TeamManager.css";
+import "./ManageSection.css";
 
 const ManageSection = () => {
   const [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
-  const [playerSuccessMessage, setPlayerSuccessMessage] = useState("");
-  const [playerErrorMessage, setPlayerErrorMessage] = useState("");
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
   const [teamErrorMessage, setTeamErrorMessage] = useState("");
   const [selectedTeam, setSelectedTeam] = useState(null);
@@ -81,28 +73,30 @@ const ManageSection = () => {
     <div>
       <div className="dashboard-container">
         <Row>
-          <Col sm={4}>
-            <div className="manage-team-container">
-              <h3>Manage Your Team</h3>
-              <ListGroup>
+            <Table striped bordered hover variant="dark">
+              <thead>
+                <tr>
+                  <th>Manage Your Team</th>
+                </tr>
+              </thead>
+              <tbody>
                 {teams.map((team) => (
-                  <ListGroup.Item
-                    key={team.id}
-                    action
-                    onClick={() => handleManageTeamModal(team)}
-                  >
-                    {team.name}
-                  </ListGroup.Item>
+                  <tr key={team.id} onClick={() => handleManageTeamModal(team)}>
+                    <td>{team.name}</td>
+                  </tr>
                 ))}
-              </ListGroup>
-            </div>
-          </Col>
+              </tbody>
+            </Table>
         </Row>
       </div>
-  
+
       {/* Manage Team Modal */}
       {selectedTeam && (
-        <Modal show={showManageTeamModal} onHide={handleCloseManageTeamModal}>
+        <Modal
+          show={showManageTeamModal}
+          onHide={handleCloseManageTeamModal}
+          variant="dark"
+        >
           <Modal.Header>
             <Modal.Title>Manage Team: {selectedTeam.name}</Modal.Title>
           </Modal.Header>
@@ -120,6 +114,6 @@ const ManageSection = () => {
       )}
     </div>
   );
-}
+};
 
 export default ManageSection;

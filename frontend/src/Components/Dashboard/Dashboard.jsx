@@ -157,7 +157,7 @@ const Dashboard = () => {
   return (
     <div>
       <div className="MyTeams">
-        <h1 style={{ color: "white" }}>My Teams</h1>
+      <h1 style={{ color: "white", fontSize: "2.5rem", fontWeight: "bold", textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}>Dashboard</h1>
       </div>
       <div className="dashboard-container">
         <Row>
@@ -218,7 +218,7 @@ const Dashboard = () => {
                       <th>Team 1</th>
                       <th>Team 2</th>
                       <th>Score</th>
-                      <th></th>
+                      <th>Date</th>
                     </tr>
                   </thead>
                   <tbody>

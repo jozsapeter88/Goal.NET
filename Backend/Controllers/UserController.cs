@@ -28,7 +28,8 @@ public class UserController : ControllerBase
    {
       if (UserService.Login(user.UserName, user.Password).Result)
       {
-         var token = GenerateJWT(user);
+         User userFromDb = UserService.GetUser(user.UserName).Result;
+         var token = GenerateJWT(userFromDb);
          return Ok(token);
       }
       return Unauthorized();
@@ -99,7 +100,7 @@ public class UserController : ControllerBase
       var claims = new[]
       {
          new Claim(ClaimTypes.NameIdentifier, user.UserName),
-         new Claim(ClaimTypes.Role, nameof(user.UserLevel))
+         new Claim(ClaimTypes.Role, user.UserLevel.ToString())
       };
 
       var token = new JwtSecurityToken("http://localhost:5076/",

@@ -19,3 +19,7 @@ img {
  #not-valid {
     color: red;
  }
+
+ #valid {
+    color: green;
+ }

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+  import useCookies from "react-cookie/cjs/useCookies";
 
 const PlayerCreator = () => {
+  const [cookies, setCookies] = useCookies();
   const [playerName, setPlayerName] = useState('');
   const [playerNationality, setPlayerNationality] = useState('');
   const [nationalities, setNationalities] = useState([]);
@@ -10,6 +12,7 @@ const PlayerCreator = () => {
   const [genders, setGenders] = useState([]);
   const [playerOverall, setPlayerOverall] = useState('');
 
+
   useEffect(() => {
     fetchNationalities();
     fetchPositions();
@@ -18,7 +21,10 @@ const PlayerCreator = () => {
 
   const fetchNationalities = async () => {
     try {
-      const response = await fetch('/api/players/getNationalities');
+      const response = await fetch('/api/players/getNationalities', {
+        headers: {
+          'Authorization': "Bearer " + cookies["token"]
+        }});
       if (response.ok) {
         const data = await response.json();
         setNationalities(data);

@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import { Button, Row, Col, Alert, ListGroup, Modal } from "react-bootstrap";
 import Loading from "../Loading";
 import "./ManageSection.css";
+import useCookies from "react-cookie/cjs/useCookies";
 
 const ManageSection = () => {
+  const [cookies, setCookies] = useCookies();
   const [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
@@ -14,6 +16,9 @@ const ManageSection = () => {
 
   const fetchTeamsOfUser = (userId, signal) => {
     return fetch(`http://localhost:3000/api/teams/user/${userId}`, {
+      headers: {
+        'Authorization': "Bearer " + cookies["token"]
+      },
       signal,
     }).then((res) => res.json());
   };

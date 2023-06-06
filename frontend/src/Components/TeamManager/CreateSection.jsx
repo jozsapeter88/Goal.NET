@@ -12,8 +12,10 @@ import {
 } from "react-bootstrap";
 import Loading from "../Loading";
 import "./CreateSection";
+import useCookies from "react-cookie/cjs/useCookies";
 
 const CreateSection = () => {
+  const [cookies, setCookies] = useCookies();
   const [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
   const [showCreateTeam, setShowCreateTeam] = useState(false);
@@ -25,6 +27,9 @@ const CreateSection = () => {
 
   const fetchTeamsOfUser = (userId, signal) => {
     return fetch(`http://localhost:3000/api/teams/user/${userId}`, {
+      headers: {
+        'Authorization': "Bearer " + cookies["token"]
+      },
       signal,
     }).then((res) => res.json());
   };

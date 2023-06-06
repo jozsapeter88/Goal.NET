@@ -1,7 +1,7 @@
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import "./SignUp.css"
 
-export default function SignUp({onSubmit, showMsg}) {
+export default function SignUp({onSubmit, showMsg, successfulReg}) {
   return (
     <div>
       <Container>
@@ -46,6 +46,9 @@ export default function SignUp({onSubmit, showMsg}) {
                     <div className="mt-3" >
                     <p className="mb-0  text-center" hidden={showMsg} id="not-valid">
                         Username is already taken.
+                      </p>
+                    <p className="mb-0  text-center" hidden={!successfulReg} id="valid">
+                        Successful registration!
                       </p>
                     </div>
                     <div className="mt-3">

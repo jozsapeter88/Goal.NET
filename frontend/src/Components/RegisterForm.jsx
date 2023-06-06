@@ -18,10 +18,15 @@ const Authorize = async (username, password) => {
      })
 }
 
+function timeout(delay) {
+    return new Promise( res => setTimeout(res, delay) );
+}
+
 const RegisterForm = () => {
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies();
-    const [showMsg, setShowMsg] = useState(true)
+    const [showMsg, setShowMsg] = useState(true);
+    const [successfulReg, setReg] = useState(false);
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -36,14 +41,16 @@ const RegisterForm = () => {
             console.error("Can't communicate with server!")
         }
         else if(auth.status === 200){
-            setCookie("token", await auth.token)
+            //setCookie("token", await auth.token)
             setShowMsg(true);
+            setReg(true)
             console.log("Registration successful!")
+            await timeout(1000);
             navigate("/");
         }
     }
     
-    return <SignUp onSubmit={onSubmit} showMsg={showMsg}></SignUp>
+    return <SignUp onSubmit={onSubmit} showMsg={showMsg} successfulReg={successfulReg}></SignUp>
 }
 
 export default RegisterForm

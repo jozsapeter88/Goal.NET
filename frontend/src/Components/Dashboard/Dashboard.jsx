@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Collapse, Card, Button, Row, Col, Table, Modal } from "react-bootstrap";
 import Loading from "../Loading";
 import "./Dashboard.css";
-import Cookie from "universal-cookie";
 import useCookies from "react-cookie/cjs/useCookies";
 
 import { useParams } from "react-router-dom";

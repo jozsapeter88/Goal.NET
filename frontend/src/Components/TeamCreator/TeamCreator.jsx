@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import useCookies from "react-cookie/cjs/useCookies";
 
 const TeamCreator = () => {
+  const [cookies, setCookies] = useCookies();
   const [teamName, setTeamName] = useState('');
   const [teamColor, setTeamColor] = useState('');
 
@@ -23,7 +25,8 @@ const TeamCreator = () => {
       const response = await fetch('/api/teams/addTeam', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer " + cookies["token"]
         },
         body: JSON.stringify(teamData)
       });

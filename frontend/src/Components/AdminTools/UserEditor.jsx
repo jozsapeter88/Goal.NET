@@ -3,9 +3,10 @@ import { Col, Row, Container, Button, Card, Form, ToggleButton } from "react-boo
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { useFetcher } from 'react-router-dom';
-
+import useCookies from "react-cookie/cjs/useCookies";
 
 const UserEditor = () => {
+    const [cookies, setCookies] = useCookies();
     const [UserLevels, setUserLevels] = useState('');
     const [Users, setUsers] = useState('');
     const [UserNames, setUserNames] = useState([]);
@@ -25,7 +26,11 @@ const UserEditor = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch('/api/user/getall');
+            const response = await fetch('/api/user/getall', {
+                headers: {
+                  'Authorization': "Bearer " + cookies["token"]
+                }
+              });
             if (response.ok) {
                 const data = await response.json();
                 setUsers(data);
@@ -41,7 +46,11 @@ const UserEditor = () => {
 
     const fetchLevels = async () => {
         try {
-            const response = await fetch('/api/user/levels');
+            const response = await fetch('/api/user/levels', {
+                headers: {
+                  'Authorization': "Bearer " + cookies["token"]
+                }
+              });
             if (response.ok) {
                 const data = await response.json();
                 setUserLevels(data);
@@ -74,7 +83,8 @@ const UserEditor = () => {
             const response = await fetch('/api/user/update', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': "Bearer " + cookies["token"]
                 },
                 body: JSON.stringify(userData)
             });

@@ -6,6 +6,7 @@ using System.Text;
 using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,8 @@ public class UserController : ControllerBase
    {
       if (UserService.Login(user.UserName, user.Password).Result)
       {
-         var token = GenerateJWT(user);
+         User userFromDb = UserService.GetUser(user.UserName).Result;
+         var token = GenerateJWT(userFromDb);
          return Ok(token);
       }
       return Unauthorized();
@@ -47,7 +49,7 @@ public class UserController : ControllerBase
    }
 
    [HttpGet("levels")]
-   [Authorize(Roles = "2")]
+   [Authorize(Roles = "Admin")]
    public ActionResult<List<string>> ProvideUserLevels()
    {
       
@@ -56,7 +58,7 @@ public class UserController : ControllerBase
    }
    
    [HttpGet("getAll")]
-   [Authorize(Roles = "1")]
+   [Authorize(Roles = "Operator,Admin")]
    public ActionResult<Dictionary<string, UserLevel>> ProvideUsers()
    {
       var users = UserService.GetAllUsers();
@@ -64,7 +66,7 @@ public class UserController : ControllerBase
    }
 
    [HttpPost("update")]
-   [Authorize(Roles = "2")]
+   [Authorize(Roles = "Admin")]
    public ActionResult UpdateUser([FromBody] User user)
    {
       if (UserService.UpdateUser(user).Result)
@@ -99,8 +101,12 @@ public class UserController : ControllerBase
       var claims = new[]
       {
          new Claim(ClaimTypes.NameIdentifier, user.UserName),
-         new Claim(ClaimTypes.Role, nameof(user.UserLevel))
+         new Claim(ClaimTypes.Role, user.UserLevel.ToString())
       };
+      
+      var identity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+      var claimsPrincipal = new ClaimsPrincipal(identity);
+      Thread.CurrentPrincipal = claimsPrincipal;
 
       var token = new JwtSecurityToken("http://localhost:5076/",
          "http://localhost:5076/",

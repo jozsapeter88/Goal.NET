@@ -12,8 +12,10 @@ import {
 } from "react-bootstrap";
 import Loading from "../Loading";
 import "./CreateSection";
+import useCookies from "react-cookie/cjs/useCookies";
 
 const CreateSection = () => {
+  const [cookies, setCookies] = useCookies();
   const [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
   const [showCreateTeam, setShowCreateTeam] = useState(false);
@@ -23,16 +25,18 @@ const CreateSection = () => {
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
   const [teamErrorMessage, setTeamErrorMessage] = useState("");
 
-  const fetchTeamsOfUser = (userId, signal) => {
-    return fetch(`http://localhost:3000/api/teams/user/${userId}`, {
+  const fetchTeamsOfUser = (signal) => {
+    return fetch(`http://localhost:3000/api/teams/user/teams`, {
+      headers: {
+        'Authorization': "Bearer " + cookies["token"]
+      },
       signal,
     }).then((res) => res.json());
   };
 
   useEffect(() => {
     const controller = new AbortController();
-    const userId = 1;
-    fetchTeamsOfUser(userId)
+    fetchTeamsOfUser()
       .then((teamsData) => {
         setTeams(teamsData);
         setLoading(false);

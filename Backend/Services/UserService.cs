@@ -44,7 +44,7 @@ public class UserService : IUserService
             _dbContext.GoalUsers.Add(new User
             {
                 UserName = username,
-                Password = password,
+                Password = password.GetHashCode().ToString(),
                 UserLevel = 0
             });
             await _dbContext.SaveChangesAsync();

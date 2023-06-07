@@ -2,7 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import Menu from "../Menu/Menu";
 import CreateSection from "./CreateSection";
 import ManageSection from "./ManageSection";
-import Cookie from "universal-cookie";
+
 const TeamManager = () => {
   return (
     <>

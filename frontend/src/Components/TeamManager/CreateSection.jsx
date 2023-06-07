@@ -25,8 +25,8 @@ const CreateSection = () => {
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
   const [teamErrorMessage, setTeamErrorMessage] = useState("");
 
-  const fetchTeamsOfUser = (userId, signal) => {
-    return fetch(`http://localhost:3000/api/teams/user/${userId}`, {
+  const fetchTeamsOfUser = (signal) => {
+    return fetch(`http://localhost:3000/api/teams/user/teams`, {
       headers: {
         'Authorization': "Bearer " + cookies["token"]
       },
@@ -36,8 +36,7 @@ const CreateSection = () => {
 
   useEffect(() => {
     const controller = new AbortController();
-    const userId = 1;
-    fetchTeamsOfUser(userId)
+    fetchTeamsOfUser()
       .then((teamsData) => {
         setTeams(teamsData);
         setLoading(false);

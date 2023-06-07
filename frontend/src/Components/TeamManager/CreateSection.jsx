@@ -26,7 +26,7 @@ const CreateSection = () => {
   const [teamErrorMessage, setTeamErrorMessage] = useState("");
 
   const fetchTeamsOfUser = (signal) => {
-    return fetch(`http://localhost:3000/api/teams/user/teams`, {
+    return fetch(`http://localhost:3000/api/teams/user/getTeams`, {
       headers: {
         Authorization: "Bearer " + cookies["token"],
       },

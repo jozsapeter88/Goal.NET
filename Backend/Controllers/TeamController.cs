@@ -13,6 +13,7 @@ namespace Backend.Controllers
 {
     [Route("api/teams")]
     [ApiController]
+    [Authorize]
     public class TeamController : ControllerBase
     {
         private readonly ITeamService _teamService;
@@ -23,7 +24,6 @@ namespace Backend.Controllers
         }
 
         [HttpGet("getAllTeams")]
-        [Authorize(Roles = "0")]
         public async Task<List<Team>> GetAllTeams()
         {
             return await _teamService.GetAllTeams();
@@ -36,7 +36,6 @@ namespace Backend.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        [Authorize]
         public async Task<List<Team>> GetTeamsOfUser(long userId)
         {
             return await _teamService.GetTeamsOfUser(userId);
@@ -50,6 +49,7 @@ namespace Backend.Controllers
 
 
         [HttpPost("addTeam")]
+        [Authorize(Roles = "Operator,Admin")]
         public async Task<Team> CreateTeam([FromBody] TeamCreateDto team)
         {
             return await _teamService.CreateTeam(team);

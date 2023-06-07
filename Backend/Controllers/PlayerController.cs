@@ -6,6 +6,7 @@ using Backend.DTOs;
 using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace Backend.Controllers
 {
     [Route("api/players")]
     [ApiController]
+    [Authorize]
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerService _playerService;
@@ -77,11 +79,13 @@ namespace Backend.Controllers
         
 
         [HttpPost("admin/createPlayer")]
+        [Authorize(Roles = "Operator,Admin")]
         public async Task<Player> CreatePlayer([FromBody] PlayerDto player)
         {
             return await _playerService.CreatePlayerByAdmin(player);
         }
         [HttpDelete("delete/{playerId}")]
+        [Authorize(Roles = "Operator,Admin")]
         public async Task<List<PlayerDto>> DeletePlayer(long playerId)
         {
             await _playerService.DeletePlayer(playerId);

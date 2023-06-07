@@ -1,6 +1,8 @@
-﻿using Backend.Enums;
+﻿using System.Security.Cryptography;
+using Backend.Enums;
 using Backend.Exception;
 using Backend.Model;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,7 +30,7 @@ public class UserService : IUserService
             return false;
         }
 
-        return !user.Equals(null) && user.CheckPassword(password);
+        return !user.Equals(null) && user.CheckPassword(HashPassword(password));
     }
 
     public async Task<Boolean> Register(string username, string password)
@@ -44,7 +46,7 @@ public class UserService : IUserService
             _dbContext.GoalUsers.Add(new User
             {
                 UserName = username,
-                Password = password.GetHashCode().ToString(),
+                Password = HashPassword(password),
                 UserLevel = 0
             });
             await _dbContext.SaveChangesAsync();
@@ -89,6 +91,25 @@ public class UserService : IUserService
             return user;
         }
         throw new NotFoundException("User not found");
+    }
+
+    private string HashPassword(string pass)
+    {
+        // Generate a 128-bit salt using a sequence of
+        // cryptographically strong random bytes.
+        byte[] salt = { 187, 69, 193, 241, 190, 187, 23, 10, 114, 164, 239, 80, 79, 38, 7, 93 };
+        //byte[] salt = RandomNumberGenerator.GetBytes(128 / 8); // divide by 8 to convert bits to bytes
+        Console.WriteLine($"Salt: {Convert.ToBase64String(salt)}");
+
+        // derive a 256-bit subkey (use HMACSHA256 with 100,000 iterations)
+        string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            password: pass!,
+            salt: salt,
+            prf: KeyDerivationPrf.HMACSHA256,
+            iterationCount: 100000,
+            numBytesRequested: 256 / 8));
+
+        return hashed;
     }
 }
 

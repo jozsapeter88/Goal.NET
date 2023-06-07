@@ -10,6 +10,7 @@ using Backend.Model;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 
@@ -49,10 +50,17 @@ namespace Backend.Controllers
             return await _teamService.GetTeamsOfUser(userId);
         }
         [HttpGet("user/teams")]
-        public async Task<List<Team>> GetTeamsOfUser()
+        public async Task<IActionResult> GetTeamsOfUser()
         {
             User currentUser = GetCurrentUser();
-            return await _teamService.GetTeamsOfUser(currentUser.Id);
+            List<Team> teams = await _teamService.GetTeamsOfUser(currentUser.Id);
+
+            if (teams == null || teams.Count == 0)
+            {
+                return NotFound("No teams found for the current user.");
+            }
+
+            return Ok(teams);
         }
 
         [HttpGet("user/{userId}/{teamId}")]
@@ -95,19 +103,18 @@ namespace Backend.Controllers
 
         private User? GetCurrentUser()
         {
-            try
             {
-                var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
-                var name = identity.Claims.Where(c => c.Type == ClaimTypes.Name)
-                    .Select(c => c.Value).SingleOrDefault();
-                return _userService.GetUser(name).Result;
-            }
-            catch (System.Exception)
-            {
-                throw new AuthenticationException("Probably no user is logged in.");
-            }
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
 
-            return null;
+                if (identity != null)
+                {
+                    var userClaims = identity.Claims;
+
+                    return _userService
+                        .GetUser(userClaims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier)?.Value).Result;
+                }
+                return null;
+            }
         }
     }
 }

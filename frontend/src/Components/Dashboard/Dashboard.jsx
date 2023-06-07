@@ -68,6 +68,19 @@ const Dashboard = () => {
     return <Loading />;
   }
 
+  if (teams.length === 0) {
+    return (
+      <Card bg="secondary" style={{color: "white"}}>
+        <Card.Body>
+          <Card.Title>No teams found</Card.Title>
+          <Card.Text>
+            Go to the Team Manager to create a team
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    );
+  }
+
   const handleToggleDetails = (teamId) => {
     fetchPlayersOfUsersTeam(userId, teamId)
     setTeams((prevTeams) =>

@@ -28,7 +28,7 @@ const CreateSection = () => {
   const fetchTeamsOfUser = (signal) => {
     return fetch(`http://localhost:3000/api/teams/user/teams`, {
       headers: {
-        'Authorization': "Bearer " + cookies["token"]
+        Authorization: "Bearer " + cookies["token"],
       },
       signal,
     }).then((res) => res.json());
@@ -163,6 +163,19 @@ const CreateSection = () => {
 
   if (loading) {
     return <Loading />;
+  }
+
+  if (teams.length === 0) {
+    return (
+      <Card bg="secondary" style={{color: "white"}}>
+        <Card.Body>
+          <Card.Title>No teams found</Card.Title>
+          <Card.Text>
+            Go to the Team Manager to create a team
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    );
   }
 
   const handleToggleCreateTeam = () => {

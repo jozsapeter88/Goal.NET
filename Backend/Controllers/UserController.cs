@@ -6,6 +6,7 @@ using System.Text;
 using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -102,6 +103,10 @@ public class UserController : ControllerBase
          new Claim(ClaimTypes.NameIdentifier, user.UserName),
          new Claim(ClaimTypes.Role, user.UserLevel.ToString())
       };
+      
+      var identity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+      var claimsPrincipal = new ClaimsPrincipal(identity);
+      Thread.CurrentPrincipal = claimsPrincipal;
 
       var token = new JwtSecurityToken("http://localhost:5076/",
          "http://localhost:5076/",

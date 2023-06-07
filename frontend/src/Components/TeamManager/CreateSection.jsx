@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Collapse, Card, Button, Col, Form, Alert } from "react-bootstrap";
+import {
+  Collapse,
+  Card,
+  Button,
+  Row,
+  Col,
+  Form,
+  Alert,
+  ListGroup,
+  Modal,
+} from "react-bootstrap";
 import "./CreateSection";
 import useCookies from "react-cookie/cjs/useCookies";
 
-const CreateSection = ({loading, setTeams}) => {
+const CreateSection = ({ setTeams }) => {
   const [cookies] = useCookies();
   const [showCreateTeam, setShowCreateTeam] = useState(false);
   const [showCreatePlayer, setShowCreatePlayer] = useState(false);
@@ -100,6 +110,7 @@ const CreateSection = ({loading, setTeams}) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Bearer " + cookies["token"]
         },
         body: JSON.stringify(playerData),
       });
@@ -145,7 +156,7 @@ const CreateSection = ({loading, setTeams}) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + cookies["token"],
+          "Authorization": "Bearer " + cookies["token"]
         },
         body: JSON.stringify(teamData),
       });

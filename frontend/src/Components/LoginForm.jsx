@@ -38,6 +38,7 @@ const LoginForm = () => {
         }
         else if(auth.status === 200){
             setCookie("token", await auth.token)
+            setCookie("username", username)
             console.log("Login successful!")
             console.log(cookies["token"])
             navigate("/home");

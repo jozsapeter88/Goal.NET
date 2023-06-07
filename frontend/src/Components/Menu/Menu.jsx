@@ -3,11 +3,20 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from "react-router-dom";
 import './Menu.css';
 
 function Menu() {
+  const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const userName = cookies["username"];
 
-  const userName = "username";
+  function onLogout() {
+    removeCookie("username");
+    removeCookie("token");
+    navigate("/");
+  }
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
@@ -28,7 +37,7 @@ function Menu() {
             <NavDropdown title= {`Welcome ${userName}`} id="basic-nav-dropdown">
               <NavDropdown.Item href="/Profile">Profile</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/Logout">Logout</NavDropdown.Item>
+              <NavDropdown.Item href="/" onClick={onLogout}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

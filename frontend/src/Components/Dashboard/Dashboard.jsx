@@ -15,16 +15,14 @@ const Dashboard = () => {
   const [expandedMatchId, setExpandedMatchId] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedMatchDetails, setSelectedMatchDetails] = useState("");
-  //const { userId } = useParams();
-  const userId = 1;
   console.log(players.length);
   if (cookies["token"] === undefined || cookies["username"] === undefined){
     navigate("/")
   }
 
-  const fetchTeamsOfUser = async (userId) => {
+  const fetchTeamsOfUser = async () => {
     try {
-      const response = await fetch(`/api/teams/user/${userId}`, {
+      const response = await fetch(`/api/teams/user/getTeams`, {
         headers: {
           'Authorization': "Bearer " + cookies["token"]
         }
@@ -40,9 +38,9 @@ const Dashboard = () => {
     }
     return [];
   };
-  const fetchPlayersOfUsersTeam = async(userId, teamId) => {
+  const fetchPlayersOfUsersTeam = async(teamId) => {
     try {
-      const response = await fetch(`/api/teams/user/${userId}/${teamId}`);
+      const response = await fetch(`/api/teams/user/getPlayersOfTeam/${teamId}`);
       if (response.ok) {
         const data = await response.json();
         setPlayers(data);
@@ -56,8 +54,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    const userId = 1;
-    fetchTeamsOfUser(userId)
+    fetchTeamsOfUser()
       .then((teamsData) => {
         setTeams(teamsData);
         setLoading(false);
@@ -86,7 +83,7 @@ const Dashboard = () => {
   }
 
   const handleToggleDetails = (teamId) => {
-    fetchPlayersOfUsersTeam(userId, teamId)
+    fetchPlayersOfUsersTeam(teamId)
     setTeams((prevTeams) =>
       prevTeams.map((team) =>
         team.id === teamId ? { ...team, showDetails: !team.showDetails } : team
@@ -242,7 +239,7 @@ const Dashboard = () => {
                       <th>Team 1</th>
                       <th>Team 2</th>
                       <th>Score</th>
-                      <th></th>
+                      <th>Date</th>
                     </tr>
                   </thead>
                   <tbody>

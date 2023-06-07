@@ -8,7 +8,7 @@ import useCookies from "react-cookie/cjs/useCookies";
 const TeamManager = () => {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [cookies, setCookies] = useCookies();
+  const [cookies] = useCookies();
 
   const fetchTeamsOfUser = (signal) => {
     return fetch(`http://localhost:3000/api/teams/user/getTeams`, {

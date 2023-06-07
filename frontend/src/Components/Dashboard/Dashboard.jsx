@@ -4,6 +4,8 @@ import Loading from "../Loading";
 import "./Dashboard.css";
 import useCookies from "react-cookie/cjs/useCookies";
 
+import { useParams } from "react-router-dom";
+
 const Dashboard = () => {
   const [cookies] = useCookies();
   const [loading, setLoading] = useState(true);
@@ -12,6 +14,8 @@ const Dashboard = () => {
   const [expandedMatchId, setExpandedMatchId] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedMatchDetails, setSelectedMatchDetails] = useState("");
+  //const { userId } = useParams();
+  const userId = 1;
   console.log(players.length);
 
   const fetchTeamsOfUser = async (userId) => {

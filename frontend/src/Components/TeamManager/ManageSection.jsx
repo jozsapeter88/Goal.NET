@@ -14,8 +14,8 @@ const ManageSection = () => {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [showManageTeamModal, setShowManageTeamModal] = useState(false);
 
-  const fetchTeamsOfUser = (userId, signal) => {
-    return fetch(`http://localhost:3000/api/teams/user/${userId}`, {
+  const fetchTeamsOfUser = (signal) => {
+    return fetch(`http://localhost:3000/api/teams/user/getTeams`, {
       headers: {
         'Authorization': "Bearer " + cookies["token"]
       },
@@ -25,8 +25,7 @@ const ManageSection = () => {
 
   useEffect(() => {
     const controller = new AbortController();
-    const userId = 1;
-    fetchTeamsOfUser(userId)
+    fetchTeamsOfUser()
       .then((teamsData) => {
         setTeams(teamsData);
         setLoading(false);

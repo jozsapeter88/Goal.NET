@@ -18,73 +18,56 @@ public class TeamService : ITeamService
         _mapper = mapper;
     }
 
-    public async Task<List<Team>> GetAllTeams()
+    public async Task<List<Team>?> GetAllTeams()
     {
-        return await _context.Teams.ToListAsync();
+       var teams = await _context.Teams.ToListAsync();
+       return teams ?? null;
     }
 
-    public async Task<Team> GetTeam(long teamId)
+    public async Task<Team?> GetTeam(long teamId)
     {
         var team = await _context.Teams.Include(t => t.AllPlayers)
             .FirstOrDefaultAsync(t => t.Id == teamId);
-         return team ?? throw new InvalidOperationException();
+        return team ?? null;
     }
 
-    public async Task<List<Team>> GetTeamsOfUser(long userId)
+    public async Task<List<Team>?> GetTeamsOfUser(long userId)
     {
         var user = await _context.GoalUsers
             .Include(u => u.Teams)
             .FirstOrDefaultAsync(u => u.Id == userId);
 
-        if (user != null)
-        {
-           
-            if (user.Teams != null)
-            {
-                return user.Teams.ToList();
-
-            }
-            throw new NotFoundException("User doesn't have teams yet!");
-        }
-        throw new NotFoundException("User Not Found!");
+        return user?.Teams?.ToList();
     }
 
-    public async Task<List<Player>> GetPlayersOfTeam(long userId, long teamId)
+    public async Task<List<Player>?> GetPlayersOfTeam(long userId, long teamId)
     {
-        var players = new List<Player>();
         var user = await _context.GoalUsers
             .Include(u => u.Teams)
             .FirstOrDefaultAsync(u => u.Id == userId);
         var team = await _context.Teams
             .Include(t => t.AllPlayers)
             .FirstOrDefaultAsync(t => t.Id == teamId);
-        if (user != null && team != null)
-        {
-            if (user.Teams != null && user.Teams.Contains(team))
-            {
-                if (team.AllPlayers != null) return team.AllPlayers.ToList();
-                throw new NotFoundException("No team or user found!");
-
-            }
-        }
-
-        throw new NotFoundException("No team or user found!");
+        if (user == null || team == null) return null;
+        if (user.Teams == null || !user.Teams.Contains(team)) return null;
+        return team.AllPlayers?.ToList();
     }
 
 
-    public async Task<Team> CreateTeam(TeamCreateDto team)
+    public async Task<List<Team>> CreateTeam(TeamCreateDto team)
     {
+        var teams = await _context.Teams.ToListAsync();
         var newTeam = new Team()
         {
             Name = team.Name,
             Color = team.Color
         };
-        _context.Teams.Add(newTeam);
+        teams.Add(newTeam);
         await _context.SaveChangesAsync();
-        return newTeam;
+        return teams;
     }
 
-    public async Task<Team> UpdateTeam(long teamId, Team team)
+    public async Task<Team?> UpdateTeam(long teamId, Team team)
     {
         var teamToUpdate = await _context.Teams.FindAsync(teamId);
         if (teamToUpdate != null)
@@ -95,7 +78,7 @@ public class TeamService : ITeamService
             teamToUpdate.AllPlayers = team.AllPlayers;
         }
         await _context.SaveChangesAsync();
-        return teamToUpdate ?? throw new NotFoundException("Team Not Found!");
+        return teamToUpdate ?? null;
     }
 
     public async Task<List<Team>> DeleteTeam(long teamId)
@@ -106,7 +89,24 @@ public class TeamService : ITeamService
         return await _context.Teams.ToListAsync();
     }
 
-    public async Task<Team> AddPlayerToTeam(long userId, long teamId, long playerId)
+    public async Task<List<Team>> UserDeleteTeam(long userId, long teamId)
+    {
+        var user = await _context.GoalUsers
+            .Include(u => u.Teams)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+        if (user != null && user.Teams != null)
+        {
+            var team =  user.Teams.FirstOrDefault(t => t.Id == teamId);
+
+            if (team != null) user.Teams.Remove(team);
+            await _context.SaveChangesAsync();
+            return user.Teams.ToList();
+        }
+
+        return null;
+    }
+
+    public async Task<Team?> AddPlayerToTeam(long userId, long teamId, long playerId)
     {
         var user = await _context.GoalUsers
             .Include(u => u.Teams)
@@ -137,14 +137,13 @@ public class TeamService : ITeamService
                 {
                     team.AllPlayers = new List<Player> { player };
                 }
-                
             }
         }
         await _context.SaveChangesAsync();
-        return team ?? throw new NotFoundException("Team Not Found!");
+        return team ?? null;
     }
 
-    public async Task<List<Team>> AddTeamToUser(long userId, TeamCreateDto team)
+    public async Task<List<Team>?> AddTeamToUser(long userId, TeamCreateDto team)
     {
         var user = await _context.GoalUsers.FindAsync(userId);
         var newTeam = _mapper.Map<Team>(team);
@@ -160,9 +159,8 @@ public class TeamService : ITeamService
                 user.Teams.Add(newTeam);
             }
         }
-
         await _context.SaveChangesAsync();
 
-        return user?.Teams ?? throw new NotFoundException("User Not Found!");
+        return user?.Teams ?? null;
     }
 }

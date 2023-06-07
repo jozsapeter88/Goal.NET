@@ -4,8 +4,10 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { useFetcher } from 'react-router-dom';
 import useCookies from "react-cookie/cjs/useCookies";
+import { useNavigate } from 'react-router-dom';
 
 const UserEditor = () => {
+    const navigate = useNavigate();
     const [cookies, setCookies] = useCookies();
     const [UserLevels, setUserLevels] = useState('');
     const [Users, setUsers] = useState('');
@@ -15,6 +17,13 @@ const UserEditor = () => {
     const [HideLevel, setHideLevel] = useState(true);
     const [HideButton, setHideButton] = useState(true);
 
+    
+
+  if (cookies["token"] === undefined || cookies["username"] === undefined){
+    navigate("/");
+    console.log(cookies["token"]);
+  }
+    
     useEffect(() => {
         fetchUsers();
         fetchLevels();

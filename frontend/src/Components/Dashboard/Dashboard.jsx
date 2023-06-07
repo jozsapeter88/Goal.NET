@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Collapse, Card, Button, Row, Col, Table, Modal } from "react-bootstrap";
 import Loading from "../Loading";
 import "./Dashboard.css";
 import useCookies from "react-cookie/cjs/useCookies";
-
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  
   const [cookies, setCookies] = useCookies();
   const [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
@@ -17,6 +18,9 @@ const Dashboard = () => {
   //const { userId } = useParams();
   const userId = 1;
   console.log(players.length);
+  if (cookies["token"] === undefined || cookies["username"] === undefined){
+    navigate("/")
+  }
 
   const fetchTeamsOfUser = async (userId) => {
     try {

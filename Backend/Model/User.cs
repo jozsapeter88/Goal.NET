@@ -14,6 +14,6 @@ public class User
 
     public bool CheckPassword(string pass)
     {
-        return Password.Equals(pass);
+        return Password.Equals(pass.GetHashCode().ToString());
     }
 }

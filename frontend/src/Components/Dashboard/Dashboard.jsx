@@ -4,18 +4,14 @@ import Loading from "../Loading";
 import "./Dashboard.css";
 import useCookies from "react-cookie/cjs/useCookies";
 
-import { useParams } from "react-router-dom";
-
 const Dashboard = () => {
-  const [cookies, setCookies] = useCookies();
+  const [cookies] = useCookies();
   const [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
   const [players, setPlayers] = useState([]);
   const [expandedMatchId, setExpandedMatchId] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedMatchDetails, setSelectedMatchDetails] = useState("");
-  //const { userId } = useParams();
-  const userId = 1;
   console.log(players.length);
 
   const fetchTeamsOfUser = async (userId) => {
@@ -59,7 +55,7 @@ const Dashboard = () => {
         setLoading(false);
       })
       .catch((error) => {
-        setTeams([]);
+        setTeams([teams]);
         console.error("Error fetching teams:", error);
       });
   }, []);

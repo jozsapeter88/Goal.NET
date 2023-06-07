@@ -1,55 +1,16 @@
 import React, { useState, useEffect } from "react";
-import {
-  Collapse,
-  Card,
-  Button,
-  Row,
-  Col,
-  Form,
-  Alert,
-  ListGroup,
-  Modal,
-} from "react-bootstrap";
-import Loading from "../Loading";
+import { Collapse, Card, Button, Col, Form, Alert } from "react-bootstrap";
 import "./CreateSection";
 import useCookies from "react-cookie/cjs/useCookies";
 
-const CreateSection = () => {
-  const [cookies, setCookies] = useCookies();
-  const [loading, setLoading] = useState(true);
-  const [teams, setTeams] = useState([]);
+const CreateSection = ({loading, setTeams}) => {
+  const [cookies] = useCookies();
   const [showCreateTeam, setShowCreateTeam] = useState(false);
   const [showCreatePlayer, setShowCreatePlayer] = useState(false);
   const [playerSuccessMessage, setPlayerSuccessMessage] = useState("");
   const [playerErrorMessage, setPlayerErrorMessage] = useState("");
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
   const [teamErrorMessage, setTeamErrorMessage] = useState("");
-
-  const fetchTeamsOfUser = (signal) => {
-    return fetch(`http://localhost:3000/api/teams/user/getTeams`, {
-      headers: {
-        Authorization: "Bearer " + cookies["token"],
-      },
-      signal,
-    }).then((res) => res.json());
-  };
-
-  useEffect(() => {
-    const controller = new AbortController();
-    fetchTeamsOfUser()
-      .then((teamsData) => {
-        setTeams(teamsData);
-        setLoading(false);
-      })
-      .catch((error) => {
-        if (error.name !== "AbortError") {
-          setTeams([]);
-          throw error;
-        }
-      });
-
-    return () => controller.abort();
-  }, []);
 
   const [playerName, setPlayerName] = useState("");
   const [playerNationality, setPlayerNationality] = useState("");
@@ -161,23 +122,6 @@ const CreateSection = () => {
     }
   };
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (teams.length === 0) {
-    return (
-      <Card bg="secondary" style={{color: "white"}}>
-        <Card.Body>
-          <Card.Title>No teams found</Card.Title>
-          <Card.Text>
-            Go to the Team Manager to create a team
-          </Card.Text>
-        </Card.Body>
-      </Card>
-    );
-  }
-
   const handleToggleCreateTeam = () => {
     setShowCreateTeam(!showCreateTeam);
     setShowCreatePlayer(false);
@@ -197,10 +141,11 @@ const CreateSection = () => {
     };
 
     try {
-      const response = await fetch("/api/teams/addTeam", {
+      const response = await fetch("/api/teams/user/addTeam", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: "Bearer " + cookies["token"],
         },
         body: JSON.stringify(teamData),
       });

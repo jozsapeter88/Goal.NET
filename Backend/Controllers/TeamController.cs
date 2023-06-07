@@ -108,7 +108,7 @@ namespace Backend.Controllers
         }
 
         [HttpPost("user/addTeam")]
-        public async Task<ActionResult<List<Team>>> CreateTeamOfUser(long userId, TeamCreateDto team)
+        public async Task<ActionResult<List<Team>>> CreateTeamOfUser(TeamCreateDto team)
         {
             var user = GetCurrentUser();
             if (user == null) return NotFound("Probably user is not logged in!");

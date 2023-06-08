@@ -1,0 +1,8 @@
+.team-name {
+    transition: all 1s;
+    cursor:pointer;
+}
+.team-name:hover {
+    scale: 0.9;
+    transition: all 1s;
+}

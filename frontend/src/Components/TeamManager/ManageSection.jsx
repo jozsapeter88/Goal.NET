@@ -1,9 +1,10 @@
 import { Table } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
-import { Button, Row, Col, Alert, ListGroup, Modal } from "react-bootstrap";
+import { Button, Row, Col, Alert, ListGroup, Modal, Form } from "react-bootstrap";
+import Loading from "../Loading";
 import "./ManageSection.css";
 import useCookies from "react-cookie/cjs/useCookies";
-import TeamList from "../TeamList/TeamList";
+import EditNameModal from "./EditNameModal";
 
 const ManageSection = () => {
   const [cookies, setCookies] = useCookies();
@@ -13,7 +14,9 @@ const ManageSection = () => {
   const [teamErrorMessage, setTeamErrorMessage] = useState("");
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [showManageTeamModal, setShowManageTeamModal] = useState(false);
-  const [showTeamList, setShowTeamList] = useState(false);
+  const [showNameModal, setShowNameModal] = useState(false);
+  const [teamName, setTeamName] = useState("");
+  
 
   const fetchTeamsOfUser = (signal) => {
     return fetch(`http://localhost:3000/api/teams/user/getTeams`, {
@@ -46,6 +49,33 @@ const ManageSection = () => {
     setShowManageTeamModal(true);
   };
 
+  const updateTeamName = (teamName, teamId) => {
+    return fetch(`/api/teams/user/updateTeamName/${teamId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': "Bearer " + cookies["token"]
+      },
+      body: JSON.stringify(teamName), 
+    }).then((res) => res.json());
+  };
+  const handleUpdateTeamNameChange = (teamId) => {
+    try {
+          updateTeamName(teamName, teamId)
+          .then(() => {
+            setTeamSuccessMessage("Team name updated successfully")
+            setTeamErrorMessage("")
+            
+          }) 
+    } catch (error) {
+      console.error("Error creating team:", error);
+      setTeamErrorMessage("Can not update")
+      setTeamSuccessMessage("");
+    }
+  }
+
+ 
+
   const handleCloseManageTeamModal = () => {
     setShowManageTeamModal(false);
     setSelectedTeam(null);
@@ -57,8 +87,8 @@ const ManageSection = () => {
       const response = await fetch(`/api/teams/user/deleteTeam/${teamId}`, {
         method: "DELETE",
         headers: {
-          Authorization: "Bearer " + cookies["token"],
-        },
+          Authorization: "Bearer " + cookies["token"]
+        }
       });
 
       if (response.ok) {
@@ -111,9 +141,11 @@ const ManageSection = () => {
           </Modal.Header>
           <Modal.Body>
             <Button variant="success" onClick={() => setShowTeamList(true)}>
-              Add a Player
-            </Button>{" "}
-            <Button variant="warning">Edit Name</Button>{" "}
+            <Button 
+              variant="warning" 
+              onClick={(e) => setShowNameModal(true)}>
+                Edit Name
+                </Button>
             <Button
               variant="danger"
               onClick={() => handleDeleteTeam(selectedTeam.id)}
@@ -124,6 +156,14 @@ const ManageSection = () => {
           </Modal.Body>
         </Modal>
       )}
+      {selectedTeam && (
+      <EditNameModal
+      setShowNameModal ={setShowNameModal}
+    handleUpdateTeamNameChange = {handleUpdateTeamNameChange}
+    setTeamName = {setTeamName}
+    teamName = {teamName}
+    selectedTeam = {selectedTeam}
+    showNameModal = {showNameModal}/>)}
     </div>
   );
 };

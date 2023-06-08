@@ -81,6 +81,22 @@ public class TeamService : ITeamService
         return teamToUpdate ?? null;
     }
 
+    public async Task<Team?> UpdateTeamName(long userId, long teamId, string teamName)
+    {
+        var user = await _context.GoalUsers
+            .Include(u => u.Teams)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+        if (user?.Teams == null) return null;
+        var teamToUpdate = user.Teams.FirstOrDefault(t => t.Id == teamId);
+        if (teamToUpdate != null)
+        {
+            teamToUpdate.Name = teamName;
+        }
+
+        await _context.SaveChangesAsync();
+        return teamToUpdate;
+    }
+
     public async Task<List<Team>> DeleteTeam(long teamId)
     {
         var teamToUpdate = await _context.Teams.FindAsync(teamId);

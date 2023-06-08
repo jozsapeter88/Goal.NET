@@ -133,6 +133,20 @@ namespace Backend.Controllers
             return Ok(result);
         }
 
+        [HttpPut("user/updateTeamName/{teamId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Team>> UpdateTeamName(long teamId, [FromBody] string teamName)
+        {
+            var user = GetCurrentUser();
+            if (user != null)
+            {
+                var result = await _teamService.UpdateTeamName(user.Id, teamId, teamName);
+                return Ok(result);
+            }
+
+            return NotFound("Probably user is not logged in!");
+        }
+
         [HttpPut("user/addPlayerToTeam/{teamId}/{playerId}")]
         public async Task<ActionResult<Team>> AddPlayer(long teamId, long playerId)
         { 

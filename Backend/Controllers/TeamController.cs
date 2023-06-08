@@ -108,7 +108,7 @@ namespace Backend.Controllers
         }
 
         [HttpPost("user/addTeam")]
-        public async Task<ActionResult<List<Team>>> CreateTeamOfUser(long userId, TeamCreateDto team)
+        public async Task<ActionResult<List<Team>>> CreateTeamOfUser(TeamCreateDto team)
         {
             var user = GetCurrentUser();
             if (user == null) return NotFound("Probably user is not logged in!");
@@ -150,11 +150,17 @@ namespace Backend.Controllers
         [HttpDelete("user/deleteTeam/{teamId}")]
         public async Task<ActionResult<List<Team>>> UserDeleteTeam(long teamId)
         {
+            
             var user = GetCurrentUser();
             if (user == null) return NotFound("Probably user is not logged in!");
-            var result =await _teamService.UserDeleteTeam(user.Id,teamId);
+            List<Team>? teams = await _teamService.UserDeleteTeam(user.Id,teamId);
+            if (teams == null)
+            {
+                return NotFound("User does not have this team!");
+            }
 
-            return Ok(result);
+            return Ok(teams);
+
         }
 
         [HttpDelete("admin/deleteTeam/{teamId}")]

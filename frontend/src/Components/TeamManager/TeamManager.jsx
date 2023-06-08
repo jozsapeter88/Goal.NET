@@ -59,7 +59,7 @@ const TeamManager = () => {
         <div className="MyTeams">
           <h1
             style={{
-              color: "white",
+              color: "White",
               fontSize: "2.5rem",
               fontWeight: "bold",
               textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",

@@ -1,9 +1,9 @@
 import { Table } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col, Alert, ListGroup, Modal } from "react-bootstrap";
-import Loading from "../Loading";
 import "./ManageSection.css";
 import useCookies from "react-cookie/cjs/useCookies";
+import TeamList from "../TeamList/TeamList";
 
 const ManageSection = () => {
   const [cookies, setCookies] = useCookies();
@@ -13,11 +13,12 @@ const ManageSection = () => {
   const [teamErrorMessage, setTeamErrorMessage] = useState("");
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [showManageTeamModal, setShowManageTeamModal] = useState(false);
+  const [showTeamList, setShowTeamList] = useState(false);
 
   const fetchTeamsOfUser = (signal) => {
     return fetch(`http://localhost:3000/api/teams/user/getTeams`, {
       headers: {
-        'Authorization': "Bearer " + cookies["token"]
+        Authorization: "Bearer " + cookies["token"],
       },
       signal,
     }).then((res) => res.json());
@@ -48,6 +49,7 @@ const ManageSection = () => {
   const handleCloseManageTeamModal = () => {
     setShowManageTeamModal(false);
     setSelectedTeam(null);
+    // setShowTeamList(false);
   };
 
   const handleDeleteTeam = async (teamId) => {
@@ -55,8 +57,8 @@ const ManageSection = () => {
       const response = await fetch(`/api/teams/user/deleteTeam/${teamId}`, {
         method: "DELETE",
         headers: {
-          Authorization: "Bearer " + cookies["token"]
-        }
+          Authorization: "Bearer " + cookies["token"],
+        },
       });
 
       if (response.ok) {
@@ -102,13 +104,15 @@ const ManageSection = () => {
         <Modal
           show={showManageTeamModal}
           onHide={handleCloseManageTeamModal}
-          variant="dark"
+          style={{ background: "rgba(0,0,0, 0.7)" }}
         >
           <Modal.Header>
             <Modal.Title>Manage Team: {selectedTeam.name}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Button variant="success">Add a Player</Button>{" "}
+            <Button variant="success" onClick={() => setShowTeamList(true)}>
+              Add a Player
+            </Button>{" "}
             <Button variant="warning">Edit Name</Button>{" "}
             <Button
               variant="danger"
@@ -116,6 +120,7 @@ const ManageSection = () => {
             >
               Delete
             </Button>
+            {showTeamList && <TeamList />}
           </Modal.Body>
         </Modal>
       )}

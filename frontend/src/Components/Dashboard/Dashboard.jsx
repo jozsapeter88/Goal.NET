@@ -174,7 +174,7 @@ const Dashboard = () => {
   return (
     <div>
       <div className="MyTeams">
-        <h1 style={{ color: "white" }}>My Teams</h1>
+        <h1 style={{ color: "White" }}>My Teams</h1>
       </div>
       <div className="dashboard-container">
         <Row>
@@ -183,11 +183,12 @@ const Dashboard = () => {
               <Card key={team.id} bg="dark" text="white" className="team-card">
                 <Card.Header>
                   <Button
-                    variant="link"
+                    variant="text"
                     onClick={() => handleToggleDetails(team.id)}
                     aria-controls={`details-collapse-${team.id}`}
                     aria-expanded={team.showDetails}
                     className="team-card-title"
+                    style={{color: "white", fontWeight: "bold"}}
                   >
                     {team.name}
                   </Button>

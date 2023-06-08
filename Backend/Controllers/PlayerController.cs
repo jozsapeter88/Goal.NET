@@ -25,36 +25,42 @@ namespace Backend.Controllers
         }
 
         [HttpGet("getAllPlayers")]
+        [AllowAnonymous]
         public async Task<List<PlayerDto>> GetAllPlayers()
         {
             return await _playerService.GetAllPlayers();
         }
         
         [HttpGet("getGoalkeepers")]
+        [AllowAnonymous]
         public async Task<List<PlayerDto>> GetGoalkeepers()
         {
             return await _playerService.GetGoalKeepers();
         }
         
         [HttpGet("getDefenders")]
+        [AllowAnonymous]
         public async Task<List<PlayerDto>> GetDefenders()
         {
             return await _playerService.GetDefenders();
         }
         
         [HttpGet("getMidfielders")]
+        [AllowAnonymous]
         public async Task<List<PlayerDto>> GetMidfielders()
         {
             return await _playerService.GetMidfielders();
         }
         
         [HttpGet("getForwards")]
+        [AllowAnonymous]
         public async Task<List<PlayerDto>> GetForwards()
         {
             return await _playerService.GetForwards();
         }
 
         [HttpGet("getNationalities")]
+        [AllowAnonymous]
         public Task<List<string>> GetNationalities()
         {
             var nationalityEnums =  Enum.GetNames(typeof(NationalityEnum)).ToList();
@@ -62,6 +68,7 @@ namespace Backend.Controllers
         }
         
         [HttpGet("getPositions")]
+        [AllowAnonymous]
         public Task<List<string>> GetPositions()
         {
             var positionEnums =  Enum.GetNames(typeof(PositionEnum)).ToList();
@@ -70,6 +77,7 @@ namespace Backend.Controllers
         
         
         [HttpGet("getGender")]
+        [AllowAnonymous]
         public Task<List<string>> GetGender()
         {
             var genderEnums =  Enum.GetNames(typeof(GenderEnum)).ToList();

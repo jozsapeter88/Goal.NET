@@ -108,7 +108,7 @@ namespace Backend.Controllers
         }
 
         [HttpPost("user/addTeam")]
-        public async Task<ActionResult<List<Team>>> CreateTeamOfUser(long userId, TeamCreateDto team)
+        public async Task<ActionResult<List<Team>>> CreateTeamOfUser(TeamCreateDto team)
         {
             var user = GetCurrentUser();
             if (user == null) return NotFound("Probably user is not logged in!");
@@ -131,6 +131,20 @@ namespace Backend.Controllers
             }
 
             return Ok(result);
+        }
+
+        [HttpPut("user/updateTeamName/{teamId}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Team>> UpdateTeamName(long teamId, [FromBody] string teamName)
+        {
+            var user = GetCurrentUser();
+            if (user != null)
+            {
+                var result = await _teamService.UpdateTeamName(user.Id, teamId, teamName);
+                return Ok(result);
+            }
+
+            return NotFound("Probably user is not logged in!");
         }
 
         [HttpPut("user/addPlayerToTeam/{teamId}/{playerId}")]

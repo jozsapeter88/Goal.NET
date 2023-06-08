@@ -13,7 +13,7 @@ public interface ITeamService
     Task<List<Team>> CreateTeam(TeamCreateDto team);
     Task<Team?> UpdateTeam(long teamId, Team team);
     Task<List<Team>> DeleteTeam(long teamId);
-    Task<List<Team>> UserDeleteTeam(long userId, long teamId);
+    Task<List<Team>?> UserDeleteTeam(long userId, long teamId);
 
     Task<Team?> AddPlayerToTeam(long userId, long teamId, long playerId);
 

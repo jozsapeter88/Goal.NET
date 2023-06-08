@@ -5,4 +5,9 @@
   .team-manager-link {
     font-weight: bold;
   }
+
+.navbar {
+  backdrop-filter: blur(10px);
+  background-color: rgba(74, 94, 112, 0.747);
+}
   

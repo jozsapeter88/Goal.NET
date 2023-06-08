@@ -21,7 +21,7 @@ const ManageSection = () => {
   const fetchTeamsOfUser = (signal) => {
     return fetch(`http://localhost:3000/api/teams/user/getTeams`, {
       headers: {
-        'Authorization': "Bearer " + cookies["token"]
+        Authorization: "Bearer " + cookies["token"],
       },
       signal,
     }).then((res) => res.json());
@@ -79,6 +79,7 @@ const ManageSection = () => {
   const handleCloseManageTeamModal = () => {
     setShowManageTeamModal(false);
     setSelectedTeam(null);
+    // setShowTeamList(false);
   };
 
   const handleDeleteTeam = async (teamId) => {
@@ -133,13 +134,13 @@ const ManageSection = () => {
         <Modal
           show={showManageTeamModal}
           onHide={handleCloseManageTeamModal}
-          variant="dark"
+          style={{ background: "rgba(0,0,0, 0.7)" }}
         >
           <Modal.Header>
             <Modal.Title>Manage Team: {selectedTeam.name}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Button variant="success">Add a Player</Button>{" "}
+            <Button variant="success" onClick={() => setShowTeamList(true)}>
             <Button 
               variant="warning" 
               onClick={(e) => setShowNameModal(true)}>
@@ -151,6 +152,7 @@ const ManageSection = () => {
             >
               Delete
             </Button>
+            {showTeamList && <TeamList />}
           </Modal.Body>
         </Modal>
       )}

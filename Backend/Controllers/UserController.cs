@@ -30,7 +30,7 @@ public class UserController : ControllerBase
       if (UserService.Login(user.UserName, user.Password).Result)
       {
          User userFromDb = UserService.GetUser(user.UserName).Result;
-         var token = GenerateJWT(userFromDb);
+         var token = GenerateJwt(userFromDb);
          return Ok(token);
       }
       return Unauthorized();
@@ -42,7 +42,7 @@ public class UserController : ControllerBase
    { 
       if (UserService.Register(user.UserName, user.Password).Result)
       {
-         var token = GenerateJWT(user);
+         var token = GenerateJwt(user);
          return Ok(token);
       }
       return Unauthorized();
@@ -52,7 +52,6 @@ public class UserController : ControllerBase
    [Authorize(Roles = "Admin")]
    public ActionResult<List<string>> ProvideUserLevels()
    {
-      
       var userLevels = Enum.GetNames(typeof(UserLevel)).ToList();
       return Ok(userLevels);
    }
@@ -77,7 +76,7 @@ public class UserController : ControllerBase
       return Unauthorized();
    }
 
-   private string Generate(User user)
+  /* private string Generate(User user)
    {
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoalDotNetIsTheBestProjectOfCodeCool"));
       var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -92,10 +91,19 @@ public class UserController : ControllerBase
          );
  
       return new JwtSecurityTokenHandler().WriteToken(token);
-   }
-   private string GenerateJWT(User user)
+   }*/
+   private string GenerateJwt(User user)
    {
-      var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoalDotNetIsTheBestProjectOfCodeCool"));
+      //get parameters from config
+      var configuration = new ConfigurationBuilder()
+         .SetBasePath(Directory.GetCurrentDirectory())
+         .AddJsonFile("appsettings.json")
+         .Build();
+      var key = configuration.GetSection("JWT")["key"];
+      var issuer = configuration.GetSection("JWT")["Issuer"];
+      var audience = configuration.GetSection("JWT")["Audience"];
+      
+      var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!));
       var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
       var claims = new[]
@@ -108,8 +116,9 @@ public class UserController : ControllerBase
       var claimsPrincipal = new ClaimsPrincipal(identity);
       Thread.CurrentPrincipal = claimsPrincipal;
 
-      var token = new JwtSecurityToken("http://localhost:5076/",
-         "http://localhost:5076/",
+      var token = new JwtSecurityToken(
+         issuer,
+         audience,
          claims,
          expires: DateTime.Now.AddHours(1),
          signingCredentials: credentials);

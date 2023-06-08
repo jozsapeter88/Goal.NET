@@ -1,13 +1,14 @@
 import { Table } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
-import { Button, Row, Col, Alert, ListGroup, Modal, Form } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import Loading from "../Loading";
 import "./ManageSection.css";
 import useCookies from "react-cookie/cjs/useCookies";
 import EditNameModal from "./EditNameModal";
+import ManageTeamModal from "./ManageTeamModal";
 
 const ManageSection = () => {
-  const [cookies, setCookies] = useCookies();
+  const [cookies] = useCookies();
   const [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
@@ -65,16 +66,16 @@ const ManageSection = () => {
           .then(() => {
             setTeamSuccessMessage("Team name updated successfully")
             setTeamErrorMessage("")
+            console.log(teamSuccessMessage)
             
           }) 
     } catch (error) {
       console.error("Error creating team:", error);
       setTeamErrorMessage("Can not update")
       setTeamSuccessMessage("");
+      console.log(teamErrorMessage)
     }
   }
-
- 
 
   const handleCloseManageTeamModal = () => {
     setShowManageTeamModal(false);
@@ -107,6 +108,10 @@ const ManageSection = () => {
     }
   };
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div>
       <div className="dashboard-container">
@@ -130,30 +135,14 @@ const ManageSection = () => {
 
       {/* Manage Team Modal */}
       {selectedTeam && (
-        <Modal
-          show={showManageTeamModal}
-          onHide={handleCloseManageTeamModal}
-          variant="dark"
-        >
-          <Modal.Header>
-            <Modal.Title>Manage Team: {selectedTeam.name}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Button variant="success">Add a Player</Button>{" "}
-            <Button 
-              variant="warning" 
-              onClick={(e) => setShowNameModal(true)}>
-                Edit Name
-                </Button>
-            <Button
-              variant="danger"
-              onClick={() => handleDeleteTeam(selectedTeam.id)}
-            >
-              Delete
-            </Button>
-          </Modal.Body>
-        </Modal>
+        <ManageTeamModal
+        showManageTeamModal={showManageTeamModal}
+        handleCloseManageTeamModal={handleCloseManageTeamModal}
+        selectedTeam={selectedTeam}
+        setShowNameModal={setShowNameModal}
+        handleDeleteTeam={handleDeleteTeam}/>
       )}
+      {/* Name Modal */}
       {selectedTeam && (
       <EditNameModal
       setShowNameModal ={setShowNameModal}

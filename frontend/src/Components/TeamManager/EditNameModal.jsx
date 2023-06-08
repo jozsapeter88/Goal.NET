@@ -26,7 +26,6 @@ return (
                 type="text"
                 placeholder="Type the new name here..."
                 value={teamName}
-                defaultValue={selectedTeam.name}
                 onChange={(e) => setTeamName(e.target.value)}
               />
             </Form.Group>

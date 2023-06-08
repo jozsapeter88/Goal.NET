@@ -3,9 +3,9 @@ import { Container, Row, Col } from "react-bootstrap";
 import Menu from "../Menu/Menu";
 import CreateSection from "./CreateSection";
 import ManageSection from "./ManageSection";
-import Cookies from "universal-cookie";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom/dist";
+import Loading from "../Loading";
 
 const TeamManager = () => {
   const [loading, setLoading] = useState(true);
@@ -41,6 +41,10 @@ const TeamManager = () => {
   const [cookies] = useCookies();
   if (cookies["token"] === undefined || cookies["username"] === undefined) {
     navigate("/");
+  }
+
+  if (loading) {
+    return <Loading />;
   }
   return (
     <>

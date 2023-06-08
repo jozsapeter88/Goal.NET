@@ -34,7 +34,7 @@ function Menu() {
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav className="me-auto">
             <Nav.Link href="/teamManager">Team Manager</Nav.Link>
-            <NavDropdown title= {`Welcome ${userName}`} id="basic-nav-dropdown">
+            <NavDropdown title= {`${userName}`} id="basic-nav-dropdown">
               <NavDropdown.Item href="/Profile">Profile</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="/" onClick={onLogout}>Logout</NavDropdown.Item>

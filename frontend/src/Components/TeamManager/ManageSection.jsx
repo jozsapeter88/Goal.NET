@@ -52,8 +52,11 @@ const ManageSection = () => {
 
   const handleDeleteTeam = async (teamId) => {
     try {
-      const response = await fetch(`/api/teams/deleteTeam/${teamId}`, {
+      const response = await fetch(`/api/teams/user/deleteTeam/${teamId}`, {
         method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + cookies["token"]
+        }
       });
 
       if (response.ok) {
@@ -77,20 +80,20 @@ const ManageSection = () => {
     <div>
       <div className="dashboard-container">
         <Row>
-            <Table striped bordered hover variant="dark">
-              <thead>
-                <tr>
-                  <th>Manage Your Team</th>
+          <Table striped bordered hover variant="dark">
+            <thead>
+              <tr>
+                <th>Manage Your Team</th>
+              </tr>
+            </thead>
+            <tbody>
+              {teams.map((team) => (
+                <tr key={team.id} onClick={() => handleManageTeamModal(team)}>
+                  <td className="team-name">{team.name}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {teams.map((team) => (
-                  <tr key={team.id} onClick={() => handleManageTeamModal(team)}>
-                    <td>{team.name}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+              ))}
+            </tbody>
+          </Table>
         </Row>
       </div>
 

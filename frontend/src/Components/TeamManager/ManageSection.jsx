@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Button, Row, Modal, Table } from "react-bootstrap";
+
+import { Row } from "react-bootstrap";
+
 import Loading from "../Loading";
 import "./ManageSection.css";
 import useCookies from "react-cookie/cjs/useCookies";
 import EditNameModal from "./EditNameModal";
+
+import ManageTeamModal from "./ManageTeamModal";
+
 import TeamList from "../TeamList/TeamList"
 
+
 const ManageSection = () => {
-  const [cookies, setCookies] = useCookies();
+  const [cookies] = useCookies();
   const [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
@@ -62,22 +68,22 @@ const ManageSection = () => {
 
   const handleUpdateTeamNameChange = (teamId) => {
     try {
-      updateTeamName(teamName, teamId)
-        .then(() => {
-          setTeamSuccessMessage("Team name updated successfully");
-          setTeamErrorMessage("");
-        })
-        .catch((error) => {
-          console.error("Error updating team name:", error);
-          setTeamErrorMessage("Can not update team name");
-          setTeamSuccessMessage("");
-        });
+          updateTeamName(teamName, teamId)
+          .then(() => {
+            setTeamSuccessMessage("Team name updated successfully")
+            setTeamErrorMessage("")
+            console.log(teamSuccessMessage)
+            
+          }) 
+
     } catch (error) {
       console.error("Error updating team name:", error);
       setTeamErrorMessage("Can not update team name");
       setTeamSuccessMessage("");
+      console.log(teamErrorMessage)
     }
-  };
+  }
+
 
   const handleCloseManageTeamModal = () => {
     setShowManageTeamModal(false);
@@ -111,6 +117,10 @@ const ManageSection = () => {
     }
   };
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div>
       <div className="dashboard-container">
@@ -134,40 +144,18 @@ const ManageSection = () => {
           </Table>
         </Row>
       </div>
-
       {/* Manage Team Modal */}
       {selectedTeam && (
-        <Modal
-          show={showManageTeamModal}
-          onHide={handleCloseManageTeamModal}
-          style={{ background: "rgba(0,0,0, 0.7)" }}
-        >
-          <Modal.Header>
-            <Modal.Title>Manage Team: {selectedTeam.name}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Button
-              variant="success"
-              onClick={() => setShowTeamList(true)}
-            >
-              Add player
-            </Button>
-            <Button
-              variant="warning"
-              onClick={(e) => setShowNameModal(true)}
-            >
-              Edit Name
-            </Button>
-            <Button
-              variant="danger"
-              onClick={() => handleDeleteTeam(selectedTeam.id)}
-            >
-              Delete
-            </Button>
-            {showTeamList && <TeamList />}
-          </Modal.Body>
-        </Modal>
+        <ManageTeamModal
+        showManageTeamModal={showManageTeamModal}
+        handleCloseManageTeamModal={handleCloseManageTeamModal}
+        selectedTeam={selectedTeam}
+        setShowNameModal={setShowNameModal}
+        handleDeleteTeam={handleDeleteTeam}/>
+
+
       )}
+      {/* Name Modal */}
       {selectedTeam && (
         <EditNameModal
           setShowNameModal={setShowNameModal}

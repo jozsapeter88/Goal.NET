@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import Menu from "../Menu/Menu";
 import CreateSection from "./CreateSection";
 import ManageSection from "./ManageSection";
-import useCookies from "react-cookie/cjs/useCookies";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom/dist";
+import Loading from "../Loading";
 
 const TeamManager = () => {
-  const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [cookies] = useCookies();
+  const [teams, setTeams] = useState([]);
 
   const fetchTeamsOfUser = (signal) => {
     return fetch(`http://localhost:3000/api/teams/user/getTeams`, {
@@ -21,10 +22,9 @@ const TeamManager = () => {
 
   useEffect(() => {
     const controller = new AbortController();
-    fetchTeamsOfUser(controller.signal)
+    fetchTeamsOfUser()
       .then((teamsData) => {
         setTeams(teamsData);
-        console.log(teamsData);
         setLoading(false);
       })
       .catch((error) => {
@@ -37,54 +37,44 @@ const TeamManager = () => {
     return () => controller.abort();
   }, []);
 
-  if (Object.keys(teams).length === 0) {
-    return (
-      <>
-        <Menu />
-        <Card bg="secondary" style={{ color: "white" }}>
-          <Card.Body>
-            <Card.Title>No teams found</Card.Title>
-            <Card.Text>Go to the Team Manager to create a team</Card.Text>
-          </Card.Body>
-        </Card>
-        <Col md={8}>
-          <CreateSection />
-        </Col>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <Menu />
-        <div className="MyTeams">
-          <h1
-            style={{
-              color: "White",
-              fontSize: "2.5rem",
-              fontWeight: "bold",
-              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-            }}
-          >
-            Team Manager
-          </h1>
-        </div>
-        <Container>
-          <Col md={8}>
+  const navigate = useNavigate();
+  const [cookies] = useCookies();
+  if (cookies["token"] === undefined || cookies["username"] === undefined) {
+    navigate("/");
+  }
+
+  if (loading) {
+    return <Loading />;
+  }
+  return (
+    <>
+      <Menu />
+      <div className="MyTeams">
+        <h1
+          style={{
+            color: "white",
+            fontSize: "2.5rem",
+            fontWeight: "bold",
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          Team Manager
+        </h1>
+      </div>
+      <Container>
+        <Row>
+          <Col md={1}>
             <CreateSection
-            setTeams = {setTeams}
-            loading = {loading}
-            cookies = {cookies}
+            setTeams = { setTeams }
             />
           </Col>
-          <Row>
-            <Col md={10} style={{ padding: 30, marginLeft: 0 }}>
-              <ManageSection />
-            </Col>
-          </Row>
-        </Container>
-      </>
-    );
-  }
+          <Col md={10} style={{ padding: 30, marginLeft: 0 }}>
+            <ManageSection />
+          </Col>
+        </Row>
+      </Container>
+    </>
+  );
 };
 
 export default TeamManager;

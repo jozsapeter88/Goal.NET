@@ -41,7 +41,7 @@ var key = configuration.GetSection("JWT")["key"];
 var issuer = configuration.GetSection("JWT")["Issuer"];
 var audience = configuration.GetSection("JWT")["Audience"];
 
-// Add cookie
+// Add authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

@@ -258,10 +258,11 @@ const CreateSection = ({ setTeams }) => {
               >
                 <Card.Header>
                   <Button
-                    variant="link"
+                    variant="text"
                     onClick={handleToggleCreateTeam}
                     aria-controls="create-team-collapse"
                     aria-expanded={showCreateTeam}
+                    style={{color: "white", fontWeight: "bold"}}
                   >
                     <b>Create Team</b>
                   </Button>
@@ -303,10 +304,11 @@ const CreateSection = ({ setTeams }) => {
               >
                 <Card.Header>
                   <Button
-                    variant="link"
+                    variant="text"
                     onClick={handleToggleCreatePlayer}
                     aria-controls="create-player-collapse"
                     aria-expanded={showCreatePlayer}
+                    style={{color: "white", fontWeight: "bold"}}
                   >
                     <b>Create Player</b>
                   </Button>

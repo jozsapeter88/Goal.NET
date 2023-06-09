@@ -11,6 +11,7 @@ import TeamCreator from './Components/TeamCreator/TeamCreator';
 import PlayerList from './Components/PlayerList/PlayerList';
 import TeamManager from './Components/TeamManager/TeamManager'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import TeamList from './Components/TeamList/TeamList';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -40,13 +41,16 @@ const router = createBrowserRouter([
     element: <PlayerList />
   },
   {
-
     path: "/userEditor",
     element: <UserEditor />
   },
   {
     path: "/teamManager",
     element: <TeamManager />
+  },
+  {
+    path: "/teamList",
+    element: <TeamList />
   }
   
 ]);

@@ -21,6 +21,7 @@ const CreateSection = ({ setTeams }) => {
   const [playerErrorMessage, setPlayerErrorMessage] = useState("");
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
   const [teamErrorMessage, setTeamErrorMessage] = useState("");
+  const [teamCount, setTeamCount] = useState("");
 
   const [playerName, setPlayerName] = useState("");
   const [playerNationality, setPlayerNationality] = useState("");
@@ -168,6 +169,13 @@ const CreateSection = ({ setTeams }) => {
         setTeamName("");
         setTeamColor("");
         setTeamSuccessMessage("Team created successfully.");
+
+        // Check if it's the first team
+        if (teamCount === 0) {
+          setTeamSuccessMessage("First team created successfully.");
+        }
+
+        setTeamCount((prevCount) => prevCount + 1);
         setTeamErrorMessage("");
       } else {
         const errorText = await response.text();

@@ -174,7 +174,7 @@ const Dashboard = () => {
   return (
     <div>
       <div className="MyTeams">
-        <h1 style={{ color: "White" }}>My Teams</h1>
+        <h1 style={{ color: "White" }}>Dashboard</h1>
       </div>
       <div className="dashboard-container">
         <Row>

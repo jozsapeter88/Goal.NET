@@ -7,7 +7,7 @@ export default function SignUp({onSubmit, showMsg, successfulReg}) {
       <Container>
         <Row className="vh-100 d-flex justify-content-center align-items-center">
         <Col md={4} lg={6} xs={12}>
-            <img src="https://i.imgur.com/lavhqr8.png" alt="img" className="img-fluid"  style={{ marginLeft: '-10rem'}}/>
+            <img src="https://i.imgur.com/XJPd81S.png" alt="img" className="img-fluid"  style={{ marginLeft: '-10rem'}}/>
           </Col>
           <Col md={8} lg={6} xs={12}>
             <div className="border border-0 border-primary"></div>

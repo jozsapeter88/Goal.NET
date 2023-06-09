@@ -18,7 +18,6 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 
-
 builder.Services.AddDbContext<GoalContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -44,7 +43,8 @@ var audience = configuration.GetSection("JWT")["Audience"];
 
 // Add cookie
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => {
+    .AddJwtBearer(options =>
+    {
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -57,7 +57,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 // Set up endpoints and middleware
-//
 
 var app = builder.Build();
 
@@ -117,4 +116,5 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred migrating and seeding the database");
     }
 }
+
 app.Run();

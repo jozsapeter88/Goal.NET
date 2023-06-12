@@ -70,7 +70,7 @@ namespace Backend.Controllers
         [HttpGet("user/getTeams")]
         public async Task<ActionResult<List<Team>>> GetTeamsOfUser()
         {
-            var currentUser = GetCurrentUser();
+            var currentUser = await GetCurrentUser();
             if (currentUser == null)
             {
                 return NotFound("User Not Found");
@@ -87,7 +87,7 @@ namespace Backend.Controllers
         [HttpGet("user/getPlayersOfTeam/{teamId}")]
         public async Task<ActionResult<List<Team>>> GetPlayersOfTeam( long teamId)
         {
-            var user = GetCurrentUser();
+            var user = await GetCurrentUser();
             if (user == null) return NotFound("Probably user is not logged in!");
             var result = await _teamService.GetPlayersOfTeam(user.Id, teamId);
             if (result == null)
@@ -110,7 +110,7 @@ namespace Backend.Controllers
         [HttpPost("user/addTeam")]
         public async Task<ActionResult<List<Team>>> CreateTeamOfUser(TeamCreateDto team)
         {
-            var user = GetCurrentUser();
+            var user = await GetCurrentUser();
             if (user == null) return NotFound("Probably user is not logged in!");
             var result = await _teamService.AddTeamToUser(user.Id, team);
             if (result == null)
@@ -137,7 +137,7 @@ namespace Backend.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<Team>> UpdateTeamName(long teamId, [FromBody] string teamName)
         {
-            var user = GetCurrentUser();
+            var user = await GetCurrentUser();
             if (user != null)
             {
                 var result = await _teamService.UpdateTeamName(user.Id, teamId, teamName);
@@ -150,7 +150,7 @@ namespace Backend.Controllers
         [HttpPut("user/addPlayerToTeam/{teamId}/{playerId}")]
         public async Task<ActionResult<Team>> AddPlayer(long teamId, long playerId)
         { 
-            var user = GetCurrentUser();
+            var user = await GetCurrentUser();
             if (user == null) return NotFound("Probably user is not logged in!");
             var result = await _teamService.AddPlayerToTeam(user.Id,teamId, playerId);
             if (result == null)
@@ -165,7 +165,7 @@ namespace Backend.Controllers
         public async Task<ActionResult<List<Team>>> UserDeleteTeam(long teamId)
         {
             
-            var user = GetCurrentUser();
+            var user =await GetCurrentUser();
             if (user == null) return NotFound("Probably user is not logged in!");
             List<Team>? teams = await _teamService.UserDeleteTeam(user.Id,teamId);
             if (teams == null)
@@ -183,7 +183,7 @@ namespace Backend.Controllers
             return await _teamService.DeleteTeam(teamId);
         }
 
-        private User? GetCurrentUser()
+        private async Task<User?> GetCurrentUser()
         {
             {
                 if (HttpContext.User.Identity is not ClaimsIdentity identity) return null;
@@ -191,8 +191,8 @@ namespace Backend.Controllers
 
                 var username = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier)?.Value;
                 if (username != null)
-                    return _userService
-                        .GetUser(username).Result;
+                    return await _userService
+                        .GetUser(username);
                 return null;
             }
         }

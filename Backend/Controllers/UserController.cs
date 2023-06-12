@@ -6,6 +6,7 @@ using System.Text;
 using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,12 +26,12 @@ public class UserController : ControllerBase
       UserService = userService;
    }
    [HttpPost("login")]
-   public ActionResult UserLogin([FromBody] User user)
+   public async Task<ActionResult> UserLogin([FromBody] User user)
    {
       if (UserService.Login(user.UserName, user.Password).Result)
       {
-         User userFromDb = UserService.GetUser(user.UserName).Result;
-         var token = GenerateJwt(userFromDb);
+         var userFromDb = UserService.GetUser(user.UserName).Result;
+         var token = await GenerateJwt(userFromDb);
          return Ok(token);
       }
       return Unauthorized();
@@ -38,11 +39,11 @@ public class UserController : ControllerBase
 
    [HttpPost("register")]
    
-   public ActionResult RegisterUser([FromBody] User user)
+   public async Task<ActionResult> RegisterUser([FromBody] User user)
    { 
       if (UserService.Register(user.UserName, user.Password).Result)
       {
-         var token = GenerateJwt(user);
+         var token = await GenerateJwt(user);
          return Ok(token);
       }
       return Unauthorized();
@@ -92,7 +93,7 @@ public class UserController : ControllerBase
  
       return new JwtSecurityTokenHandler().WriteToken(token);
    }*/
-   private string GenerateJwt(User user)
+   private async Task<string> GenerateJwt(User user)
    {
       //get parameters from config
       var configuration = new ConfigurationBuilder()
@@ -114,7 +115,7 @@ public class UserController : ControllerBase
       
       var identity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
       var claimsPrincipal = new ClaimsPrincipal(identity);
-      Thread.CurrentPrincipal = claimsPrincipal;
+      await HttpContext.SignInAsync("Cookies",claimsPrincipal);
 
       var token = new JwtSecurityToken(
          issuer,

@@ -25,7 +25,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet("getAllPlayers")]
-        [AllowAnonymous]
+       
         public async Task<List<PlayerDto>> GetAllPlayers()
         {
             return await _playerService.GetAllPlayers();

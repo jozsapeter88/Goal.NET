@@ -55,7 +55,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidAudience = audience,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!))
         };
-    });
+    }
+        ).AddCookie();
+    
 // Set up endpoints and middleware
 
 var app = builder.Build();

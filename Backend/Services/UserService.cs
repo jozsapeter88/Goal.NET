@@ -95,13 +95,9 @@ public class UserService : IUserService
 
     private string HashPassword(string pass)
     {
-        // Generate a 128-bit salt using a sequence of
-        // cryptographically strong random bytes.
         byte[] salt = { 187, 69, 193, 241, 190, 187, 23, 10, 114, 164, 239, 80, 79, 38, 7, 93 };
-        //byte[] salt = RandomNumberGenerator.GetBytes(128 / 8); // divide by 8 to convert bits to bytes
         Console.WriteLine($"Salt: {Convert.ToBase64String(salt)}");
-
-        // derive a 256-bit subkey (use HMACSHA256 with 100,000 iterations)
+        
         string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
             password: pass!,
             salt: salt,

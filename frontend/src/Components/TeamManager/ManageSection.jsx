@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Row } from "react-bootstrap";
+import { Row,Table } from "react-bootstrap";
 
 import Loading from "../Loading";
 import "./ManageSection.css";
@@ -9,13 +9,11 @@ import EditNameModal from "./EditNameModal";
 
 import ManageTeamModal from "./ManageTeamModal";
 
-import TeamList from "../TeamList/TeamList"
 
 
-const ManageSection = () => {
+
+const ManageSection = ({teams,setTeams, loading,loadingPlayers, players}) => {
   const [cookies] = useCookies();
-  const [loading, setLoading] = useState(true);
-  const [teams, setTeams] = useState([]);
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
   const [teamErrorMessage, setTeamErrorMessage] = useState("");
   const [selectedTeam, setSelectedTeam] = useState(null);
@@ -23,17 +21,18 @@ const ManageSection = () => {
   const [showNameModal, setShowNameModal] = useState(false);
   const [teamName, setTeamName] = useState("");
   const [showTeamList, setShowTeamList] = useState(false);
-
-  const fetchTeamsOfUser = (signal) => {
+  
+  
+  /*const fetchTeamsOfUser = (signal) => {
     return fetch(`http://localhost:3000/api/teams/user/getTeams`, {
       headers: {
         Authorization: "Bearer " + cookies["token"],
       },
       signal,
     }).then((res) => res.json());
-  };
+  };*/
 
-  useEffect(() => {
+  /*useEffect(() => {
     const controller = new AbortController();
     fetchTeamsOfUser(controller.signal)
       .then((teamsData) => {
@@ -48,7 +47,7 @@ const ManageSection = () => {
       });
 
     return () => controller.abort();
-  }, []);
+  }, []);*/
 
   const handleManageTeamModal = (team) => {
     setSelectedTeam(team);
@@ -117,10 +116,10 @@ const ManageSection = () => {
     }
   };
 
-  if (loading) {
+  if (loading || loadingPlayers) {
     return <Loading />;
   }
-
+ 
   return (
     <div>
       <div className="dashboard-container">
@@ -151,7 +150,11 @@ const ManageSection = () => {
         handleCloseManageTeamModal={handleCloseManageTeamModal}
         selectedTeam={selectedTeam}
         setShowNameModal={setShowNameModal}
-        handleDeleteTeam={handleDeleteTeam}/>
+        handleDeleteTeam={handleDeleteTeam}
+        setShowTeamList={setShowTeamList}
+        showTeamList={showTeamList}
+        players={players}
+        loadingPlayers={loadingPlayers}/>
 
 
       )}

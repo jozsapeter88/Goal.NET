@@ -5,7 +5,6 @@ using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 
 namespace GoalTest
 {
@@ -65,9 +64,21 @@ namespace GoalTest
             Assert.That(result.Count, Is.EqualTo(1));
             Assert.That(result[0].Name, Is.EqualTo("TestForward"));
         }
+        
+        [Test]
+        public async Task GetGoalkeepers_ShouldReturnGoalkeepers()
+        {
+            // Act
+            var result = await _playerService.GetGoalKeepers();
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.That(result.Count, Is.EqualTo(1));
+            Assert.That(result[0].Name, Is.EqualTo("TestGoalkeeper"));
+        }
 
         [Test]
-        public async Task GetMidfielders_ShouldReturnGoalKeepers()
+        public async Task GetMidfielders_ShouldReturnMidfielders()
         {
             // Act
             var result = await _playerService.GetMidfielders();
@@ -79,7 +90,7 @@ namespace GoalTest
         }
 
         [Test]
-        public async Task GetDefenders_ShouldReturnGoalKeepers()
+        public async Task GetDefenders_ShouldReturnDefenders()
         {
             // Act
             var result = await _playerService.GetDefenders();
@@ -105,8 +116,8 @@ namespace GoalTest
 
             // Assert
             Assert.NotNull(createdPlayer);
-            Assert.AreEqual("CreatedTestPlayer", createdPlayer.Name);
-            Assert.AreEqual(PositionEnum.Forward, createdPlayer.Position);
+            Assert.That(createdPlayer.Name, Is.EqualTo("CreatedTestPlayer"));
+            Assert.That(createdPlayer.Position, Is.EqualTo(PositionEnum.Forward));
         }
 
         [Test]

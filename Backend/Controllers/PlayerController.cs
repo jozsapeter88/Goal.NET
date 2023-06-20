@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Backend.DTOs;
 using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -25,79 +20,83 @@ namespace Backend.Controllers
         }
 
         [HttpGet("getAllPlayers")]
-       
-        public async Task<List<PlayerDto>> GetAllPlayers()
+        public async Task<ActionResult<List<PlayerDto>>> GetAllPlayers()
         {
-            return await _playerService.GetAllPlayers();
+            var players = await _playerService.GetAllPlayers();
+            return Ok(players);
         }
-        
+
         [HttpGet("getGoalkeepers")]
         [AllowAnonymous]
-        public async Task<List<PlayerDto>> GetGoalkeepers()
+        public async Task<ActionResult<List<PlayerDto>>> GetGoalkeepers()
         {
-            return await _playerService.GetGoalKeepers();
+            var goalkeepers = await _playerService.GetGoalKeepers();
+            return Ok(goalkeepers);
         }
-        
+
         [HttpGet("getDefenders")]
         [AllowAnonymous]
-        public async Task<List<PlayerDto>> GetDefenders()
+        public async Task<ActionResult<List<PlayerDto>>> GetDefenders()
         {
-            return await _playerService.GetDefenders();
+            var defenders = await _playerService.GetDefenders();
+            return Ok(defenders);
         }
-        
+
         [HttpGet("getMidfielders")]
         [AllowAnonymous]
-        public async Task<List<PlayerDto>> GetMidfielders()
+        public async Task<ActionResult<List<PlayerDto>>> GetMidfielders()
         {
-            return await _playerService.GetMidfielders();
+            var midfielders = await _playerService.GetMidfielders();
+            return Ok(midfielders);
         }
-        
+
         [HttpGet("getForwards")]
         [AllowAnonymous]
-        public async Task<List<PlayerDto>> GetForwards()
+        public async Task<ActionResult<List<PlayerDto>>> GetForwards()
         {
-            return await _playerService.GetForwards();
+            var forwards = await _playerService.GetForwards();
+            return Ok(forwards);
         }
 
         [HttpGet("getNationalities")]
         [AllowAnonymous]
-        public Task<List<string>> GetNationalities()
+        public ActionResult<List<string>> GetNationalities()
         {
-            var nationalityEnums =  Enum.GetNames(typeof(NationalityEnum)).ToList();
-            return Task.FromResult(nationalityEnums);
+            var nationalityEnums = Enum.GetNames(typeof(NationalityEnum)).ToList();
+            return Ok(nationalityEnums);
         }
-        
+
         [HttpGet("getPositions")]
         [AllowAnonymous]
-        public Task<List<string>> GetPositions()
+        public ActionResult<List<string>> GetPositions()
         {
-            var positionEnums =  Enum.GetNames(typeof(PositionEnum)).ToList();
-            return Task.FromResult(positionEnums);
+            var positionEnums = Enum.GetNames(typeof(PositionEnum)).ToList();
+            return Ok(positionEnums);
         }
-        
-        
+
         [HttpGet("getGender")]
         [AllowAnonymous]
-        public Task<List<string>> GetGender()
+        public ActionResult<List<string>> GetGender()
         {
-            var genderEnums =  Enum.GetNames(typeof(GenderEnum)).ToList();
-            return Task.FromResult(genderEnums);
+            var genderEnums = Enum.GetNames(typeof(GenderEnum)).ToList();
+            return Ok(genderEnums);
         }
-        
-        
 
         [HttpPost("admin/createPlayer")]
         [Authorize(Roles = "Operator,Admin")]
-        public async Task<Player> CreatePlayer([FromBody] PlayerDto player)
+        public async Task<ActionResult<Player>> CreatePlayer([FromBody] PlayerDto player)
         {
-            return await _playerService.CreatePlayerByAdmin(player);
+            var createdPlayer = await _playerService.CreatePlayerByAdmin(player);
+            return Ok(createdPlayer);
         }
+
         [HttpDelete("delete/{playerId}")]
         [Authorize(Roles = "Operator,Admin")]
-        public async Task<List<PlayerDto>> DeletePlayer(long playerId)
+        public async Task<ActionResult<List<PlayerDto>>> DeletePlayer(long playerId)
         {
             await _playerService.DeletePlayer(playerId);
-            return await _playerService.GetAllPlayers();
+            var players = await _playerService.GetAllPlayers();
+            return Ok(players);
         }
     }
 }

@@ -56,15 +56,14 @@ public class TeamService : ITeamService
 
     public async Task<List<Team>> CreateTeam(TeamCreateDto team)
     {
-        var teams = await _context.Teams.ToListAsync();
         var newTeam = new Team()
         {
             Name = team.Name,
             Color = team.Color
         };
-        teams.Add(newTeam);
+        _context.Teams.Add(newTeam);
         await _context.SaveChangesAsync();
-        return teams;
+        return await _context.Teams.ToListAsync();
     }
 
     public async Task<Team?> UpdateTeam(long teamId, Team team)
@@ -120,9 +119,9 @@ public class TeamService : ITeamService
                 if (team.AllPlayers != null)
                 {
                     foreach (var player in team.AllPlayers)
-                                    {
+                    {
                                         player.Team.Remove(team);
-                                    }
+                    }
                 }
                 
                 _context.Teams.Remove(team);

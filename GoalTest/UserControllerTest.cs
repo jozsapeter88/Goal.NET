@@ -1,10 +1,12 @@
 ﻿using System.Net;
+using System.Security.Claims;
 using AutoMapper;
 using Backend.Controllers;
 using Backend.DTOs;
 using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -40,10 +42,19 @@ public class UserControllerTest
                 new User { UserName = "TestUser3", Password = HashPassword("1234"), UserLevel = UserLevel.Admin }
             );
             _dbContext.SaveChanges();
+            var authServiceMock = new Mock<IAuthenticationService>();
+            authServiceMock
+                .Setup(_ => _.SignInAsync(It.IsAny<HttpContext>(), It.IsAny<string>(), It.IsAny<ClaimsPrincipal>(), It.IsAny<AuthenticationProperties>()))
+                .Returns(Task.FromResult((object)null));
+
+            var serviceProviderMock = new Mock<IServiceProvider>();
+            serviceProviderMock
+                .Setup(_ => _.GetService(typeof(IAuthenticationService)))
+                .Returns(authServiceMock.Object);
             
             var httpContext = new DefaultHttpContext()
             {
-                
+                RequestServices = serviceProviderMock.Object
             };
             _userController.ControllerContext = new ControllerContext()
             {
@@ -59,7 +70,7 @@ public class UserControllerTest
         {
             // Act
             ActionResult result = await _userController.UserLogin(new User { UserName = "TestUser2", Password = "1234" });
-            var statusCodeResult = result as StatusCodeResult;
+            var statusCodeResult = result as OkObjectResult;
             var expected = (int)HttpStatusCode.OK;
             // Assert
             Assert.IsNotNull(result);

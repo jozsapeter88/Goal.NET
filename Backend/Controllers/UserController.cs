@@ -44,14 +44,14 @@ public class UserController : ControllerBase
       if (UserService.Register(user.UserName, user.Password).Result)
       {
          var token = await GenerateJwt(user);
-         return Ok(token);
+         return Ok();
       }
       return Unauthorized();
    }
 
    [HttpGet("levels")]
    [Authorize(Roles = "Admin")]
-   public ActionResult<List<string>> ProvideUserLevels()
+   public async Task<ActionResult<List<string>>>  ProvideUserLevels()
    {
       var userLevels = Enum.GetNames(typeof(UserLevel)).ToList();
       return Ok(userLevels);
@@ -59,10 +59,10 @@ public class UserController : ControllerBase
    
    [HttpGet("getAll")]
    [Authorize(Roles = "Operator,Admin")]
-   public ActionResult<Dictionary<string, UserLevel>> ProvideUsers()
+   public async Task<ActionResult<Dictionary<string, UserLevel>>> ProvideUsers()
    {
-      var users = UserService.GetAllUsers();
-      return Ok(users.Result);
+      var users = await UserService.GetAllUsers();
+      return Ok(users);
    }
 
    [HttpPost("update")]

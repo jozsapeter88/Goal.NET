@@ -66,7 +66,7 @@ public class UserControllerTest
         }
 
         [Test]
-        public async Task Login()
+        public async Task LoginTest()
         {
             // Act
             ActionResult result = await _userController.UserLogin(new User { UserName = "TestUser2", Password = "1234" });
@@ -76,6 +76,54 @@ public class UserControllerTest
             Assert.IsNotNull(result);
             Assert.AreEqual(expected, statusCodeResult.StatusCode);
         }
+        
+        [Test]
+        public async Task UpdateTest()
+        {
+            // Act
+            ActionResult result = _userController.UpdateUser(new User { UserName = "TestUser2", UserLevel = UserLevel.Admin});
+            var statusCodeResult = result as OkResult;
+            var expected = (int)HttpStatusCode.OK;
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, statusCodeResult.StatusCode);
+        }
+        
+        [Test]
+        public async Task RegisterTest()
+        {
+            // Act
+            ActionResult result = await _userController.RegisterUser(new User { UserName = "TestUser4", Password = "1234" });
+            var statusCodeResult = result as OkResult;
+            var expected = (int)HttpStatusCode.OK;
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expected, statusCodeResult.StatusCode);
+        }
+        [Test]
+        public async Task GetAllUsersTest()
+        {
+            // Act
+            var result = await _userController.ProvideUsers();
+
+            // Assert
+            Assert.That(result.Result, Is.InstanceOf<OkObjectResult>());
+            var okResult = result.Result as OkObjectResult;
+            Assert.That(okResult.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
+        }
+        
+        [Test]
+        public async Task GetLevelsTest()
+        {
+            // Act
+            var result = await _userController.ProvideUserLevels();
+
+            // Assert
+            Assert.That(result.Result, Is.InstanceOf<OkObjectResult>());
+            var okResult = result.Result as OkObjectResult;
+            Assert.That(okResult.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
+        }
+        
 
         [TearDown]
         public void TearDown()

@@ -107,7 +107,7 @@ namespace Backend.Controllers
            return Ok(result);
         }
 
-        [HttpPost("user/addTeam")]
+        /*[HttpPost("user/addTeam")]
         public async Task<ActionResult<List<Team>>> CreateTeamOfUser(TeamCreateDto team)
         {
             var user = await GetCurrentUser();
@@ -119,7 +119,7 @@ namespace Backend.Controllers
             }
             return Ok(result);
 
-        }
+        }*/
 
         [HttpPut("updateTeam/{teamId}")]
         public async Task<ActionResult<Team>> UpdateTeam(long teamId, [FromBody] Team team)

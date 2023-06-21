@@ -9,17 +9,14 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Session;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using NuGet.Protocol;
 
 namespace GoalTest;
 
 [TestFixture]
-public class UserControllerTest
+public class UserServiceTest
 {
-        private UserController _userController; 
         private IUserService _userService;
         private GoalContext _dbContext;
 
@@ -32,38 +29,62 @@ public class UserControllerTest
 
             _dbContext = new GoalContext(options);
             _userService = new UserService(_dbContext);
-            _userController = new UserController(_userService);
-            
+
             _dbContext.GoalUsers.AddRange(
                 new User { UserName = "TestUser1", Password = HashPassword("1234") , UserLevel = UserLevel.User },
                 new User { UserName = "TestUser2", Password = HashPassword("1234"), UserLevel = UserLevel.Operator },
                 new User { UserName = "TestUser3", Password = HashPassword("1234"), UserLevel = UserLevel.Admin }
             );
             _dbContext.SaveChanges();
-            
-            var httpContext = new DefaultHttpContext()
-            {
-                
-            };
-            _userController.ControllerContext = new ControllerContext()
-            {
-                HttpContext = httpContext
-            };
-            
 
             
         }
 
         [Test]
-        public async Task Login()
+        public async Task RegisterUser()
         {
-            // Act
-            ActionResult result = await _userController.UserLogin(new User { UserName = "TestUser2", Password = "1234" });
-            var statusCodeResult = result as StatusCodeResult;
-            var expected = (int)HttpStatusCode.OK;
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(expected, statusCodeResult.StatusCode);
+            var result = await _userService.Register("TestUser4", HashPassword("1234"));
+            Assert.That(result);
+        }
+        
+        [Test]
+        public async Task RegisterUserException()
+        {
+            var result = await _userService.Register("TestUser1", HashPassword("1234"));
+            Assert.That(!result);
+        }
+
+        [Test]
+        public async Task GetUser()
+        {
+            string username = "TestUser1";
+            var result = await _userService.GetUser(username);
+            var expected = await _dbContext.GoalUsers.FirstOrDefaultAsync(u => u.UserName == username);
+            Assert.That(expected, Is.EqualTo(result));
+        }
+        
+        [Test]
+        public async Task GetAllUsers()
+        {
+            var result = await _userService.GetAllUsers();
+            Dictionary<string, UserLevel> expected = new Dictionary<string, UserLevel>();
+            var expectedUsers = await _dbContext.GoalUsers.ToListAsync();
+            foreach (var expectedUser in expectedUsers)
+            {
+                expected[expectedUser.UserName] = expectedUser.UserLevel;
+            }
+            Assert.That(expected, Is.EqualTo(result));
+        }
+
+        [Test]
+        public async Task UpdateUser()
+        {
+            var user = new User { UserName = "TestUser1", UserLevel = UserLevel.Admin };
+            var result = await _userService.UpdateUser(user);
+            var updatedUser = await _dbContext.GoalUsers.FirstOrDefaultAsync(u => u.UserName == user.UserName);
+            Assert.That(result);
+            Assert.That(updatedUser.UserLevel, Is.EqualTo(user.UserLevel));
+            
         }
 
         [TearDown]

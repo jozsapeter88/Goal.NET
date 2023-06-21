@@ -74,7 +74,19 @@ public class UserControllerTest
             var expected = (int)HttpStatusCode.OK;
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(expected, statusCodeResult.StatusCode);
+            Assert.That(statusCodeResult.StatusCode, Is.EqualTo(expected));
+        }
+        
+        [Test]
+        public async Task LoginExceptionTest()
+        {
+            // Act
+            ActionResult result = await _userController.UserLogin(new User { UserName = "TestUser2", Password = "testpassword" });
+            var statusCodeResult = result as UnauthorizedResult;
+            var expected = (int)HttpStatusCode.Unauthorized;
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.That(statusCodeResult.StatusCode, Is.EqualTo(expected));
         }
         
         [Test]
@@ -86,7 +98,7 @@ public class UserControllerTest
             var expected = (int)HttpStatusCode.OK;
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(expected, statusCodeResult.StatusCode);
+            Assert.That(statusCodeResult.StatusCode, Is.EqualTo(expected));
         }
         
         [Test]
@@ -98,7 +110,7 @@ public class UserControllerTest
             var expected = (int)HttpStatusCode.OK;
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(expected, statusCodeResult.StatusCode);
+            Assert.That(statusCodeResult.StatusCode, Is.EqualTo(expected));
         }
         [Test]
         public async Task GetAllUsersTest()

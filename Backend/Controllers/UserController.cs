@@ -28,7 +28,7 @@ public class UserController : ControllerBase
    [HttpPost("login")]
    public async Task<ActionResult> UserLogin([FromBody] User user)
    {
-      if (UserService.Login(user.UserName, user.Password).Result)
+      if (await UserService.Login(user.UserName, user.Password))
       {
          var userFromDb = UserService.GetUser(user.UserName).Result;
          var token = await GenerateJwt(userFromDb);

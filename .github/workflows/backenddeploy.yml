@@ -6,7 +6,7 @@ on:
     types: [completed]
 
 jobs:
-  push_to_DockerHub:
+  push_to_DockerHub_backend:
     name: Push Images to DockerHub
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -35,12 +35,12 @@ jobs:
           context: ./
           file: ./Backend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnet:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnetbackend:latest
 
       - name: Run the image in a container
         uses: addnab/docker-run-action@v3
         with:
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnet:latest
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnetbackend:latest
           run: |
             echo "Running the docker image"
             echo "Running tests"

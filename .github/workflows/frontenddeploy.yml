@@ -6,7 +6,7 @@ on:
     types: [completed]
 
 jobs:
-  push_to_DockerHub:
+  push_to_DockerHub_frontend:
     name: Push Images to DockerHub
     runs-on: ubuntu-latest
     steps:

@@ -2,6 +2,7 @@ using System.Net;
 using System.Security.Claims;
 using AutoMapper;
 using Backend.Controllers;
+using Backend.DTOs;
 using Backend.DTOs.AutoMapper;
 using Backend.Enums;
 using Backend.Model;
@@ -158,7 +159,69 @@ public class TeamControllerTests
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
         Assert.That(expected, Is.EqualTo(result?.StatusCode));
     }
+    
+    [Test]
+    public async Task CreateTeamReturnsOk_Test()
+    {
+        var teams = await _teamController.CreateTeam(new TeamCreateDto{Name = "TestTeam", Color = "Red"});
+        var result = teams.Result as OkObjectResult;
+        var expected = (int)HttpStatusCode.OK;
+        Assert.That(result, Is.InstanceOf<OkObjectResult>());
+        Assert.That(expected, Is.EqualTo(result?.StatusCode));
+    }
+    
+    [Test]
+    public async Task UpdateTeamReturnsOk_Test()
+    {
+        var team = await _teamController.UpdateTeam(1, new Team{Name = "TestTeam", Color = "Red"});
+        var result = team.Result as OkObjectResult;
+        var expected = (int)HttpStatusCode.OK;
+        Assert.That(result, Is.InstanceOf<OkObjectResult>());
+        Assert.That(expected, Is.EqualTo(result?.StatusCode));
+    }
 
+    [Test]
+    public async Task UpdateTeamReturnsNotFound_Test()
+    {
+        var team = await _teamController.UpdateTeam(12345, new Team{Name = "TestTeam", Color = "Red"});
+        var result = team.Result as NotFoundObjectResult;
+        var expected = (int)HttpStatusCode.NotFound;
+        Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+        Assert.That(expected, Is.EqualTo(result?.StatusCode));
+    }
+    
+    [Test]
+    public async Task AddPlayerReturnsOk_Test()
+    {
+        var team = await _teamController.AddPlayer(4, 1);
+        var result = team.Result as OkObjectResult;
+        var expected = (int)HttpStatusCode.OK;
+        Assert.That(result, Is.InstanceOf<OkObjectResult>());
+        Assert.That(expected, Is.EqualTo(result?.StatusCode));
+    }
+
+    [Test]
+    public async Task AddPlayerReturnsNotFound_Test()
+    {
+        var team = await _teamController.AddPlayer(1, 1);
+        var result = team.Result as NotFoundObjectResult;
+        var expected = (int)HttpStatusCode.NotFound;
+        Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+        Assert.That(expected, Is.EqualTo(result?.StatusCode));
+    }
+    
+    [Test]
+    public async Task DeleteTeamReturnsOk_Test()
+    {
+        var teams = await _teamController.DeleteTeam(1);
+        var result = teams.Result as OkObjectResult;
+        var expected = (int)HttpStatusCode.OK;
+        Assert.That(result, Is.InstanceOf<OkObjectResult>());
+        Assert.That(expected, Is.EqualTo(result?.StatusCode));
+    }
+    
+    
+    
     [TearDown]
     public void TearDown()
     {

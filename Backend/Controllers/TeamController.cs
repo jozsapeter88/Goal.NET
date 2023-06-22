@@ -155,7 +155,7 @@ namespace Backend.Controllers
             var result = await _teamService.AddPlayerToTeam(user.Id,teamId, playerId);
             if (result == null)
             {
-                return NotFound("User or Team was not found");
+                return NotFound("Player or Team was not found");
             }
 
             return Ok(result);
@@ -178,9 +178,10 @@ namespace Backend.Controllers
         }
 
         [HttpDelete("admin/deleteTeam/{teamId}")]
-        public async Task<List<Team>> DeleteTeam(long teamId)
+        public async Task<ActionResult<List<Team>>> DeleteTeam(long teamId)
         {
-            return await _teamService.DeleteTeam(teamId);
+            var teams = await _teamService.DeleteTeam(teamId);
+            return Ok(teams);
         }
 
         private async Task<User?> GetCurrentUser()

@@ -1,6 +1,4 @@
-﻿using Backend.Model;
-
-namespace Backend.Enums;
+﻿namespace Backend.Enums;
 
 public enum UserLevel
 {

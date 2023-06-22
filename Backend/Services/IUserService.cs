@@ -1,19 +1,17 @@
 ﻿using Backend.Enums;
 using Backend.Model;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Services;
 
 public interface IUserService
 {
-    public Task<Boolean> Login(string username, string password);
+    public Task<bool> Login(string username, string password);
 
-    public Task<Boolean> Register(string username, string password);
+    public Task<bool> Register(string username, string password);
 
     public Task<Dictionary<string, UserLevel>> GetAllUsers();
 
-    public Task<Boolean> UpdateUser(User user);
+    public Task<bool> UpdateUser(User user);
 
     public Task<User> GetUser(string username);
-
 }

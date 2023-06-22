@@ -11,8 +11,6 @@ public interface IPlayerService
     Task<List<PlayerDto>> GetForwards();
     Task<List<PlayerDto>> GetMidfielders();
     Task<List<PlayerDto>> GetDefenders();
-  
+
     Task<List<Player>> DeletePlayer(long playerId);
-
-
 }

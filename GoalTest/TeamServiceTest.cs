@@ -5,79 +5,72 @@ using Backend.Enums;
 using Backend.Model;
 using Backend.Services;
 using Microsoft.EntityFrameworkCore;
-using Moq;
-using MapperConfiguration = AutoMapper.MapperConfiguration;
-
 
 namespace GoalTest;
 
-
 public class TeamServiceTest
 {
+    private static IMapper _mapper;
     private GoalContext _dbContext;
-   private ITeamService _teamService;
-   
-   private static IMapper _mapper;
- 
-  
-   [SetUp]
+    private ITeamService _teamService;
+
+
+    [SetUp]
     public void Setup()
     {
-        var mappingConfig = new MapperConfiguration(mc =>
-        {
-            mc.AddProfile(new AutoMapperProfile());
-        });
-        IMapper mapper = mappingConfig.CreateMapper();
+        var mappingConfig = new MapperConfiguration(mc => { mc.AddProfile(new AutoMapperProfile()); });
+        var mapper = mappingConfig.CreateMapper();
         _mapper = mapper;
-        
-        
+
+
         var options = new DbContextOptionsBuilder<GoalContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase")
+            .UseInMemoryDatabase("TestDatabase")
             .Options;
         _dbContext = new GoalContext(options);
         _dbContext.Players.AddRange(
             new Player { Name = "TestPlayer1", Position = PositionEnum.Forward },
             new Player { Name = "TestPlayer2", Position = PositionEnum.Defender }
         );
-        _dbContext.Teams.AddRange( 
-            new Team { Name = "Team 1", Overall = 90, Color = "Red"},
-                        new Team { Name = "Team 2", Overall = 80, Color = "Yellow"},
-                        new Team { Name = "Team 3", Overall = 60, Color = "Blue"});
-        
+        _dbContext.Teams.AddRange(
+            new Team { Name = "Team 1", Overall = 90, Color = "Red" },
+            new Team { Name = "Team 2", Overall = 80, Color = "Yellow" },
+            new Team { Name = "Team 3", Overall = 60, Color = "Blue" });
+
         _dbContext.GoalUsers.AddRange(
-        new User
-        {
-            UserName = "Tester1",
-            Password = "1234", 
-            Teams = new List<Team>{
-                new Team
+            new User
             {
-                Name = "Team 4", 
-                Overall = 76, 
-                Color = "Pink",
-                AllPlayers = new List<Player>
+                UserName = "Tester1",
+                Password = "1234",
+                Teams = new List<Team>
                 {
-                    new Player { Name = "TestPlayer3", Position = PositionEnum.Forward },
-                    new Player { Name = "TestPlayer4", Position = PositionEnum.Defender }
-                }
-            },
-                new Team
-                {
-                    Name = "Team 5", 
-                    Overall = 80, 
-                    Color = "Orange",
-                    AllPlayers = new List<Player>
+                    new()
                     {
-                        new Player { Name = "TestPlayer5", Position = PositionEnum.Forward },
-                        new Player { Name = "TestPlayer6", Position = PositionEnum.Defender }
+                        Name = "Team 4",
+                        Overall = 76,
+                        Color = "Pink",
+                        AllPlayers = new List<Player>
+                        {
+                            new() { Name = "TestPlayer3", Position = PositionEnum.Forward },
+                            new() { Name = "TestPlayer4", Position = PositionEnum.Defender }
+                        }
+                    },
+                    new()
+                    {
+                        Name = "Team 5",
+                        Overall = 80,
+                        Color = "Orange",
+                        AllPlayers = new List<Player>
+                        {
+                            new() { Name = "TestPlayer5", Position = PositionEnum.Forward },
+                            new() { Name = "TestPlayer6", Position = PositionEnum.Defender }
+                        }
                     }
-                }
-            },
-            UserLevel = UserLevel.User
-        });
-        
+                },
+                UserLevel = UserLevel.User
+            });
+
         _dbContext.SaveChanges();
-        
+
         _teamService = new TeamService(_dbContext, _mapper);
     }
 
@@ -95,7 +88,7 @@ public class TeamServiceTest
     {
         var result = await _teamService.GetTeam(1);
         var actual = _dbContext.Teams.FirstOrDefaultAsync(t => t.Id == 1).Result;
-        
+
         Assert.NotNull(result);
         Assert.NotNull(actual);
         Assert.That(result?.Name, Is.EqualTo(actual?.Name));
@@ -106,14 +99,12 @@ public class TeamServiceTest
     [Test]
     public async Task AddTeamToUser_Test()
     {
-        
         var team = new TeamCreateDto { Name = "Team6", Color = "Yellow" };
-        var result =await _teamService.AddTeamToUser(1, team);
+        var result = await _teamService.AddTeamToUser(1, team);
         var user = await _dbContext.GoalUsers.FirstOrDefaultAsync(u => u.Id == 1);
         var userTeams = user?.Teams?.Count;
         Console.WriteLine(userTeams);
         Assert.That(result?.Count, Is.EqualTo(userTeams));
-
     }
 
     [Test]
@@ -122,7 +113,7 @@ public class TeamServiceTest
         var team = new TeamCreateDto { Name = "TeamByAdmin", Color = "Red" };
         var result = await _teamService.CreateTeam(team);
         Console.WriteLine(result.Count());
-        var allTeams =   _dbContext.Teams.Count();
+        var allTeams = _dbContext.Teams.Count();
         Console.WriteLine(allTeams);
         Assert.That(result.Count, Is.EqualTo(allTeams));
     }
@@ -150,7 +141,7 @@ public class TeamServiceTest
             Coach = new Coach { Name = "Coach Test", Gender = GenderEnum.Male, Nationality = NationalityEnum.Albania },
             AllPlayers = new List<Player>
             {
-                new Player
+                new()
                 {
                     Name = "UpdateTest Player",
                     Gender = GenderEnum.Male,
@@ -162,7 +153,7 @@ public class TeamServiceTest
         };
         var team = await _dbContext.Teams.FirstOrDefaultAsync(t => t.Id == 2);
         Console.WriteLine(team?.Name);
-        var result = await  _teamService.UpdateTeam(2, updatedTeam);
+        var result = await _teamService.UpdateTeam(2, updatedTeam);
         Console.WriteLine(result?.Name);
         Console.WriteLine(result?.Coach?.Team?.Id);
         Console.WriteLine(updatedTeam.Coach?.Team?.Id);
@@ -172,9 +163,8 @@ public class TeamServiceTest
         Assert.That(result?.Coach, Is.EqualTo(updatedTeam.Coach));
         Assert.That(result?.Coach?.Team?.Id, Is.EqualTo(updatedTeam.Coach?.Team?.Id));
         Assert.That(result?.Coach?.Team?.Name, Is.EqualTo(updatedTeam.Coach?.Team?.Name));
-
     }
-    
+
     [Test]
     public async Task UpdateTeamNameByUser_Test()
     {
@@ -185,18 +175,15 @@ public class TeamServiceTest
         var teamNameAfter = team?.Name;
         Console.WriteLine(teamNameAfter);
         Assert.That(result?.Name, Is.EqualTo(teamNameAfter));
-    } 
+    }
 
     [Test]
     public async Task GetTeamsOfUser_Test()
     {
         var result = await _teamService.GetTeamsOfUser(1);
         var user = await _dbContext.GoalUsers.FirstOrDefaultAsync(u => u.Id == 1);
-        int actual = 0;
-        if (user is not null && user.Teams is not null)
-        {
-            actual = user.Teams.Count;
-        }
+        var actual = 0;
+        if (user is not null && user.Teams is not null) actual = user.Teams.Count;
         Console.WriteLine(actual);
         Console.WriteLine(result.Count);
         Assert.NotNull(result);
@@ -204,30 +191,30 @@ public class TeamServiceTest
         Assert.That(result?.Count, Is.EqualTo(actual));
     }
 
-   [Test]
+    [Test]
     public async Task GetPlayersOfUsersTeam_Test()
     {
         var result = await _teamService.GetPlayersOfTeam(1, 4);
         var user = await _dbContext.GoalUsers.FirstOrDefaultAsync(u => u.Id == 1);
         var numberOfPlayers = 0;
         var team = user?.Teams?.FirstOrDefault(t => t.Id == 4);
-            Console.WriteLine(team.Name);
-            if (team?.AllPlayers != null) numberOfPlayers = team.AllPlayers.Count;
-       
+        Console.WriteLine(team.Name);
+        if (team?.AllPlayers != null) numberOfPlayers = team.AllPlayers.Count;
+
         Console.WriteLine(result?.Count);
         Console.WriteLine(numberOfPlayers);
         Assert.NotNull(user);
         Assert.NotNull(user?.Teams);
         Assert.That(result?.Count, Is.EqualTo(numberOfPlayers));
     }
-    
+
     [Test]
     public async Task NoUserFoundWhenTryToGetPlayersOfUsersTeam_ReturnNull()
     {
         var result = await _teamService.GetPlayersOfTeam(0, 4);
         Assert.That(result, Is.Null);
     }
-    
+
     [Test]
     public async Task NoTeamsForUserFoundWhenTryToGetPlayersOfUsersTeam_ReturnNull()
     {
@@ -241,9 +228,8 @@ public class TeamServiceTest
         var result = await _teamService.DeleteTeam(1);
         var allTeams = _dbContext.Teams.Count();
         Assert.That(result.Count, Is.EqualTo(allTeams));
-
     }
-    
+
     [Test]
     public async Task DeleteUsersTeamByUser_Test()
     {
@@ -253,7 +239,7 @@ public class TeamServiceTest
         var result = await _teamService.UserDeleteTeam(1, 5);
         var usersTeamsAfter = user?.Teams?.Contains(result!);
         Console.WriteLine(usersTeamsAfter);
-        Assert.That(usersTeamsAfter,Is.False);
+        Assert.That(usersTeamsAfter, Is.False);
     }
 
     [Test]
@@ -262,7 +248,7 @@ public class TeamServiceTest
         var result = await _teamService.UserDeleteTeam(0, 5);
         Assert.That(result, Is.Null);
     }
-    
+
     [TearDown]
     public void TearDown()
     {

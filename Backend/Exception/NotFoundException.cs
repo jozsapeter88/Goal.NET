@@ -2,7 +2,7 @@ namespace Backend.Exception;
 
 public class NotFoundException : System.Exception
 {
-    public NotFoundException() : base()
+    public NotFoundException()
     {
     }
 

@@ -13,32 +13,22 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using NuGet.Protocol;
 
 namespace GoalTest;
+
 [TestFixture]
 public class TeamControllerTests
 {
-    private TeamController _teamController;
-    private UserController _userController;
-    private  Mock<TeamService> _mockTeamService;
-    private  Mock<UserService> _mockUserService;
-    private GoalContext _dbContext;
-    private IMapper _mapper;
-
     [SetUp]
     public void Setup()
     {
-        var mappingConfig = new MapperConfiguration(mc =>
-        {
-            mc.AddProfile(new AutoMapperProfile());
-        });
-        IMapper mapper = mappingConfig.CreateMapper();
+        //AutoMapper config
+        var mappingConfig = new MapperConfiguration(mc => { mc.AddProfile(new AutoMapperProfile()); });
+        var mapper = mappingConfig.CreateMapper();
         _mapper = mapper;
-
-        
+        //InMemoryDatabase config
         var options = new DbContextOptionsBuilder<GoalContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase")
+            .UseInMemoryDatabase("TestDatabase")
             .Options;
 
         _dbContext = new GoalContext(options);
@@ -59,66 +49,78 @@ public class TeamControllerTests
                 Password = HashPassword("1234"),
                 Teams = new List<Team>
                 {
-                    new Team
+                    new()
                     {
                         Name = "Team 4",
                         Overall = 76,
                         Color = "Pink",
                         AllPlayers = new List<Player>
                         {
-                            new Player { Name = "TestPlayer3", Position = PositionEnum.Forward },
-                            new Player { Name = "TestPlayer4", Position = PositionEnum.Defender }
+                            new() { Name = "TestPlayer3", Position = PositionEnum.Forward },
+                            new() { Name = "TestPlayer4", Position = PositionEnum.Defender }
                         }
                     },
-                    new Team
+                    new()
                     {
                         Name = "Team 5",
                         Overall = 80,
                         Color = "Orange",
                         AllPlayers = new List<Player>
                         {
-                            new Player { Name = "TestPlayer5", Position = PositionEnum.Forward },
-                            new Player { Name = "TestPlayer6", Position = PositionEnum.Defender }
+                            new() { Name = "TestPlayer5", Position = PositionEnum.Forward },
+                            new() { Name = "TestPlayer6", Position = PositionEnum.Defender }
                         }
                     }
                 },
                 UserLevel = UserLevel.User
             });
         _dbContext.SaveChangesAsync();
-        
+        //MockServices
         _mockTeamService = new Mock<TeamService>(MockBehavior.Default, _dbContext, _mapper);
         _mockUserService = new Mock<UserService>(MockBehavior.Default, _dbContext);
+        //Controllers
         _userController = new UserController(_mockUserService.Object);
         _teamController = new TeamController(_mockTeamService.Object, _mockUserService.Object);
-        
+        //Mock AuthenticationService 
         var authServiceMock = new Mock<IAuthenticationService>();
         authServiceMock
             .Setup(_ => _.SignInAsync(It.IsAny<HttpContext>(), It.IsAny<string>(),
                 It.IsAny<ClaimsPrincipal>(), It.IsAny<AuthenticationProperties>()))
             .Returns(Task.FromResult((object)null));
-
+        //Mock ServiceProvider
         var serviceProviderMock = new Mock<IServiceProvider>();
         serviceProviderMock
             .Setup(_ => _.GetService(typeof(IAuthenticationService)))
             .Returns(authServiceMock.Object);
         var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
         {
-            new Claim(ClaimTypes.NameIdentifier, "Tester1"),
-     
+            new(ClaimTypes.NameIdentifier, "Tester1")
         }, "mock"));
-            
-        var httpContext = new DefaultHttpContext()
+
+        var httpContext = new DefaultHttpContext
         {
             RequestServices = serviceProviderMock.Object,
             User = user
         };
-        _teamController.ControllerContext = new ControllerContext()
+        _teamController.ControllerContext = new ControllerContext
         {
             HttpContext = httpContext
         };
-
-
     }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _dbContext.Database.EnsureDeleted();
+        _dbContext.Dispose();
+    }
+
+    private TeamController _teamController;
+    private UserController _userController;
+    private Mock<TeamService> _mockTeamService;
+    private Mock<UserService> _mockUserService;
+    private GoalContext _dbContext;
+    private IMapper _mapper;
 
     [Test]
     public async Task GetAllTeams_ReturnsStatusCodeOk_Test()
@@ -139,7 +141,7 @@ public class TeamControllerTests
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
         Assert.That(expected, Is.EqualTo(result?.StatusCode));
     }
-    
+
     [Test]
     public async Task GetTeam_ReturnsStatusCodeNotFound_Test()
     {
@@ -159,21 +161,21 @@ public class TeamControllerTests
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
         Assert.That(expected, Is.EqualTo(result?.StatusCode));
     }
-    
+
     [Test]
     public async Task CreateTeamReturnsOk_Test()
     {
-        var teams = await _teamController.CreateTeam(new TeamCreateDto{Name = "TestTeam", Color = "Red"});
+        var teams = await _teamController.CreateTeam(new TeamCreateDto { Name = "TestTeam", Color = "Red" });
         var result = teams.Result as OkObjectResult;
         var expected = (int)HttpStatusCode.OK;
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
         Assert.That(expected, Is.EqualTo(result?.StatusCode));
     }
-    
+
     [Test]
     public async Task UpdateTeamReturnsOk_Test()
     {
-        var team = await _teamController.UpdateTeam(1, new Team{Name = "TestTeam", Color = "Red"});
+        var team = await _teamController.UpdateTeam(1, new Team { Name = "TestTeam", Color = "Red" });
         var result = team.Result as OkObjectResult;
         var expected = (int)HttpStatusCode.OK;
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
@@ -188,7 +190,6 @@ public class TeamControllerTests
         var expected = (int)HttpStatusCode.OK;
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
         Assert.That(expected, Is.EqualTo(result?.StatusCode));
-        
     }
 
     [Test]
@@ -209,9 +210,8 @@ public class TeamControllerTests
         var expected = (int)HttpStatusCode.OK;
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
         Assert.That(expected, Is.EqualTo(result?.StatusCode));
-        
     }
-    
+
     [Test]
     public async Task UpdateNameOfTeamOfLoggedInUserReturnsNotFound_Test()
     {
@@ -230,9 +230,8 @@ public class TeamControllerTests
         var expected = (int)HttpStatusCode.OK;
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
         Assert.That(expected, Is.EqualTo(result?.StatusCode));
-        
     }
-    
+
     [Test]
     public async Task DeleteTeamByUserReturnsNotFound_Test()
     {
@@ -241,18 +240,18 @@ public class TeamControllerTests
         var expected = (int)HttpStatusCode.NotFound;
         Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
         Assert.That(expected, Is.EqualTo(result?.StatusCode));
-        
     }
+
     [Test]
     public async Task UpdateTeamReturnsNotFound_Test()
     {
-        var team = await _teamController.UpdateTeam(12345, new Team{Name = "TestTeam", Color = "Red"});
+        var team = await _teamController.UpdateTeam(12345, new Team { Name = "TestTeam", Color = "Red" });
         var result = team.Result as NotFoundObjectResult;
         var expected = (int)HttpStatusCode.NotFound;
         Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
         Assert.That(expected, Is.EqualTo(result?.StatusCode));
     }
-    
+
     [Test]
     public async Task AddPlayerReturnsOk_Test()
     {
@@ -272,7 +271,7 @@ public class TeamControllerTests
         Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
         Assert.That(expected, Is.EqualTo(result?.StatusCode));
     }
-    
+
     [Test]
     public async Task DeleteTeamReturnsOk_Test()
     {
@@ -282,27 +281,18 @@ public class TeamControllerTests
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
         Assert.That(expected, Is.EqualTo(result?.StatusCode));
     }
-    
-    
-    
-    [TearDown]
-    public void TearDown()
-    {
-        _dbContext.Database.EnsureDeleted();
-        _dbContext.Dispose();
-    }
-    
+
     private string HashPassword(string pass)
     {
         byte[] salt = { 187, 69, 193, 241, 190, 187, 23, 10, 114, 164, 239, 80, 79, 38, 7, 93 };
         Console.WriteLine($"Salt: {Convert.ToBase64String(salt)}");
-        
-        string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-            password: pass!,
-            salt: salt,
-            prf: KeyDerivationPrf.HMACSHA256,
-            iterationCount: 100000,
-            numBytesRequested: 256 / 8));
+
+        var hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+            pass!,
+            salt,
+            KeyDerivationPrf.HMACSHA256,
+            100000,
+            256 / 8));
 
         return hashed;
     }

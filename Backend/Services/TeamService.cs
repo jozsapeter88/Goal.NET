@@ -1,8 +1,6 @@
 using AutoMapper;
 using Backend.DTOs;
-using Backend.Exception;
 using Backend.Model;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services;
@@ -20,8 +18,8 @@ public class TeamService : ITeamService
 
     public async Task<List<Team>?> GetAllTeams()
     {
-       var teams = await _context.Teams.ToListAsync();
-       return teams ?? null;
+        var teams = await _context.Teams.ToListAsync();
+        return teams ?? null;
     }
 
     public async Task<Team?> GetTeam(long teamId)
@@ -56,7 +54,7 @@ public class TeamService : ITeamService
 
     public async Task<List<Team>> CreateTeam(TeamCreateDto team)
     {
-        var newTeam = new Team()
+        var newTeam = new Team
         {
             Name = team.Name,
             Color = team.Color
@@ -76,6 +74,7 @@ public class TeamService : ITeamService
             teamToUpdate.Color = team.Color;
             teamToUpdate.AllPlayers = team.AllPlayers;
         }
+
         await _context.SaveChangesAsync();
         return teamToUpdate ?? null;
     }
@@ -87,10 +86,7 @@ public class TeamService : ITeamService
             .FirstOrDefaultAsync(u => u.Id == userId);
         if (user?.Teams == null) return null;
         var teamToUpdate = user.Teams.FirstOrDefault(t => t.Id == teamId);
-        if (teamToUpdate != null)
-        {
-            teamToUpdate.Name = teamName;
-        }
+        if (teamToUpdate != null) teamToUpdate.Name = teamName;
         await _context.SaveChangesAsync();
         return teamToUpdate;
     }
@@ -110,21 +106,18 @@ public class TeamService : ITeamService
             .FirstOrDefaultAsync(u => u.Id == userId);
         if (user != null && user.Teams != null)
         {
-            var team =  user.Teams.FirstOrDefault(t => t.Id == teamId);
+            var team = user.Teams.FirstOrDefault(t => t.Id == teamId);
 
             if (team != null)
             {
                 user.Teams.Remove(team);
                 if (team.AllPlayers != null)
-                {
                     foreach (var player in team.AllPlayers)
-                    {
                         player.Team.Remove(team);
-                    }
-                }
-                
+
                 _context.Teams.Remove(team);
             }
+
             await _context.SaveChangesAsync();
             return team;
         }
@@ -143,28 +136,19 @@ public class TeamService : ITeamService
             .Include(p => p.Team)
             .FirstOrDefaultAsync(p => p.Id == playerId);
         if (team != null)
-        {
             if (player != null)
             {
                 if (player.Team != null)
-                {
                     player.Team.Add(team);
-                }
                 else
-                {
                     player.Team = new List<Team> { team };
-                }
 
                 if (team.AllPlayers != null)
-                {
                     team.AllPlayers.Add(player);
-                }
                 else
-                {
                     team.AllPlayers = new List<Player> { player };
-                }
             }
-        }
+
         await _context.SaveChangesAsync();
         return team ?? null;
     }
@@ -177,14 +161,11 @@ public class TeamService : ITeamService
         if (user != null)
         {
             if (user.Teams == null)
-            {
                 user.Teams = new List<Team> { newTeam };
-            }
             else
-            {
                 user.Teams.Add(newTeam);
-            }
         }
+
         await _context.SaveChangesAsync();
 
         return user?.Teams ?? null;

@@ -26,9 +26,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build docker image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnet:goaldotnetfrontend
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnet:goaldotnetfrontend .
 
-      
       - name: Push docker image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnet:goaldotnetfrontend
 

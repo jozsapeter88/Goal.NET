@@ -11,7 +11,6 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [teams, setTeams] = useState([]);
   const [players, setPlayers] = useState([]);
-  const [expandedMatchId, setExpandedMatchId] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedMatchDetails, setSelectedMatchDetails] = useState("");
   console.log(players.length);

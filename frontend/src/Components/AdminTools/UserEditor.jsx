@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Col, Row, Container, Button, Card, Form, ToggleButton } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { useFetcher } from 'react-router-dom';
 import useCookies from "react-cookie/cjs/useCookies";
 import { useNavigate } from 'react-router-dom';
 
 const UserEditor = () => {
     const navigate = useNavigate();
-    const [cookies, setCookies] = useCookies();
+    const [cookies] = useCookies();
     const [UserLevels, setUserLevels] = useState('');
     const [Users, setUsers] = useState('');
     const [UserNames, setUserNames] = useState([]);
@@ -75,7 +74,7 @@ const UserEditor = () => {
         e.target.value === undefined ? setHideLevel(true) : setHideLevel(false)
         console.log(e.target.value)
         console.log(HideLevel)
-        if(e.target.value != undefined ){setSelectedUser(e.target.innerText)}
+        if(e.target.value !== undefined ){setSelectedUser(e.target.innerText)}
     }
     const handleSubmit = (e) => {
         e.preventDefault();

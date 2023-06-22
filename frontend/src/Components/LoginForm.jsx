@@ -1,7 +1,6 @@
 import { useState } from "react"
 import SignIn from "../Pages/SignIn/SignIn"
 import { useNavigate } from "react-router-dom";
-import Cookie from "universal-cookie";
 import { useCookies } from "react-cookie";
 
 const Authorize = async (username, password) => {

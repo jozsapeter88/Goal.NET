@@ -2,7 +2,7 @@ name: Build On Success
 
 on:
   workflow_run:
-    workflows: [.NET]
+    workflows: [Backend Workflow]
     types: [completed]
 
 jobs:

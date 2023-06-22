@@ -4,14 +4,11 @@ FROM node:14-alpine
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
-COPY package*.json ./
+# Copy the entire project directory into the container
+COPY . .
 
 # Install project dependenciees
 RUN npm install
-
-# Copy the entire project directory into the container
-COPY . .
 
 # Build the React app
 RUN npm run build

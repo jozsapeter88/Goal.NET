@@ -21,6 +21,6 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
       - name: Lint
-        run: dotnet format --check --verbosity normal
+        run: dotnet format --check --verbosity normal ${{ github.workspace }}
       - name: Test
         run: dotnet test --no-build --verbosity normal

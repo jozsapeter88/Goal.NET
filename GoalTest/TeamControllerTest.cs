@@ -15,7 +15,7 @@ using Moq;
 using NuGet.Protocol;
 
 namespace GoalTest;
-
+[TestFixture]
 public class TeamControllerTests
 {
     private TeamController _teamController;
@@ -157,7 +157,13 @@ public class TeamControllerTests
         var expected = (int)HttpStatusCode.OK;
         Assert.That(result, Is.InstanceOf<OkObjectResult>());
         Assert.That(expected, Is.EqualTo(result?.StatusCode));
-        
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _dbContext.Database.EnsureDeleted();
+        _dbContext.Dispose();
     }
     
     private string HashPassword(string pass)

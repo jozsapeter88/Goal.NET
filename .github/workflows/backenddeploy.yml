@@ -1,4 +1,4 @@
-name: Build On Success
+name: Backend deploy on success
 
 on:
   workflow_run:

@@ -20,19 +20,13 @@ public class PlayerService : IPlayerService
     public async Task<List<PlayerDto>> GetAllPlayers()
     {
         var players = await _context.Players.ToListAsync();
-
         var playerDtos = players.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
-
         return playerDtos;
-        /*return await _context.Players
-            .Include(p => p.Team)
-            .ToListAsync();*/
     }
 
     public async Task<Player> CreatePlayerByAdmin(PlayerDto player)
     {
         var newPlayer = _mapper.Map<Player>(player);
-
         _context.Players.Add(newPlayer);
         await _context.SaveChangesAsync();
         return newPlayer;
@@ -42,7 +36,6 @@ public class PlayerService : IPlayerService
     {
         var goalKeepers = await _context.Players.Where(p => p.Position == PositionEnum.Goalkeeper).ToListAsync();
         var playerDtos = goalKeepers.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
-
         return playerDtos;
     }
 
@@ -50,7 +43,6 @@ public class PlayerService : IPlayerService
     {
         var forwards = await _context.Players.Where(p => p.Position == PositionEnum.Forward).ToListAsync();
         var playerDtos = forwards.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
-
         return playerDtos;
     }
 
@@ -58,7 +50,6 @@ public class PlayerService : IPlayerService
     {
         var midfielders = await _context.Players.Where(p => p.Position == PositionEnum.Midfielder).ToListAsync();
         var playerDtos = midfielders.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
-
         return playerDtos;
     }
 
@@ -66,7 +57,6 @@ public class PlayerService : IPlayerService
     {
         var defenders = await _context.Players.Where(p => p.Position == PositionEnum.Defender).ToListAsync();
         var playerDtos = defenders.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
-
         return playerDtos;
     }
 

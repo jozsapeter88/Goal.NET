@@ -114,14 +114,11 @@ public class TeamService : ITeamService
                 if (team.AllPlayers != null)
                     foreach (var player in team.AllPlayers)
                         player.Team.Remove(team);
-
                 _context.Teams.Remove(team);
             }
-
             await _context.SaveChangesAsync();
             return team;
         }
-
         return null;
     }
 

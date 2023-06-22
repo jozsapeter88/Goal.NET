@@ -72,23 +72,6 @@ public class UserController : ControllerBase
 
         return Unauthorized();
     }
-
-    /* private string Generate(User user)
-     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoalDotNetIsTheBestProjectOfCodeCool"));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var expirationTime = DateTime.UtcNow.AddHours(1);
-        var token = new JwtSecurityToken(
-           claims: new[]
-           {
-              new Claim(ClaimTypes.Authentication, $"{user.UserName}:{user.Password}")
-           },
-           expires: expirationTime,
-           signingCredentials: creds
-           );
-   
-        return new JwtSecurityTokenHandler().WriteToken(token);
-     }*/
     private async Task<string> GenerateJwt(User user)
     {
         //get parameters from config

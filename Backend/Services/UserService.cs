@@ -97,7 +97,7 @@ public class UserService : IUserService
     {
         byte[] salt = { 187, 69, 193, 241, 190, 187, 23, 10, 114, 164, 239, 80, 79, 38, 7, 93 };
         Console.WriteLine($"Salt: {Convert.ToBase64String(salt)}");
-        
+
         string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
             password: pass!,
             salt: salt,

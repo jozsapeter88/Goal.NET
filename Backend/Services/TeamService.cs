@@ -20,8 +20,8 @@ public class TeamService : ITeamService
 
     public async Task<List<Team>?> GetAllTeams()
     {
-       var teams = await _context.Teams.ToListAsync();
-       return teams ?? null;
+        var teams = await _context.Teams.ToListAsync();
+        return teams ?? null;
     }
 
     public async Task<Team?> GetTeam(long teamId)
@@ -110,7 +110,7 @@ public class TeamService : ITeamService
             .FirstOrDefaultAsync(u => u.Id == userId);
         if (user != null && user.Teams != null)
         {
-            var team =  user.Teams.FirstOrDefault(t => t.Id == teamId);
+            var team = user.Teams.FirstOrDefault(t => t.Id == teamId);
 
             if (team != null)
             {
@@ -122,7 +122,7 @@ public class TeamService : ITeamService
                         player.Team.Remove(team);
                     }
                 }
-                
+
                 _context.Teams.Remove(team);
             }
             await _context.SaveChangesAsync();

@@ -64,7 +64,7 @@ namespace GoalTest
             Assert.That(result.Count, Is.EqualTo(1));
             Assert.That(result[0].Name, Is.EqualTo("TestForward"));
         }
-        
+
         [Test]
         public async Task GetGoalkeepers_ShouldReturnGoalkeepers()
         {

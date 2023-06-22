@@ -14,8 +14,8 @@ public class DbInitializer
             return;
         }
 
-var players = new Player[]
-{
+        var players = new Player[]
+        {
     new Player
     {
         Name = "Jordan Pickford", Position = PositionEnum.Goalkeeper, Nationality = NationalityEnum.UnitedKingdom, Score = 56
@@ -236,13 +236,13 @@ var players = new Player[]
     {
         Name = "Jan Vertonghen", Position = PositionEnum.Defender, Nationality = NationalityEnum.Belgium, Score = 89
     }
-};
+        };
 
         foreach (Player p in players)
         {
             context.Players.Add(p);
         }
-        
+
         if (context.Teams.Any())
         {
             return;

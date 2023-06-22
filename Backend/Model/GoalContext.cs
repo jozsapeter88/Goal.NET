@@ -12,15 +12,15 @@ public class GoalContext : DbContext
     public GoalContext(DbContextOptions<GoalContext> options) : base(options)
     {
     }
-    
-   /*
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Team>()
-            .HasOne(t => t.Coach)
-            .WithOne(c => c.Team)
-            .HasForeignKey<Team>(t => t.CoachId);
-    }
-    */
+
+    /*
+     protected override void OnModelCreating(ModelBuilder modelBuilder)
+     {
+         modelBuilder.Entity<Team>()
+             .HasOne(t => t.Coach)
+             .WithOne(c => c.Team)
+             .HasForeignKey<Team>(t => t.CoachId);
+     }
+     */
 
 }

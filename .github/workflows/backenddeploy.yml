@@ -35,12 +35,12 @@ jobs:
           context: ./
           file: ./Backend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnet:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnetBackend:latest
 
       - name: Run the image in a container
         uses: addnab/docker-run-action@v3
         with:
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnet:latest
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnetBackend:latest
           run: |
             echo "Running the docker image"
             echo "Running tests"

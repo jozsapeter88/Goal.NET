@@ -16,11 +16,11 @@ public class PlayerService : IPlayerService
         _context = context;
         _mapper = mapper;
     }
+
     public async Task<List<PlayerDto>> GetAllPlayers()
     {
         var players = await _context.Players.ToListAsync();
 
-        var teams = 0;
         var playerDtos = players.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
 
         return playerDtos;
@@ -44,7 +44,6 @@ public class PlayerService : IPlayerService
         var playerDtos = goalKeepers.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
 
         return playerDtos;
-
     }
 
     public async Task<List<PlayerDto>> GetForwards()
@@ -53,7 +52,6 @@ public class PlayerService : IPlayerService
         var playerDtos = forwards.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
 
         return playerDtos;
-
     }
 
     public async Task<List<PlayerDto>> GetMidfielders()
@@ -78,6 +76,5 @@ public class PlayerService : IPlayerService
         if (player != null) _context.Players.Remove(player);
         await _context.SaveChangesAsync();
         return await _context.Players.ToListAsync();
-
     }
 }

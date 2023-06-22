@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Backend.Enums;
 
 namespace Backend.Model;
+
 [Serializable]
 public class Player
 {
@@ -15,6 +16,6 @@ public class Player
 
     public GenderEnum Gender { get; set; }
     public int Score { get; set; }
-    [JsonIgnore]
-    public List<Team>? Team { get; set; }
+
+    [JsonIgnore] public List<Team>? Team { get; set; }
 }

@@ -20,6 +20,7 @@ public class PlayerService : IPlayerService
     {
         var players = await _context.Players.ToListAsync();
 
+        var teams = 0;
         var playerDtos = players.Select(player => _mapper.Map<PlayerDto>(player)).ToList();
 
         return playerDtos;
@@ -73,10 +74,10 @@ public class PlayerService : IPlayerService
 
     public async Task<List<Player>> DeletePlayer(long playerId)
     {
-        var player = await _context.Players.FindAsync(playerId)
-        if (player != null) _context.Players.Remove(player)
+        var player = await _context.Players.FindAsync(playerId);
+        if (player != null) _context.Players.Remove(player);
         await _context.SaveChangesAsync();
-        return await _context.Players.ToListAsync()
+        return await _context.Players.ToListAsync();
 
     }
 }

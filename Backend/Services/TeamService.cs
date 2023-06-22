@@ -91,7 +91,6 @@ public class TeamService : ITeamService
         {
             teamToUpdate.Name = teamName;
         }
-
         await _context.SaveChangesAsync();
         return teamToUpdate;
     }
@@ -104,7 +103,7 @@ public class TeamService : ITeamService
         return await _context.Teams.ToListAsync();
     }
 
-    public async Task<List<Team>?> UserDeleteTeam(long userId, long teamId)
+    public async Task<Team?> UserDeleteTeam(long userId, long teamId)
     {
         var user = await _context.GoalUsers
             .Include(u => u.Teams)
@@ -120,14 +119,14 @@ public class TeamService : ITeamService
                 {
                     foreach (var player in team.AllPlayers)
                     {
-                                        player.Team.Remove(team);
+                        player.Team.Remove(team);
                     }
                 }
                 
                 _context.Teams.Remove(team);
             }
             await _context.SaveChangesAsync();
-            return user.Teams.ToList();
+            return team;
         }
 
         return null;

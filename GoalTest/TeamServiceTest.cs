@@ -251,9 +251,9 @@ public class TeamServiceTest
         var usersTeamsBefore = user?.Teams?.Count;
         Console.WriteLine(usersTeamsBefore);
         var result = await _teamService.UserDeleteTeam(1, 5);
-        var usersTeamsAfter = user?.Teams?.Count;
+        var usersTeamsAfter = user?.Teams?.Contains(result!);
         Console.WriteLine(usersTeamsAfter);
-        Assert.That(result?.Count, Is.EqualTo(usersTeamsAfter));
+        Assert.That(usersTeamsAfter,Is.False);
     }
 
     [Test]

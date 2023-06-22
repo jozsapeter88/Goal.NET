@@ -181,6 +181,69 @@ public class TeamControllerTests
     }
 
     [Test]
+    public async Task GetPlayersOfTeamOfLoggedInUser_Test()
+    {
+        var players = await _teamController.GetPlayersOfTeam(4);
+        var result = players?.Result as OkObjectResult;
+        var expected = (int)HttpStatusCode.OK;
+        Assert.That(result, Is.InstanceOf<OkObjectResult>());
+        Assert.That(expected, Is.EqualTo(result?.StatusCode));
+        
+    }
+
+    [Test]
+    public async Task GetPlayersOfTeamOfLoggedInUserReturnsNotFound_Test()
+    {
+        var players = await _teamController.GetPlayersOfTeam(7);
+        var result = players?.Result as NotFoundObjectResult;
+        var expected = (int)HttpStatusCode.NotFound;
+        Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+        Assert.That(expected, Is.EqualTo(result?.StatusCode));
+    }
+
+    [Test]
+    public async Task UpdateNameOfTeamOfLoggedInUserReturnsOk_Test()
+    {
+        var team = await _teamController.UpdateTeamName(4, "UpdateTeamNameTest");
+        var result = team.Result as OkObjectResult;
+        var expected = (int)HttpStatusCode.OK;
+        Assert.That(result, Is.InstanceOf<OkObjectResult>());
+        Assert.That(expected, Is.EqualTo(result?.StatusCode));
+        
+    }
+    
+    [Test]
+    public async Task UpdateNameOfTeamOfLoggedInUserReturnsNotFound_Test()
+    {
+        var team = await _teamController.UpdateTeamName(1, "UpdateTeamNameTest");
+        var result = team.Result as NotFoundObjectResult;
+        var expected = (int)HttpStatusCode.NotFound;
+        Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+        Assert.That(expected, Is.EqualTo(result?.StatusCode));
+    }
+
+    [Test]
+    public async Task DeleteTeamByUserReturnsOk_Test()
+    {
+        var action = await _teamController.UserDeleteTeam(4);
+        var result = action.Result as OkObjectResult;
+        var expected = (int)HttpStatusCode.OK;
+        Assert.That(result, Is.InstanceOf<OkObjectResult>());
+        Assert.That(expected, Is.EqualTo(result?.StatusCode));
+        
+    }
+    
+    [Test]
+    public async Task DeleteTeamByUserReturnsNotFound_Test()
+    {
+        var action = await _teamController.UserDeleteTeam(7);
+        var result = action.Result as NotFoundObjectResult;
+        var expected = (int)HttpStatusCode.NotFound;
+        Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+        Assert.That(expected, Is.EqualTo(result?.StatusCode));
+        
+    }
+    [Test]
     public async Task UpdateTeamReturnsNotFound_Test()
     {
         var team = await _teamController.UpdateTeam(12345, new Team{Name = "TestTeam", Color = "Red"});

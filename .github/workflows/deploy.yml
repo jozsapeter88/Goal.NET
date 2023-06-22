@@ -41,4 +41,3 @@ jobs:
           run: |
             echo "Running the docker image"
             echo "Running tests"
-            echo ${{ steps.build.outputs.digest }}

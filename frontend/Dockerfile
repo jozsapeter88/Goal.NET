@@ -1,14 +1,26 @@
-FROM node:14-alpine AS development
-ENV NODE_ENV development
-# Add a work directory
+# Use an official Node.js runtime as the base image
+FROM node:14-alpine
+
+# Set the working directory in the container
 WORKDIR /app
-# Cache and Install dependencies
-COPY package.json .
-# Install dependencies
+
+# Copy package.json and package-lock.json (if available)
+COPY package.json ./
+
+# Install project dependenciees
 RUN npm install
-# Copy app files
+
+# Copy the entire project directory into the container
 COPY . .
-# Expose port
-EXPOSE 3000
-# Start the app
-CMD [ "npm", "start" ]
+
+# Build the React app
+RUN npm run build
+
+# Set environment variables (if necessary)
+# ENV REACT_APP_API_URL=http://api.example.com
+
+# Expose a port (if your app listens on a specific port)
+# EXPOSE 3000
+
+# Start the React app
+CMD ["npm", "start"]

@@ -1,15 +1,14 @@
-name: Build On Success
+name: Frontend deploy on success
 
 on:
   workflow_run:
-    workflows: [.NET]
+    workflows: [Frontend Workflow]
     types: [completed]
 
 jobs:
   push_to_DockerHub:
     name: Push Images to DockerHub
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -26,21 +25,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Step into Backend working directory
-        run: cd Backend
-
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: ./
-          file: ./Backend/Dockerfile
+          file: ./frontend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnet:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnetfrontend:latest
 
       - name: Run the image in a container
         uses: addnab/docker-run-action@v3
         with:
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnet:latest
+          image: ${{ secrets.DOCKERHUB_USERNAME }}/goaldotnetfrontend:latest
           run: |
             echo "Running the docker image"
-            echo "Running tests"
+            echo "Testing the Node.js app endpoints"

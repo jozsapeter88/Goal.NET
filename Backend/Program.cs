@@ -57,7 +57,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     }
         ).AddCookie();
-    
+
 // Set up endpoints and middleware
 
 var app = builder.Build();

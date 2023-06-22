@@ -20,110 +20,110 @@ namespace Backend.Controllers;
 [Route("/api/user")]
 public class UserController : ControllerBase
 {
-   private IUserService UserService { get; }
-   public UserController(IUserService userService)
-   {
-      UserService = userService;
-   }
-   [HttpPost("login")]
-   public async Task<ActionResult> UserLogin([FromBody] User user)
-   {
-      if (await UserService.Login(user.UserName, user.Password))
-      {
-         var userFromDb = UserService.GetUser(user.UserName).Result;
-         var token = await GenerateJwt(userFromDb);
-         return Ok(token);
-      }
-      return Unauthorized();
-   }
+    private IUserService UserService { get; }
+    public UserController(IUserService userService)
+    {
+        UserService = userService;
+    }
+    [HttpPost("login")]
+    public async Task<ActionResult> UserLogin([FromBody] User user)
+    {
+        if (await UserService.Login(user.UserName, user.Password))
+        {
+            var userFromDb = UserService.GetUser(user.UserName).Result;
+            var token = await GenerateJwt(userFromDb);
+            return Ok(token);
+        }
+        return Unauthorized();
+    }
 
-   [HttpPost("register")]
-   
-   public async Task<ActionResult> RegisterUser([FromBody] User user)
-   { 
-      if (UserService.Register(user.UserName, user.Password).Result)
-      {
-         var token = await GenerateJwt(user);
-         return Ok();
-      }
-      return Unauthorized();
-   }
+    [HttpPost("register")]
 
-   [HttpGet("levels")]
-   [Authorize(Roles = "Admin")]
-   public async Task<ActionResult<List<string>>>  ProvideUserLevels()
-   {
-      var userLevels = Enum.GetNames(typeof(UserLevel)).ToList();
-      return Ok(userLevels);
-   }
-   
-   [HttpGet("getAll")]
-   [Authorize(Roles = "Operator,Admin")]
-   public async Task<ActionResult<Dictionary<string, UserLevel>>> ProvideUsers()
-   {
-      var users = await UserService.GetAllUsers();
-      return Ok(users);
-   }
+    public async Task<ActionResult> RegisterUser([FromBody] User user)
+    {
+        if (UserService.Register(user.UserName, user.Password).Result)
+        {
+            var token = await GenerateJwt(user);
+            return Ok();
+        }
+        return Unauthorized();
+    }
 
-   [HttpPost("update")]
-   [Authorize(Roles = "Admin")]
-   public ActionResult UpdateUser([FromBody] User user)
-   {
-      if (UserService.UpdateUser(user).Result)
-      {
-         return Ok();
-      }
+    [HttpGet("levels")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<List<string>>> ProvideUserLevels()
+    {
+        var userLevels = Enum.GetNames(typeof(UserLevel)).ToList();
+        return Ok(userLevels);
+    }
 
-      return Unauthorized();
-   }
+    [HttpGet("getAll")]
+    [Authorize(Roles = "Operator,Admin")]
+    public async Task<ActionResult<Dictionary<string, UserLevel>>> ProvideUsers()
+    {
+        var users = await UserService.GetAllUsers();
+        return Ok(users);
+    }
 
-  /* private string Generate(User user)
-   {
-      var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoalDotNetIsTheBestProjectOfCodeCool"));
-      var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-      var expirationTime = DateTime.UtcNow.AddHours(1);
-      var token = new JwtSecurityToken(
-         claims: new[]
-         {
-            new Claim(ClaimTypes.Authentication, $"{user.UserName}:{user.Password}")
-         },
-         expires: expirationTime,
-         signingCredentials: creds
-         );
- 
-      return new JwtSecurityTokenHandler().WriteToken(token);
-   }*/
-   private async Task<string> GenerateJwt(User user)
-   {
-      //get parameters from config
-      var configuration = new ConfigurationBuilder()
-         .SetBasePath(Directory.GetCurrentDirectory())
-         .AddJsonFile("appsettings.json")
-         .Build();
-      var key = configuration.GetSection("JWT")["key"];
-      var issuer = configuration.GetSection("JWT")["Issuer"];
-      var audience = configuration.GetSection("JWT")["Audience"];
-      
-      var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!));
-      var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+    [HttpPost("update")]
+    [Authorize(Roles = "Admin")]
+    public ActionResult UpdateUser([FromBody] User user)
+    {
+        if (UserService.UpdateUser(user).Result)
+        {
+            return Ok();
+        }
 
-      var claims = new[]
-      {
+        return Unauthorized();
+    }
+
+    /* private string Generate(User user)
+     {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("GoalDotNetIsTheBestProjectOfCodeCool"));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var expirationTime = DateTime.UtcNow.AddHours(1);
+        var token = new JwtSecurityToken(
+           claims: new[]
+           {
+              new Claim(ClaimTypes.Authentication, $"{user.UserName}:{user.Password}")
+           },
+           expires: expirationTime,
+           signingCredentials: creds
+           );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+     }*/
+    private async Task<string> GenerateJwt(User user)
+    {
+        //get parameters from config
+        var configuration = new ConfigurationBuilder()
+           .SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("appsettings.json")
+           .Build();
+        var key = configuration.GetSection("JWT")["key"];
+        var issuer = configuration.GetSection("JWT")["Issuer"];
+        var audience = configuration.GetSection("JWT")["Audience"];
+
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key!));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var claims = new[]
+        {
          new Claim(ClaimTypes.NameIdentifier, user.UserName),
          new Claim(ClaimTypes.Role, user.UserLevel.ToString())
       };
-      
-      var identity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
-      var claimsPrincipal = new ClaimsPrincipal(identity);
-      await HttpContext.SignInAsync("Cookies",claimsPrincipal);
 
-      var token = new JwtSecurityToken(
-         issuer,
-         audience,
-         claims,
-         expires: DateTime.Now.AddHours(1),
-         signingCredentials: credentials);
+        var identity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+        var claimsPrincipal = new ClaimsPrincipal(identity);
+        await HttpContext.SignInAsync("Cookies",claimsPrincipal);
 
-      return new JwtSecurityTokenHandler().WriteToken(token);
-   }
+        var token = new JwtSecurityToken(
+           issuer,
+           audience,
+           claims,
+           expires: DateTime.Now.AddHours(1),
+           signingCredentials: credentials);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
 }

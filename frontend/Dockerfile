@@ -4,6 +4,7 @@ ENV NODE_ENV development
 WORKDIR /app
 # Cache and Install dependencies
 COPY package.json .
+# Install dependencies
 RUN npm install
 # Copy app files
 COPY . .

@@ -21,6 +21,6 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
       - name: Lint
-        run: dotnet format --check --verbosity normal <GoalDotNet.sln>
+        run: dotnet format --check --verbosity normal ./GoalDotNet.sln
       - name: Test
         run: dotnet test --no-build --verbosity normal

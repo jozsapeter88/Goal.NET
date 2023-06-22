@@ -22,13 +22,5 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
-      - name: Lint Code Base
-        run: |
-          echo "ACTIONS_RUNNER_DEBUG=true" >> $GITHUB_ENV
-          github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Test
         run: dotnet test --no-build --verbosity normal

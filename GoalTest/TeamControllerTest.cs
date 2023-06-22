@@ -92,23 +92,31 @@ public class TeamControllerTests
         
         var authServiceMock = new Mock<IAuthenticationService>();
         authServiceMock
-            .Setup(_ => _.SignInAsync(It.IsAny<HttpContext>(), It.IsAny<string>(), It.IsAny<ClaimsPrincipal>(), It.IsAny<AuthenticationProperties>()))
+            .Setup(_ => _.SignInAsync(It.IsAny<HttpContext>(), It.IsAny<string>(),
+                It.IsAny<ClaimsPrincipal>(), It.IsAny<AuthenticationProperties>()))
             .Returns(Task.FromResult((object)null));
 
         var serviceProviderMock = new Mock<IServiceProvider>();
         serviceProviderMock
             .Setup(_ => _.GetService(typeof(IAuthenticationService)))
             .Returns(authServiceMock.Object);
+        var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, "Tester1"),
+     
+        }, "mock"));
             
         var httpContext = new DefaultHttpContext()
         {
-            RequestServices = serviceProviderMock.Object
+            RequestServices = serviceProviderMock.Object,
+            User = user
         };
-        _userController.ControllerContext = new ControllerContext()
+        _teamController.ControllerContext = new ControllerContext()
         {
             HttpContext = httpContext
         };
-        
+
+
     }
 
     [Test]
@@ -144,7 +152,6 @@ public class TeamControllerTests
     [Test]
     public async Task GetTeamOfLoggedInUserReturnsOk_Test()
     {
-        await _userController.UserLogin(new User { UserName = "Tester1", Password = "1234" });
         var teams = await _teamController.GetTeamsOfUser();
         var result = teams.Result as OkObjectResult;
         var expected = (int)HttpStatusCode.OK;

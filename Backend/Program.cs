@@ -80,8 +80,6 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred migrating and seeding the database");
     }
 }
-
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
@@ -92,22 +90,4 @@ app.MapControllerRoute(
     "default",
     "{controller=Home}/{action=Index}/{id?}"
 );
-
-// Migrate and seed the database
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    try
-    {
-        var context = services.GetRequiredService<GoalContext>();
-        context.Database.Migrate();
-        DbInitializer.Initialize(context);
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred migrating and seeding the database");
-    }
-}
-
 app.Run();

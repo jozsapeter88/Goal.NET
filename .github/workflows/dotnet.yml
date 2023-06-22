@@ -33,4 +33,5 @@ jobs:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Test
+        working-directory: GoalTest
         run: dotnet test --no-build --verbosity normal

@@ -24,10 +24,9 @@ jobs:
         run: dotnet build --no-restore
       - name: Lint Code Base
         uses: github/super-linter@v4
-        with:
-          clone: false
         env:
           VALIDATE_ALL_CODEBASE: false
+          JSCPD_CONFIG_FILE: THRESHOLD
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Test

@@ -1,36 +1,36 @@
-name: .NET
+name: Backend Workflow
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: Backend
-
+    if: "contains(github.event.commits[0].message, '[backend]')"
     steps:
       - uses: actions/checkout@v3
         with:
-          # Full git history is needed to get a proper list of changed files within super-linter
           fetch-depth: 0
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 6.0.x
-      - name: Restore dependencies
+
+      - name: Restore .NET dependencies
         run: dotnet restore
-      - name: Build
+
+      - name: Build .NET
         run: dotnet build --no-restore
+
       - name: Lint Code Base
         uses: github/super-linter@v4
         env:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Test
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test .NET
         run: dotnet test --no-build --verbosity normal

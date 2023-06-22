@@ -22,5 +22,4 @@ public class GoalContext : DbContext
              .HasForeignKey<Team>(t => t.CoachId);
      }
      */
-
 }

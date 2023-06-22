@@ -1,8 +1,12 @@
-import { Button, Row, Col, Alert, ListGroup, Modal, Form } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
+import TeamList from "../TeamList/TeamList";
+import { useState } from "react";
 
 
 const ManageTeamModal = ({showManageTeamModal, handleCloseManageTeamModal,selectedTeam,setShowNameModal,
-    handleDeleteTeam}) => {
+    handleDeleteTeam,showTeamList, setShowTeamList, players, loadingPlayers}) => {
+
+       
 
     return (
       <Modal
@@ -14,7 +18,8 @@ const ManageTeamModal = ({showManageTeamModal, handleCloseManageTeamModal,select
             <Modal.Title>Manage Team: {selectedTeam.name}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Button variant="success" onClick={() => setShowTeamList(true)}>
+            <Button variant="success" onClick={() => setShowTeamList(true)}>Add Player
+                </Button>
             <Button 
               variant="warning" 
               onClick={(e) => setShowNameModal(true)}>
@@ -26,7 +31,9 @@ const ManageTeamModal = ({showManageTeamModal, handleCloseManageTeamModal,select
             >
               Delete
             </Button>
-            {showTeamList && <TeamList />}
+            {showTeamList && <TeamList 
+            players={players}
+            loadingPlayers={loadingPlayers}/>}
           </Modal.Body>
         </Modal>
     )

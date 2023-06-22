@@ -3,13 +3,26 @@ import { Container, Row, Col } from "react-bootstrap";
 import Menu from "../Menu/Menu";
 import CreateSection from "./CreateSection";
 import ManageSection from "./ManageSection";
-import { useCookies } from "react-cookie";
+//import { useCookies } from "react-cookie";
+import useCookies from "react-cookie/cjs/useCookies";
 import { useNavigate } from "react-router-dom/dist";
 import Loading from "../Loading";
 
 const TeamManager = () => {
+  const [cookies] = useCookies();
   const [loading, setLoading] = useState(true);
+  const [loadingPlayers, setLoadingPlayers] = useState(true)
   const [teams, setTeams] = useState([]);
+  const [players, setPlayers] = useState([])
+  console.log(players.length)
+
+  const fetchPlayers = () => {
+    return fetch(`http://localhost:3000/api/players/getAllPlayers`, {
+      headers: {
+        Authorization: "Bearer " + cookies["token"],
+      }  
+    }).then((res) => res.json());
+  };
 
   const fetchTeamsOfUser = (signal) => {
     return fetch(`http://localhost:3000/api/teams/user/getTeams`, {
@@ -21,11 +34,33 @@ const TeamManager = () => {
   };
 
   useEffect(() => {
+    //const controller = new AbortController();
+    fetchPlayers()
+      .then((playersData) => {
+        setPlayers(playersData)
+        setLoadingPlayers(false)
+      })
+      .catch((error) => {
+        if (error.name !== "AbortError") {
+          setPlayers([]);
+          throw error;
+        }
+      });
+
+    //return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
     const controller = new AbortController();
     fetchTeamsOfUser()
       .then((teamsData) => {
         setTeams(teamsData);
         setLoading(false);
+      })
+    fetchPlayers()
+      .then((playersData) => {
+        setPlayers(playersData)
+        setLoading(false)
       })
       .catch((error) => {
         if (error.name !== "AbortError") {
@@ -38,12 +73,12 @@ const TeamManager = () => {
   }, []);
 
   const navigate = useNavigate();
-  const [cookies] = useCookies();
+  
   if (cookies["token"] === undefined || cookies["username"] === undefined) {
     navigate("/");
   }
 
-  if (loading) {
+  if (loading || loadingPlayers) {
     return <Loading />;
   }
   return (
@@ -69,7 +104,13 @@ const TeamManager = () => {
             />
           </Col>
           <Col md={10} style={{ padding: 30, marginLeft: 0 }}>
-            <ManageSection />
+            <ManageSection
+            teams={teams}
+            setTeams={setTeams}
+            loading={loading}
+            players={players}
+            loadingPlayers={loadingPlayers}
+            setLoadingPlayers={setLoadingPlayers} />
           </Col>
         </Row>
       </Container>

@@ -4,7 +4,6 @@ import Loading from "../Loading";
 import "./Dashboard.css";
 import useCookies from "react-cookie/cjs/useCookies";
 
-import { useParams } from "react-router-dom";
 
 const Dashboard = () => {
   const [cookies] = useCookies();

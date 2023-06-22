@@ -7,6 +7,7 @@ public class User
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long Id { get; set; }
+
     public string UserName { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public UserLevel UserLevel { get; set; }

@@ -13,6 +13,4 @@ public interface IPlayerService
     Task<List<PlayerDto>> GetDefenders();
 
     Task<List<Player>> DeletePlayer(long playerId);
-
-
 }

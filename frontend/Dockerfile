@@ -1,26 +1,13 @@
-# Use an official Node.js runtime as the base image
-FROM node:14-alpine
-
-# Set the working directory in the container
+FROM node:14-alpine AS development
+ENV NODE_ENV development
+# Add a work directory
 WORKDIR /app
-
-# Copy package.json and package-lock.json (if available)
-COPY package*.json ./
-
-# Install project dependenciees
+# Cache and Install dependencies
+COPY package.json .
 RUN npm install
-
-# Copy the entire project directory into the container
+# Copy app files
 COPY . .
-
-# Build the React app
-RUN npm run build
-
-# Set environment variables (if necessary)
-# ENV REACT_APP_API_URL=http://api.example.com
-
-# Expose a port (if your app listens on a specific port)
-# EXPOSE 3000
-
-# Start the React app
-CMD ["npm", "start"]
+# Expose port
+EXPOSE 3000
+# Start the app
+CMD [ "npm", "start" ]

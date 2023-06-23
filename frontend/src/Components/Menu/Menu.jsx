@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -7,11 +7,23 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
 import './Menu.css';
 
+function HealthCheck(){
+  let status;
+  fetch("/api/healthcheck").then(res => status = res.status)
+  return status;
+}
+
 function Menu() {
   const navigate = useNavigate();
+  const [onlineMessage, setOnlineMessage] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies();
   const userName = cookies["username"];
 
+  if(HealthCheck == 200){
+    setOnlineMessage(true);
+  }
+  let msgColor = onlineMessage ? "green" : "red";
+  let msg = onlineMessage ? "Server Online" : "Server offline";
   function onLogout() {
     removeCookie("username");
     removeCookie("token");
@@ -34,6 +46,7 @@ function Menu() {
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav className="me-auto">
             <Nav.Link href="/teamManager">Team Manager</Nav.Link>
+            <Navbar.Text style={{color: {msgColor}}}></Navbar.Text>
             <NavDropdown title= {`${userName}`} id="basic-nav-dropdown">
               <NavDropdown.Item href="/Profile">Profile</NavDropdown.Item>
               <NavDropdown.Divider />

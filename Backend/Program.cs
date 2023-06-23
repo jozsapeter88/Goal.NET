@@ -80,7 +80,6 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred migrating and seeding the database");
     }
 }
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();

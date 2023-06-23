@@ -9,5 +9,9 @@
 .navbar {
   backdrop-filter: blur(10px);
   background-color: rgba(74, 94, 112, 0.747);
+  overflow: visible;
 }
-  
+
+#basic-nav-dropdown{
+  z-index: 200;
+}

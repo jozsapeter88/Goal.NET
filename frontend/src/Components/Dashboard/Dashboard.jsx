@@ -65,7 +65,7 @@ const Dashboard = () => {
 
   if (teams.length === 0) {
     return (
-      <Card bg="secondary" style={{color: "white"}}>
+      <Card bg="secondary" style={{color: "white"}} className="notfound-card">
         <Card.Body>
           <Card.Title>No teams found</Card.Title>
           <Card.Text>

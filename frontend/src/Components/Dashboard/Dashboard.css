@@ -70,3 +70,7 @@
 .player-table tbody tr:last-child td {
   border-bottom: none;
 }
+
+.notfound-card {
+  z-index: -10;
+}

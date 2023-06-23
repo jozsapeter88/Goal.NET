@@ -4,3 +4,26 @@
     width: 100%;
   }
   
+  .green {
+    color: rgb(56, 117, 56)!important;
+  }
+  
+  .green #server-status {
+    color: rgb(136, 179, 18)
+  }
+  
+  .red {
+    color: rgb(196, 87, 87)!important;
+  }
+  .red #server-status {
+    color: rgb(179, 109, 18)
+  }
+
+  #server-status {
+    height: 14px;
+    width: 14px;
+    display: inline-block;
+    border: solid 7px;
+    border-radius: 100%;
+    margin-right: 10px;
+  }

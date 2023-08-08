@@ -227,7 +227,7 @@ public class TeamServiceTest
     {
         var result = await _teamService.DeleteTeam(1);
         var allTeams = _dbContext.Teams.Count();
-        Assert.That(result.Count, Is.EqualTo(allTeams));
+        Assert.That(result, Is.True);
     }
 
     [Test]

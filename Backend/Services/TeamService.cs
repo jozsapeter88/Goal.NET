@@ -91,12 +91,12 @@ public class TeamService : ITeamService
         return teamToUpdate;
     }
 
-    public async Task<List<Team>> DeleteTeam(long teamId)
+    public async Task<bool> DeleteTeam(long teamId)
     {
         var teamToUpdate = await _context.Teams.FindAsync(teamId);
         if (teamToUpdate != null) _context.Teams.Remove(teamToUpdate);
         await _context.SaveChangesAsync();
-        return await _context.Teams.ToListAsync();
+        return true;
     }
 
     public async Task<Team?> UserDeleteTeam(long userId, long teamId)

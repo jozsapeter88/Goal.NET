@@ -127,10 +127,10 @@ public class TeamController : ControllerBase
     }
 
     [HttpDelete("admin/deleteTeam/{teamId}")]
-    public async Task<ActionResult<List<Team>>> DeleteTeam(long teamId)
+    public async Task<ActionResult> DeleteTeam(long teamId)
     {
-        var teams = await _teamService.DeleteTeam(teamId);
-        return Ok(teams);
+        var result = await _teamService.DeleteTeam(teamId);
+        return Ok(result);
     }
 
     private async Task<User?> GetCurrentUser()

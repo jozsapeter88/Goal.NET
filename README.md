@@ -43,4 +43,5 @@ $ npm start
 
 🚀 Enjoy your fantasy football experience with Goal.NET!
 
-![image](https://github.com/jozsapeter88/Goal.NET/assets/113460628/88fd8ced-c1ba-4d70-bc4d-7030741a8774)
+# Stats
+<img alt="GitHub Language Count" src="https://img.shields.io/github/languages/count/jozsapeter88/Goal.NET" /> <img alt="GitHub Top Language" src="https://img.shields.io/github/languages/top/jozsapeter88/Goal.NET" /> <img alt="" src="https://img.shields.io/github/repo-size/jozsapeter88/Goal.NET" /> <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/jozsapeter88/Goal.NET" /> <img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/jozsapeter88/Goal.NET" />

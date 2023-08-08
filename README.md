@@ -1,4 +1,8 @@
-# <span style="font-size: 30px"><b>Goal.NET - Fantasy Football App ⚽🏆</b></span>
+![image](https://github.com/jozsapeter88/Goal.NET/assets/113460628/1259aef5-f6fe-4359-94de-24502aeeac49)
+
+
+
+# <span style="font-size: 30px"><b>Fantasy Football App ⚽🏆</b></span>
 <span style="color: blue">ℹ️ Please note that this project is currently in development and may contain bugs. Your suggestions and feedback are highly welcome!</span>
 
 ## <span style="font-size: 24px"><b>Introduction 👋</b></span>
@@ -38,3 +42,5 @@ $ npm start
 ```
 
 🚀 Enjoy your fantasy football experience with Goal.NET!
+
+![image](https://github.com/jozsapeter88/Goal.NET/assets/113460628/88fd8ced-c1ba-4d70-bc4d-7030741a8774)

@@ -1,13 +1,18 @@
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
-import "./SignIn.css"
+import "./SignIn.css";
 
-const SignIn = ({onSubmit, showMsg}) => {
+const SignIn = ({ onSubmit, showMsg }) => {
   return (
     <div>
       <Container>
         <Row className="vh-100 d-flex justify-content-center align-items-center">
-        <Col md={4} lg={6} xs={12}>
-            <img src="https://i.imgur.com/XJPd81S.png" alt="img" className="img-fluid"  style={{ marginLeft: '-10rem'}}/>
+          <Col md={4} lg={6} xs={12}>
+            <img
+              src="https://i.imgur.com/XJPd81S.png"
+              alt="img"
+              className="img-fluid"
+              style={{ marginLeft: "-10rem" }}
+            />
           </Col>
           <Col md={8} lg={6} xs={12}>
             <div className="border border-0 border-primary"></div>
@@ -15,14 +20,22 @@ const SignIn = ({onSubmit, showMsg}) => {
               <Card.Body>
                 <div className="mb-3 mt-md-4">
                   <h2 className="fw-bold mb-2">Welcome!</h2>
-                  <p className=" mb-5" >Please enter your username and password:</p>
+                  <p className=" mb-5">
+                    Please enter your username and password:
+                  </p>
                   <div className="mb-3">
                     <Form onSubmit={onSubmit}>
-                      <Form.Group className="mb-3" controlId="formBasicUsername">
+                      <Form.Group
+                        className="mb-3"
+                        controlId="formBasicUsername"
+                      >
                         <Form.Label className="text-center">
                           Username
                         </Form.Label>
-                        <Form.Control type="input" placeholder="Enter Username" />
+                        <Form.Control
+                          type="input"
+                          placeholder="Enter Username"
+                        />
                       </Form.Group>
 
                       <Form.Group
@@ -35,16 +48,19 @@ const SignIn = ({onSubmit, showMsg}) => {
                       <Form.Group
                         className="mb-3"
                         controlId="formBasicCheckbox"
-                      >
-                      </Form.Group>
+                      ></Form.Group>
                       <div className="d-grid">
                         <Button variant="primary" type="submit">
                           Login
                         </Button>
                       </div>
                     </Form>
-                    <div className="mt-3" >
-                    <p className="mb-0  text-center" style={{visibility: !showMsg ? 'visible' : 'hidden'}} id="not-valid">
+                    <div className="mt-3">
+                      <p
+                        className="mb-0  text-center"
+                        style={{ visibility: !showMsg ? "visible" : "hidden" }}
+                        id="not-valid"
+                      >
                         Username or password not valid.
                       </p>
                     </div>
@@ -65,5 +81,5 @@ const SignIn = ({onSubmit, showMsg}) => {
       </Container>
     </div>
   );
-}
-export default SignIn
+};
+export default SignIn;

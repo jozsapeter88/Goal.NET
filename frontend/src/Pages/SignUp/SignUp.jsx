@@ -1,13 +1,18 @@
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
-import "./SignUp.css"
+import "./SignUp.css";
 
-export default function SignUp({onSubmit, showMsg, successfulReg}) {
+export default function SignUp({ onSubmit, showMsg, successfulReg }) {
   return (
     <div>
       <Container>
         <Row className="vh-100 d-flex justify-content-center align-items-center">
-        <Col md={4} lg={6} xs={12}>
-            <img src="https://i.imgur.com/XJPd81S.png" alt="img" className="img-fluid"  style={{ marginLeft: '-10rem'}}/>
+          <Col md={4} lg={6} xs={12}>
+            <img
+              src="https://i.imgur.com/XJPd81S.png"
+              alt="img"
+              className="img-fluid"
+              style={{ marginLeft: "-10rem" }}
+            />
           </Col>
           <Col md={8} lg={6} xs={12}>
             <div className="border border-0 border-primary"></div>
@@ -15,14 +20,21 @@ export default function SignUp({onSubmit, showMsg, successfulReg}) {
               <Card.Body>
                 <div className="mb-3 mt-md-4">
                   <h2 className="fw-bold mb-2">Sign up</h2>
-                  <p className=" mb-5" ></p>
+                  <p className=" mb-5"></p>
                   <div className="mb-3">
                     <Form onSubmit={onSubmit}>
-                      <Form.Group className="mb-3" controlId="formBasicUsername">
-                        <Form.Label className="text-center" >
+                      <Form.Group
+                        className="mb-3"
+                        controlId="formBasicUsername"
+                      >
+                        <Form.Label className="text-center">
                           Username
                         </Form.Label>
-                        <Form.Control type="input" placeholder="Enter username" style={{borderColor: showMsg ? '' : 'red'}}/>
+                        <Form.Control
+                          type="input"
+                          placeholder="Enter username"
+                          style={{ borderColor: showMsg ? "" : "red" }}
+                        />
                       </Form.Group>
 
                       <Form.Group
@@ -35,19 +47,26 @@ export default function SignUp({onSubmit, showMsg, successfulReg}) {
                       <Form.Group
                         className="mb-3"
                         controlId="formBasicCheckbox"
-                      >
-                      </Form.Group>
+                      ></Form.Group>
                       <div className="d-grid">
                         <Button variant="primary" type="submit">
-                            Sign Up
+                          Sign Up
                         </Button>
                       </div>
                     </Form>
-                    <div className="mt-3" >
-                    <p className="mb-0  text-center" hidden={showMsg} id="not-valid">
+                    <div className="mt-3">
+                      <p
+                        className="mb-0  text-center"
+                        hidden={showMsg}
+                        id="not-valid"
+                      >
                         Username is already taken.
                       </p>
-                    <p className="mb-0  text-center" hidden={!successfulReg} id="valid">
+                      <p
+                        className="mb-0  text-center"
+                        hidden={!successfulReg}
+                        id="valid"
+                      >
                         Successful registration!
                       </p>
                     </div>

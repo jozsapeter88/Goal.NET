@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Collapse, Card, Button, Row, Col, Table, Modal } from "react-bootstrap";
+import {
+  Collapse,
+  Card,
+  Button,
+  Row,
+  Col,
+  Table,
+  Modal,
+} from "react-bootstrap";
 import Loading from "../Loading";
 import "./Dashboard.css";
 import useCookies from "react-cookie/cjs/useCookies";
-
 
 const Dashboard = () => {
   const [cookies] = useCookies();
@@ -18,8 +25,8 @@ const Dashboard = () => {
     try {
       const response = await fetch(`/api/teams/user/getTeams`, {
         headers: {
-          'Authorization': "Bearer " + cookies["token"]
-        }
+          Authorization: "Bearer " + cookies["token"],
+        },
       });
       if (response.ok) {
         const data = await response.json();
@@ -32,9 +39,11 @@ const Dashboard = () => {
     }
     return [];
   };
-  const fetchPlayersOfUsersTeam = async(teamId) => {
+  const fetchPlayersOfUsersTeam = async (teamId) => {
     try {
-      const response = await fetch(`/api/teams/user/getPlayersOfTeam/${teamId}`);
+      const response = await fetch(
+        `/api/teams/user/getPlayersOfTeam/${teamId}`
+      );
       if (response.ok) {
         const data = await response.json();
         setPlayers(data);
@@ -65,19 +74,17 @@ const Dashboard = () => {
 
   if (teams.length === 0) {
     return (
-      <Card bg="secondary" style={{color: "white"}} className="notfound-card">
+      <Card bg="secondary" style={{ color: "white" }} className="notfound-card">
         <Card.Body>
           <Card.Title>No teams found</Card.Title>
-          <Card.Text>
-            Go to the Team Manager to create a team
-          </Card.Text>
+          <Card.Text>Go to the Team Manager to create a team</Card.Text>
         </Card.Body>
       </Card>
     );
   }
 
   const handleToggleDetails = (teamId) => {
-    fetchPlayersOfUsersTeam(teamId)
+    fetchPlayersOfUsersTeam(teamId);
     setTeams((prevTeams) =>
       prevTeams.map((team) =>
         team.id === teamId ? { ...team, showDetails: !team.showDetails } : team
@@ -86,7 +93,9 @@ const Dashboard = () => {
   };
 
   const handleMatchClick = (matchId, matchDetails) => {
-    setExpandedMatchId((prevMatchId) => (prevMatchId === matchId ? null : matchId));
+    setExpandedMatchId((prevMatchId) =>
+      prevMatchId === matchId ? null : matchId
+    );
     setSelectedMatchDetails(matchDetails);
     setShowDetailsModal(true);
   };
@@ -167,6 +176,7 @@ const Dashboard = () => {
       score: "2-1",
       details: "Match details for Ajax vs PSV Eindhoven...",
     },
+    /*-------------------Hardcoded match history data-------------------*/
   ];
 
   return (
@@ -186,7 +196,7 @@ const Dashboard = () => {
                     aria-controls={`details-collapse-${team.id}`}
                     aria-expanded={team.showDetails}
                     className="team-card-title"
-                    style={{color: "white", fontWeight: "bold"}}
+                    style={{ color: "white", fontWeight: "bold" }}
                   >
                     {team.name}
                   </Button>
@@ -240,12 +250,15 @@ const Dashboard = () => {
                   <tbody>
                     {matchHistory.map((match) => (
                       <React.Fragment key={match.id}>
-                        <tr onClick={() => handleMatchClick(match.id, match.details)}>
+                        <tr
+                          onClick={() =>
+                            handleMatchClick(match.id, match.details)
+                          }
+                        >
                           <td>{match.team1}</td>
                           <td>{match.team2}</td>
                           <td>{match.score}</td>
-                          <td>
-                          </td>
+                          <td></td>
                         </tr>
                       </React.Fragment>
                     ))}
@@ -256,7 +269,12 @@ const Dashboard = () => {
           </Col>
         </Row>
       </div>
-      <Modal show={showDetailsModal} onHide={handleCloseModal} size="lg" centered>
+      <Modal
+        show={showDetailsModal}
+        onHide={handleCloseModal}
+        size="lg"
+        centered
+      >
         <Modal.Header>
           <Modal.Title>Match Details</Modal.Title>
         </Modal.Header>

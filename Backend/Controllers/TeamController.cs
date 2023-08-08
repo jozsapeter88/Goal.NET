@@ -79,20 +79,6 @@ public class TeamController : ControllerBase
         return Ok(result);
     }
 
-    /*[HttpPost("user/addTeam")]
-    public async Task<ActionResult<List<Team>>> CreateTeamOfUser(TeamCreateDto team)
-    {
-        var user = await GetCurrentUser();
-        if (user == null) return NotFound("Probably user is not logged in!");
-        var result = await _teamService.AddTeamToUser(user.Id, team);
-        if (result == null)
-        {
-            return NotFound("User was not found");
-        }
-        return Ok(result);
-
-    }*/
-
     [HttpPut("updateTeam/{teamId}")]
     public async Task<ActionResult<Team>> UpdateTeam(long teamId, [FromBody] Team team)
     {

@@ -6,7 +6,6 @@ namespace Backend.Controllers;
 [ApiController]
 public class HealthCheck : ControllerBase
 {
-    //HeathCheck endpoint
     [HttpGet]
     public ActionResult HealthCheckEndpoint()
     {

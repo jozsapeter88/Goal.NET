@@ -16,12 +16,12 @@ builder.Services.AddDbContext<GoalContext>(options =>
 
 // Add services
 builder.Services.AddControllersWithViews();
-//  builder.Services.AddControllers();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IPlayerService, PlayerService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITeamService, TeamService>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 // Get values of JWT from appsettings.json
 var configuration = new ConfigurationBuilder()
     .SetBasePath(builder.Environment.ContentRootPath)
@@ -80,6 +80,7 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred migrating and seeding the database");
     }
 }
+
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();

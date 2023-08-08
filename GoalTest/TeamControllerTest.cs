@@ -76,7 +76,7 @@ public class TeamControllerTests
             });
         _dbContext.SaveChangesAsync();
         //MockServices
-        _mockTeamService = new Mock<TeamService>(MockBehavior.Default, _dbContext, _mapper);
+        _mockTeamService = new Mock<ITeamService>();
         _mockUserService = new Mock<UserService>(MockBehavior.Default, _dbContext);
         //Controllers
         _userController = new UserController(_mockUserService.Object);
@@ -117,7 +117,7 @@ public class TeamControllerTests
 
     private TeamController _teamController;
     private UserController _userController;
-    private Mock<TeamService> _mockTeamService;
+    private Mock<ITeamService> _mockTeamService;
     private Mock<UserService> _mockUserService;
     private GoalContext _dbContext;
     private IMapper _mapper;
@@ -245,7 +245,9 @@ public class TeamControllerTests
     [Test]
     public async Task UpdateTeamReturnsNotFound_Test()
     {
-        var team = await _teamController.UpdateTeam(12345, new Team { Name = "TestTeam", Color = "Red" });
+        var exampleTeam = new Team { Name = "TestTeam", Color = "Red" };
+        _mockTeamService.Setup(mock => mock.UpdateTeam(12345, exampleTeam)).Returns(Task.FromResult((Team)null));
+        var team = await _teamController.UpdateTeam(12345, exampleTeam);
         var result = team.Result as NotFoundObjectResult;
         var expected = (int)HttpStatusCode.NotFound;
         Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());

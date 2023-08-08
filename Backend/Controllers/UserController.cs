@@ -72,6 +72,7 @@ public class UserController : ControllerBase
 
         return Unauthorized();
     }
+
     private async Task<string> GenerateJwt(User user)
     {
         //get parameters from config

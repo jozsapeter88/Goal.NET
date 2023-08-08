@@ -116,9 +116,11 @@ public class TeamService : ITeamService
                         player.Team.Remove(team);
                 _context.Teams.Remove(team);
             }
+
             await _context.SaveChangesAsync();
             return team;
         }
+
         return null;
     }
 

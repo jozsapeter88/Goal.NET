@@ -9,15 +9,13 @@ Follow these steps to run Goal.NET on your local machine:
 
 ```bash
 # Clone the repository to your local system.
-$ git clone https://github.com/your-username/goal-net.git
+$ git clone git@github.com:jozsapeter88/Goal.NET.git
 
-# Navigate to the project directory.
-$ cd goal-net
-
-# Open the appsettings.json file and update the "DefaultConnection" value with your database connection string.
-
+# Open the solution
 # Navigate to the backend directory.
 $ cd backend
+
+# Open the appsettings.json file and update the "DefaultConnection" value with your database connection string.
 
 # Apply database migrations.
 $ dotnet ef database update

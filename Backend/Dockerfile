@@ -2,7 +2,6 @@
 WORKDIR /app
 
 ENV ASPNETCORE_URLS=http://*:5076
-EXPOSE 5076
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src

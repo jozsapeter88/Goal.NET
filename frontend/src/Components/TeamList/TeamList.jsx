@@ -2,6 +2,7 @@ import React from "react";
 import "./TeamList.css";
 import Loading from "../Loading";
 
+
 const TeamList = ({players, loadingPlayers}) => {
   if (loadingPlayers) {
     return <Loading />;

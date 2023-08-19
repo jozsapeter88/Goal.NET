@@ -10,23 +10,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a7bd5cbc-7cec-4b59-a290-56f0744c1493" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/.idea/.idea.frontend.dir/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/.idea/.idea.frontend.dir/.idea/indexLayout.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/.idea/.idea.frontend.dir/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.GoalDotNet/.idea/projectSettingsUpdater.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GoalDotNet/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GoalDotNet/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Controllers/HealthCheck.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Controllers/HealthCheck.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Controllers/TeamController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Controllers/TeamController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Controllers/UserController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Controllers/UserController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Model/Coach.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Model/Coach.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Model/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Model/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Model/Team.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Model/Team.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Model/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Model/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Backend.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Backend.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Services/ITeamService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Services/ITeamService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Services/IUserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Services/IUserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Services/TeamService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Services/TeamService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Services/UserService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoalTest/TeamControllerTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoalTest/TeamControllerTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoalTest/bin/Debug/net7.0/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/GoalTest/bin/Debug/net7.0/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoalDotNet.sln" beforeDir="false" afterPath="$PROJECT_DIR$/GoalDotNet.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoalTest/GoalTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GoalTest/GoalTest.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/AdminTools/UserEditor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/AdminTools/UserEditor.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Dashboard/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Dashboard/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/Footer/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/Footer/Footer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/LoginForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/LoginForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/PlayerCreator/PlayerCreator.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/PlayerCreator/PlayerCreator.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/PlayerList/PlayerList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/PlayerList/PlayerList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/RegisterForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/RegisterForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/TeamCreator/TeamCreator.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/TeamCreator/TeamCreator.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/TeamList/TeamList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/TeamList/TeamList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/TeamManager/CreateSection.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/TeamManager/CreateSection.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/TeamManager/ManageSection.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/TeamManager/ManageSection.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/Components/TeamManager/TeamManager.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Components/TeamManager/TeamManager.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,10 +50,35 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7ccc5288155573ff895068833e1a61b3f7698e0dcc952dfeadda23b6d343ea/EndpointMetadataCollection.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7f2081ecc4eb28a8b74ef842bd96fbdea04da8adca65a029c2777c21c7433e5/AuthorizeAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d9d9faea5e6ed6438a777ef8c6eed41261f81d8e86488ed923ad92564f54e/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e74356f198b598e97eaeea83e8b7b1f2bfe27c0a39fedf86bb7dc44827fbda/ActionMethodExecutor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/076957e17dab919f61b5db9d7dc67a64b42237b139a71ebb4b35b7d76dcae87/ConcurrentDictionary.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/19ba5a289f2afd3f4d5e862cb3f3efee6181683a31ee31b86c2298b1f51114b/ServiceProvider.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1bc362ed8e78098c4d91511197558cc1cce7515d443c7960746fe140705b37/ConfigurationBuilder.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1dad7066d59e42d92476c5ad1180c2b63352d32689dd3d3be2bb2aa26b3bea5/ControllerBase.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3e4ed2ce77e62545e2c3bc1d05d26c4bc81cea257befd5e57493295fe91a/IAuthenticationService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3fad8e3b42a0f7ae367986c4177c844d48c22c6e8a9ebc5ec7c60ad5e677267/TaskAwaitAdapter.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/40afc2f5f16eca38e2db6b8e719f6d330739d1fd4d3a80416a684c1d3e6352/EntityFrameworkQueryableExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/53fde159ba8211bfa732c66683f6d3cd7af7b9ff56a3a1dc1dbe1cee597fe/CallSiteRuntimeResolver.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/58cdb07e63f706e98d64d357c6e334cc587140c759caba5fbcc865dc165/NonVoidSetupPhrase.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/5dede0cefb52f76ae4d73ace83e2c388e29f9853242c729364af5b33358dc/MvcServiceCollectionExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/621526284d3e4868b98948aff942206525763e57e194a27623b66c384466/ServiceProviderServiceExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/66fb396b9859c8734ef8e8dd529955858164ba8a4e32d9085dd3099d5c9127b/List.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/69fdd2f9d8038f77d8b614b596dd755e44312ee12c96b7d96b5bd190316516/OrderedEndpointsSequenceProviderCache.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/709d621a809059a29bb7342e26263dcd3b33b461cb0f1542a4c84da8fee9ebe/WebApplication.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/72c0912447d8530a5ccd77632c2e76b9f748f0b84e634c9963ffd0dd31feef/ControllerContext.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/7d83105a6949b887aeef30a8a19fb3823731985c4186c0b2e54c0c711dc21f5/ControllerActionDescriptor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8e2e3f232b3f74cfc56d24ec307aaea234eb831ec23796f1b454eb7e8fe1/CallSiteVisitor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/97f781e0b41a234fb4a615ccff48c5b2d9c28611cd81496fa261ad4f9113eb/Future.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9d573f57ecccc7282d9e28e62aa3bc78a6aec2fd2148f7cb618db953ea98bc/ControllerEndpointRouteBuilderExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a421bf72ce1bd97d2cd3e8739d53f71ff6052294923c475677806b3df7381/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a7fbb3ce5f67c8f7902a338ad9c22584932dd93c4e4f9908eb35594c147f7f4/ConfiguredCancelableAsyncEnumerable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ade8489ce7ef65adf139b4b44c407b47103f4ab5b355e53c416211864e7f594/EntityFinderSource.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bf9021a960b74107a7e141aa06bc9d8a0a53c929178c2fb95b1597be8af8dc/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/c02f8cd7ce32811a74f842f2c873581a8988d898b4a1efeedd690a5f57db633/StaticFileExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ca4271bab3e53b61f244a7ba081b39413d465de6262bbffb78775592f4228f5/Reflect.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/eaceeb179cd8c85e8b43d1d559cc6dc9daeb75e60cc451ac9d52e5cde82e014/MvcCoreServiceCollectionExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/ebfd60d582c50e7123fd83fb530894b816559627ebdf43445a58a5c8160e/InternalDbSet.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f2f7d658eacf86174531a2e15f6f80acf926723c3113657dbc61ebb38324de/EntityFinderFactory.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/GoalTest/TeamControllerTest.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -59,27 +92,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\jozsa\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\jozsa\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\jozsa\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ],
+    "rider.external.source.directories": [
+      "/Users/rolandhajos/Library/Application Support/JetBrains/Rider2022.3/resharper-host/DecompilerCache",
+      "/Users/rolandhajos/Library/Application Support/JetBrains/Rider2022.3/resharper-host/SourcesCache",
+      "/Users/rolandhajos/.local/share/Symbols/src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.Backend: http">
     <configuration name="Backend: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Backend/Backend.csproj" />
@@ -137,8 +169,7 @@
       <updated>1683639681089</updated>
       <workItem from="1683639681091" duration="105000" />
       <workItem from="1686037524114" duration="9736000" />
-      <workItem from="1687500832559" duration="10549000" />
-      <workItem from="1691499452493" duration="491000" />
+      <workItem from="1692442559294" duration="4090000" />
     </task>
     <task id="LOCAL-00001" summary="start implementation of authorization">
       <created>1685970970398</created>
@@ -147,75 +178,33 @@
       <option name="project" value="LOCAL" />
       <updated>1685970970398</updated>
     </task>
-    <task id="LOCAL-00002" summary="change connection string and add migration">
-      <created>1687510524683</created>
+    <task id="LOCAL-00002" summary="modify TeamControllerTest.cs">
+      <created>1691512974052</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1687510524683</updated>
+      <updated>1691512974052</updated>
     </task>
-    <task id="LOCAL-00003" summary="change connection string">
-      <created>1687510600560</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1687510600560</updated>
-    </task>
-    <task id="LOCAL-00004" summary="update connection string">
-      <created>1687510741329</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1687510741329</updated>
-    </task>
-    <task id="LOCAL-00005" summary="change connection string [backend]">
-      <created>1687513796826</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1687513796826</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="UnitTestsCoverage.Settings">
-    <option name="coveragePercentColumnWidth" value="150" />
-    <option name="sortOrder" value="DESCENDING" />
-    <option name="sortedColumn" value="1" />
-    <option name="symbolColumnWidth" value="241" />
-    <coverage-tree-state>
-      <expand>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 80% 254/1251" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 80% 254/1251" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Backend 65% 250/705" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-        <path>
-          <item name="rootNode" type="c53c71d1:RiderDotCoverCoverageTreeModel$RootNode" />
-          <item name="Total 80% 254/1251" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Backend 65% 250/705" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-          <item name="Backend 65% 250/705" type="8b8fad3a:RiderDotCoverCoverageTreeNode" />
-        </path>
-      </expand>
-      <select />
-    </coverage-tree-state>
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="start implementation of authorization" />
-    <MESSAGE value="change connection string and add migration" />
-    <MESSAGE value="change connection string" />
-    <MESSAGE value="update connection string" />
-    <MESSAGE value="change connection string [backend]" />
-    <option name="LAST_COMMIT_MESSAGE" value="change connection string [backend]" />
+    <MESSAGE value="modify TeamControllerTest.cs" />
+    <option name="LAST_COMMIT_MESSAGE" value="modify TeamControllerTest.cs" />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Type#Microsoft.Extensions.DependencyInjection.ServiceCollection" memberName="Count" />
+        <PinnedItemInfo parentTag="Frame#GoalTest.TeamServiceTest.Setup" memberName="this" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

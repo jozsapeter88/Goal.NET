@@ -11,17 +11,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<GoalContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 // Add services
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IPlayerService, PlayerService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITeamService, TeamService>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+
+builder.Services.AddCors();
 // Get values of JWT from appsettings.json
 var configuration = new ConfigurationBuilder()
     .SetBasePath(builder.Environment.ContentRootPath)
@@ -64,25 +66,36 @@ else
     app.UseHsts();
 }
 
-
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
+    var context = scope.ServiceProvider.GetRequiredService<GoalContext>();
     try
     {
-        var context = services.GetRequiredService<GoalContext>();
-        context.Database.Migrate();
-        DbInitializer.Initialize(context);
+
+        if (context.Database.EnsureCreated())
+        {
+            //context.Database.Migrate();
+            DbInitializer.Initialize(context);
+        }
+     
     }
     catch (Exception ex)
     {
-        var logger = services.GetRequiredService<ILogger<Program>>();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
         logger.LogError(ex, "An error occurred migrating and seeding the database");
     }
 }
 
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseCors(o =>
+{
+    o.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(

@@ -7,6 +7,7 @@ import ManageSection from "./ManageSection";
 import useCookies from "react-cookie/cjs/useCookies";
 import { useNavigate } from "react-router-dom/dist";
 import Loading from "../Loading";
+import { API_URL } from "../../Variables";
 
 const TeamManager = () => {
   const [cookies] = useCookies();
@@ -17,7 +18,7 @@ const TeamManager = () => {
   console.log(players.length)
 
   const fetchPlayers = () => {
-    return fetch(`http://localhost:3000/api/players/getAllPlayers`, {
+    return fetch(`${API_URL}/players/getAllPlayers`, {
       headers: {
         Authorization: "Bearer " + cookies["token"],
       }  
@@ -25,7 +26,7 @@ const TeamManager = () => {
   };
 
   const fetchTeamsOfUser = (signal) => {
-    return fetch(`http://localhost:3000/api/teams/user/getTeams`, {
+    return fetch(`${API_URL}/teams/user/getTeams`, {
       headers: {
         Authorization: "Bearer " + cookies["token"],
       },

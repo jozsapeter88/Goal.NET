@@ -11,6 +11,7 @@ import {
 import Loading from "../Loading";
 import "./Dashboard.css";
 import useCookies from "react-cookie/cjs/useCookies";
+import { API_URL } from "../../Variables";
 
 const Dashboard = () => {
   const [cookies] = useCookies();
@@ -23,7 +24,7 @@ const Dashboard = () => {
 
   const fetchTeamsOfUser = async () => {
     try {
-      const response = await fetch(`/api/teams/user/getTeams`, {
+      const response = await fetch(`${API_URL}/teams/user/getTeams`, {
         headers: {
           Authorization: "Bearer " + cookies["token"],
         },
@@ -42,7 +43,7 @@ const Dashboard = () => {
   const fetchPlayersOfUsersTeam = async (teamId) => {
     try {
       const response = await fetch(
-        `/api/teams/user/getPlayersOfTeam/${teamId}`
+        `${API_URL}/teams/user/getPlayersOfTeam/${teamId}`
       );
       if (response.ok) {
         const data = await response.json();

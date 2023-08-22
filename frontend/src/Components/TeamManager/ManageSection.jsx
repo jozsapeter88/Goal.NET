@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
-
 import { Row,Table } from "react-bootstrap";
-
 import Loading from "../Loading";
 import "./ManageSection.css";
 import useCookies from "react-cookie/cjs/useCookies";
 import EditNameModal from "./EditNameModal";
-
 import ManageTeamModal from "./ManageTeamModal";
-
-
-
+import { API_URL } from "../../Variables";
 
 const ManageSection = ({teams,setTeams, loading,loadingPlayers, players}) => {
   const [cookies] = useCookies();
@@ -55,7 +50,7 @@ const ManageSection = ({teams,setTeams, loading,loadingPlayers, players}) => {
   };
 
   const updateTeamName = (teamName, teamId) => {
-    return fetch(`/api/teams/user/updateTeamName/${teamId}`, {
+    return fetch(`${API_URL}/teams/user/updateTeamName/${teamId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -92,7 +87,7 @@ const ManageSection = ({teams,setTeams, loading,loadingPlayers, players}) => {
 
   const handleDeleteTeam = async (teamId) => {
     try {
-      const response = await fetch(`/api/teams/user/deleteTeam/${teamId}`, {
+      const response = await fetch(`${API_URL}/teams/user/deleteTeam/${teamId}`, {
         method: "DELETE",
         headers: {
           Authorization: "Bearer " + cookies["token"],

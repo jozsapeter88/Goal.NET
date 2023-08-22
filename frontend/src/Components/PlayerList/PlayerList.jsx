@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import Loading from '../Loading';
 import useCookies from "react-cookie/cjs/useCookies";
+import { API_URL } from "../../Variables";
 
 
 const fetchPlayers = (signal, cookies) => {
-  return fetch('http://localhost:3000/api/players/getAllPlayers', {
+  return fetch(`${API_URL}/players/getAllPlayers`, {
     headers: {
       'Authorization': "Bearer " + cookies["token"]
     }, signal

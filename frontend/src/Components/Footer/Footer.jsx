@@ -3,9 +3,10 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import './Footer.css';
+import { API_URL } from "../../Variables";
 
 function HealthCheck(){
-  return fetch("/api/healthcheck").then(res => res.status)
+  return fetch(`${API_URL}/healthcheck`).then(res => res.status)
 }
 
 function Footer() {

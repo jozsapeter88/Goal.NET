@@ -4,6 +4,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import useCookies from "react-cookie/cjs/useCookies";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../../Variables";
 
 const UserEditor = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const UserEditor = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("/api/user/getall", {
+      const response = await fetch(`${API_URL}/user/getall`, {
         headers: {
           Authorization: "Bearer " + cookies["token"],
         },
@@ -51,7 +52,7 @@ const UserEditor = () => {
 
   const fetchLevels = async () => {
     try {
-      const response = await fetch("/api/user/levels", {
+      const response = await fetch(`${API_URL}/user/levels`, {
         headers: {
           Authorization: "Bearer " + cookies["token"],
         },

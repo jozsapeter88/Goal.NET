@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useCookies from "react-cookie/cjs/useCookies";
+import { API_URL } from "../../Variables";
 
 const TeamCreator = () => {
   const [cookies, setCookies] = useCookies();
@@ -22,7 +23,7 @@ const TeamCreator = () => {
     };
 
     try {
-      const response = await fetch('/api/teams/addTeam', {
+      const response = await fetch(`${API_URL}/teams/addTeam`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

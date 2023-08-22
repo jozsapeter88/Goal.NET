@@ -8,11 +8,16 @@ const EditNameModal =
     selectedTeam,
     showNameModal})=> {
 
+      console.log("select team: " + selectedTeam.name)
+      console.log("teamName: " + teamName)
+
 const isInputEmpty = teamName.trim() === '';
+console.log(isInputEmpty)
 const handleClose = (event)=> {
-        setTeamName(selectedTeam.name)
-        setShowNameModal(false)  
+    setTeamName(selectedTeam.name)
+    setShowNameModal(false)
 }
+
 
 return (
     <div>
@@ -37,7 +42,7 @@ return (
             <Button 
               variant="primary" 
               type="submit"
-              onClick={() => handleClose()}>Close
+              onClick={(event) => handleClose()}>Close
             </Button>
           </Form>
           </Modal.Body>

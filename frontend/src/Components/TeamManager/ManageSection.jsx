@@ -16,7 +16,7 @@ const ManageSection = ({teams,setTeams, loading,loadingPlayers, players}) => {
   const [showNameModal, setShowNameModal] = useState(false);
   const [teamName, setTeamName] = useState("");
   const [showTeamList, setShowTeamList] = useState(false);
-  
+  console.log("manageSection teamname: " + teamName)
   
   /*const fetchTeamsOfUser = (signal) => {
     return fetch(`http://localhost:3000/api/teams/user/getTeams`, {
@@ -78,9 +78,9 @@ const ManageSection = ({teams,setTeams, loading,loadingPlayers, players}) => {
     }
   }
 
-
   const handleCloseManageTeamModal = () => {
     setShowManageTeamModal(false);
+    
     setSelectedTeam(null);
     setShowTeamList(false);
   };

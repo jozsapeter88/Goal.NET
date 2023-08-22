@@ -1,5 +1,5 @@
 import { Button, Modal } from "react-bootstrap";
-import TeamList from "../TeamList/TeamList";
+import AddPlayerList from "../AddPlayerList/AddPlayerList";
 import { useState } from "react";
 
 
@@ -13,6 +13,7 @@ const ManageTeamModal = ({showManageTeamModal, handleCloseManageTeamModal,select
           show={showManageTeamModal}
           onHide={handleCloseManageTeamModal}
           style={{ background: "rgba(0,0,0, 0.7)" }}
+          backdrop="static"
         >
           <Modal.Header>
             <Modal.Title>Manage Team: {selectedTeam.name}</Modal.Title>
@@ -31,9 +32,15 @@ const ManageTeamModal = ({showManageTeamModal, handleCloseManageTeamModal,select
             >
               Delete
             </Button>
-            {showTeamList && <TeamList 
+            {showTeamList && <AddPlayerList 
             players={players}
             loadingPlayers={loadingPlayers}/>}
+            <Button
+              variant="primary"
+              onClick={() => handleCloseManageTeamModal()}
+            >
+              Close
+            </Button>
           </Modal.Body>
         </Modal>
     )

@@ -16,6 +16,7 @@ const TeamManager = () => {
   const [teams, setTeams] = useState([]);
   const [players, setPlayers] = useState([])
   console.log(players.length)
+  console.log(teams.length)
 
   const fetchPlayers = () => {
     return fetch(`${API_URL}/players/getAllPlayers`, {
@@ -104,7 +105,7 @@ const TeamManager = () => {
             setTeams = { setTeams }
             />
           </Col>
-          <Col md={10} style={{ padding: 30, marginLeft: 0 }}>
+          <Col md={10} style={{ padding: 30, marginLeft: 50 }}>
             <ManageSection
             teams={teams}
             setTeams={setTeams}

@@ -26,7 +26,8 @@ const Dashboard = () => {
     try {
       const response = await fetch(`${API_URL}/teams/user/getTeams`, {
         headers: {
-          Authorization: "Bearer " + cookies["token"],
+          "Authorization": "Bearer " + cookies["token"]
+          
         },
       });
       if (response.ok) {

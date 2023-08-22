@@ -11,6 +11,7 @@ const Authorize = async (username, password) => {
         headers: {
             "Content-Type": "application/json"
         }, 
+        credentials: "include",
         body: JSON.stringify(loginObj)
     }).then(res => {
        return  {"status": res.status, "token": res.text()}; 
@@ -18,10 +19,12 @@ const Authorize = async (username, password) => {
      
 }
 
+
 const LoginForm = () => {
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies();
     const [showMsg, setShowMsg] = useState(true)
+    const [user, setUser] = useState(null)
 
     const onSubmit = async (e) => {
         setShowMsg(true);

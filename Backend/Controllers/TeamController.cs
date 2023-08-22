@@ -103,6 +103,14 @@ public class TeamController : ControllerBase
 
         return NotFound("Probably user is not logged in!");
     }
+    [AllowAnonymous]
+    [HttpPost("user/addTeamToUser/{userId}")]
+    public async Task<ActionResult<Team>> AddTeamToUser(long userId,TeamCreateDto team)
+    {
+        //var user = GetCurrentUser();
+        var result = await _teamService.AddTeamToUser(userId, team);
+        return Ok(result);
+    }
 
     [HttpPut("user/addPlayerToTeam/{teamId}/{playerId}")]
     public async Task<ActionResult<Team>> AddPlayer(long teamId, long playerId)

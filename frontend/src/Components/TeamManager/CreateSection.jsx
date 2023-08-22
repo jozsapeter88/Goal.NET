@@ -154,7 +154,7 @@ const CreateSection = ({ setTeams }) => {
     };
 
     try {
-      const response = await fetch(`${API_URL}/teams/addTeam`, {
+      const response = await fetch(`${API_URL}/teams/user/addTeamToUser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

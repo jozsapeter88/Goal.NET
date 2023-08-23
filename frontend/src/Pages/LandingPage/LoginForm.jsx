@@ -1,8 +1,8 @@
 import { useState } from "react"
-import SignIn from "../Pages/SignIn/SignIn"
+import SignIn from "../SignIn/SignIn"
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { API_URL } from "../Variables";
+import { API_URL } from "../../Variables";
 
 const Authorize = async (username, password) => {
     const loginObj = {"UserName": username, "Password": password}

@@ -4,7 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import UserEditor from './Components/AdminTools/UserEditor';
 import HomePage from './Pages/Home/HomePage';
-import LoginForm from './Components/LoginForm';
+import LoginForm from './Pages/LandingPage/LoginForm';
 import RegisterForm from './Components/RegisterForm';
 import PlayerCreator from './Components/PlayerCreator/PlayerCreator';
 import TeamCreator from './Components/TeamCreator/TeamCreator';

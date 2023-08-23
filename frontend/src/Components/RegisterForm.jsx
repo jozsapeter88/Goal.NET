@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SignUp from "../Pages/SignUp/SignUp";
+import SignUp from "./SignUp/SignUp";
 import { useNavigate } from "react-router-dom";
 import Cookie from "universal-cookie";
 import { useCookies } from "react-cookie";

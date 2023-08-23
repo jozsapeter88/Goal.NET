@@ -1,3 +1,5 @@
+/*-------------------This component is used in the TeamManager-------------------*/
+
 import React, { useState, useEffect } from "react";
 import {
   Collapse,
@@ -154,7 +156,7 @@ const CreateSection = ({ setTeams }) => {
     };
 
     try {
-      const response = await fetch(`${API_URL}/teams/user/addTeam`, {
+      const response = await fetch(`${API_URL}/teams/user/addTeamToUser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

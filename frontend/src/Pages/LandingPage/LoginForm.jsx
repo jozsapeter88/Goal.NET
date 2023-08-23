@@ -1,8 +1,8 @@
 import { useState } from "react"
-import SignIn from "../Pages/SignIn/SignIn"
+import SignIn from "../../Components/SignIn/SignIn";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { API_URL } from "../Variables";
+import { API_URL } from "../../Variables";
 
 const Authorize = async (username, password) => {
     const loginObj = {"UserName": username, "Password": password}
@@ -11,6 +11,7 @@ const Authorize = async (username, password) => {
         headers: {
             "Content-Type": "application/json"
         }, 
+        credentials: "include",
         body: JSON.stringify(loginObj)
     }).then(res => {
        return  {"status": res.status, "token": res.text()}; 
@@ -18,10 +19,12 @@ const Authorize = async (username, password) => {
      
 }
 
+
 const LoginForm = () => {
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies();
     const [showMsg, setShowMsg] = useState(true)
+    const [user, setUser] = useState(null)
 
     const onSubmit = async (e) => {
         setShowMsg(true);

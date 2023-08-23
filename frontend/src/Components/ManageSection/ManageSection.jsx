@@ -1,13 +1,21 @@
+/*-------------------This component is used in the TeamManager-------------------*/
+
 import React, { useState, useEffect } from "react";
-import { Row,Table } from "react-bootstrap";
+import { Row, Table } from "react-bootstrap";
 import Loading from "../Loading";
 import "./ManageSection.css";
 import useCookies from "react-cookie/cjs/useCookies";
-import EditNameModal from "./EditNameModal";
-import ManageTeamModal from "./ManageTeamModal";
+import EditNameModal from "../EditNameModal";
+import ManageTeamModal from "../ManageTeamModal";
 import { API_URL } from "../../Variables";
 
-const ManageSection = ({teams,setTeams, loading,loadingPlayers, players}) => {
+const ManageSection = ({
+  teams,
+  setTeams,
+  loading,
+  loadingPlayers,
+  players,
+}) => {
   const [cookies] = useCookies();
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
   const [teamErrorMessage, setTeamErrorMessage] = useState("");
@@ -16,33 +24,6 @@ const ManageSection = ({teams,setTeams, loading,loadingPlayers, players}) => {
   const [showNameModal, setShowNameModal] = useState(false);
   const [teamName, setTeamName] = useState("");
   const [showTeamList, setShowTeamList] = useState(false);
-  
-  
-  /*const fetchTeamsOfUser = (signal) => {
-    return fetch(`http://localhost:3000/api/teams/user/getTeams`, {
-      headers: {
-        Authorization: "Bearer " + cookies["token"],
-      },
-      signal,
-    }).then((res) => res.json());
-  };*/
-
-  /*useEffect(() => {
-    const controller = new AbortController();
-    fetchTeamsOfUser(controller.signal)
-      .then((teamsData) => {
-        setTeams(teamsData);
-        setLoading(false);
-      })
-      .catch((error) => {
-        if (error.name !== "AbortError") {
-          setTeams([]);
-          throw error;
-        }
-      });
-
-    return () => controller.abort();
-  }, []);*/
 
   const handleManageTeamModal = (team) => {
     setSelectedTeam(team);
@@ -62,37 +43,37 @@ const ManageSection = ({teams,setTeams, loading,loadingPlayers, players}) => {
 
   const handleUpdateTeamNameChange = (teamId) => {
     try {
-          updateTeamName(teamName, teamId)
-          .then(() => {
-            setTeamSuccessMessage("Team name updated successfully")
-            setTeamErrorMessage("")
-            console.log(teamSuccessMessage)
-            
-          }) 
-
+      updateTeamName(teamName, teamId).then(() => {
+        setTeamSuccessMessage("Team name updated successfully");
+        setTeamErrorMessage("");
+        console.log(teamSuccessMessage);
+      });
     } catch (error) {
       console.error("Error updating team name:", error);
       setTeamErrorMessage("Can not update team name");
       setTeamSuccessMessage("");
-      console.log(teamErrorMessage)
+      console.log(teamErrorMessage);
     }
-  }
-
+  };
 
   const handleCloseManageTeamModal = () => {
     setShowManageTeamModal(false);
+
     setSelectedTeam(null);
     setShowTeamList(false);
   };
 
   const handleDeleteTeam = async (teamId) => {
     try {
-      const response = await fetch(`${API_URL}/teams/user/deleteTeam/${teamId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + cookies["token"],
-        },
-      });
+      const response = await fetch(
+        `${API_URL}/teams/user/deleteTeam/${teamId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + cookies["token"],
+          },
+        }
+      );
 
       if (response.ok) {
         setTeams((prevTeams) => prevTeams.filter((team) => team.id !== teamId));
@@ -114,7 +95,7 @@ const ManageSection = ({teams,setTeams, loading,loadingPlayers, players}) => {
   if (loading || loadingPlayers) {
     return <Loading />;
   }
- 
+
   return (
     <div>
       <div className="dashboard-container">
@@ -127,10 +108,7 @@ const ManageSection = ({teams,setTeams, loading,loadingPlayers, players}) => {
             </thead>
             <tbody>
               {teams.map((team) => (
-                <tr
-                  key={team.id}
-                  onClick={() => handleManageTeamModal(team)}
-                >
+                <tr key={team.id} onClick={() => handleManageTeamModal(team)}>
                   <td className="team-name">{team.name}</td>
                 </tr>
               ))}
@@ -141,17 +119,16 @@ const ManageSection = ({teams,setTeams, loading,loadingPlayers, players}) => {
       {/* Manage Team Modal */}
       {selectedTeam && (
         <ManageTeamModal
-        showManageTeamModal={showManageTeamModal}
-        handleCloseManageTeamModal={handleCloseManageTeamModal}
-        selectedTeam={selectedTeam}
-        setShowNameModal={setShowNameModal}
-        handleDeleteTeam={handleDeleteTeam}
-        setShowTeamList={setShowTeamList}
-        showTeamList={showTeamList}
-        players={players}
-        loadingPlayers={loadingPlayers}/>
-
-
+          showManageTeamModal={showManageTeamModal}
+          handleCloseManageTeamModal={handleCloseManageTeamModal}
+          selectedTeam={selectedTeam}
+          setShowNameModal={setShowNameModal}
+          handleDeleteTeam={handleDeleteTeam}
+          setShowTeamList={setShowTeamList}
+          showTeamList={showTeamList}
+          players={players}
+          loadingPlayers={loadingPlayers}
+        />
       )}
       {/* Name Modal */}
       {selectedTeam && (

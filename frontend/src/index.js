@@ -4,14 +4,14 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import UserEditor from './Components/AdminTools/UserEditor';
 import HomePage from './Pages/Home/HomePage';
-import LoginForm from './Components/LoginForm';
+import LoginForm from './Pages/LandingPage/LoginForm';
 import RegisterForm from './Components/RegisterForm';
 import PlayerCreator from './Components/PlayerCreator/PlayerCreator';
 import TeamCreator from './Components/TeamCreator/TeamCreator';
 import PlayerList from './Components/PlayerList/PlayerList';
-import TeamManager from './Components/TeamManager/TeamManager'
+import TeamManager from './Pages/TeamManager/TeamManager';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import TeamList from './Components/TeamList/TeamList';
+import AddPlayerList from './Components/AddPlayerList/AddPlayerList';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -50,7 +50,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/teamList",
-    element: <TeamList />
+    element: <AddPlayerList />
   }
   
 ]);

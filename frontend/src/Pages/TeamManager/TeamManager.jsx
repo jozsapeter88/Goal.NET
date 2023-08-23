@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Menu from "../Menu/Menu";
-import CreateSection from "./CreateSection";
-import ManageSection from "./ManageSection";
-//import { useCookies } from "react-cookie";
+import Menu from "../../Components/Menu/Menu";
+import CreateSection from "../../Components/CreateSection/CreateSection";
+import ManageSection from "../../Components/ManageSection/ManageSection";
 import useCookies from "react-cookie/cjs/useCookies";
 import { useNavigate } from "react-router-dom/dist";
-import Loading from "../Loading";
+import Loading from "../../Components/Loading";
 import { API_URL } from "../../Variables";
 
 const TeamManager = () => {
@@ -16,6 +15,7 @@ const TeamManager = () => {
   const [teams, setTeams] = useState([]);
   const [players, setPlayers] = useState([])
   console.log(players.length)
+  console.log(teams.length)
 
   const fetchPlayers = () => {
     return fetch(`${API_URL}/players/getAllPlayers`, {
@@ -35,7 +35,6 @@ const TeamManager = () => {
   };
 
   useEffect(() => {
-    //const controller = new AbortController();
     fetchPlayers()
       .then((playersData) => {
         setPlayers(playersData)
@@ -48,7 +47,6 @@ const TeamManager = () => {
         }
       });
 
-    //return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -104,7 +102,7 @@ const TeamManager = () => {
             setTeams = { setTeams }
             />
           </Col>
-          <Col md={10} style={{ padding: 30, marginLeft: 0 }}>
+          <Col md={10} style={{ padding: 30, marginLeft: 50 }}>
             <ManageSection
             teams={teams}
             setTeams={setTeams}

@@ -1,3 +1,4 @@
+/*-------------------This component is used in the TeamManager-------------------*/
 
 import { Button, Modal,Form } from "react-bootstrap";
 const EditNameModal = 

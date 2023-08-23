@@ -1,3 +1,5 @@
+/*-------------------This component is used in the TeamManager-------------------*/
+
 import React, { useState, useEffect } from "react";
 import {
   Collapse,

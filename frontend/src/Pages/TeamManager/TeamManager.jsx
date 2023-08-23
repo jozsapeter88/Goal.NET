@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Menu from "../Menu/Menu";
-import CreateSection from "./CreateSection";
-import ManageSection from "./ManageSection";
-//import { useCookies } from "react-cookie";
+import Menu from "../../Components/Menu/Menu";
+import CreateSection from "../../Components/CreateSection/CreateSection";
+import ManageSection from "../../Components/ManageSection/ManageSection";
 import useCookies from "react-cookie/cjs/useCookies";
 import { useNavigate } from "react-router-dom/dist";
-import Loading from "../Loading";
+import Loading from "../../Components/Loading";
 import { API_URL } from "../../Variables";
 
 const TeamManager = () => {
@@ -36,7 +35,6 @@ const TeamManager = () => {
   };
 
   useEffect(() => {
-    //const controller = new AbortController();
     fetchPlayers()
       .then((playersData) => {
         setPlayers(playersData)
@@ -49,7 +47,6 @@ const TeamManager = () => {
         }
       });
 
-    //return () => controller.abort();
   }, []);
 
   useEffect(() => {

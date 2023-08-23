@@ -1,5 +1,5 @@
 import { useState } from "react"
-import SignIn from "../SignIn/SignIn"
+import SignIn from "../../Components/SignIn/SignIn";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { API_URL } from "../../Variables";

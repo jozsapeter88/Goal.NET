@@ -1,6 +1,5 @@
 import { Button, Modal } from "react-bootstrap";
 import AddPlayerList from "../AddPlayerList/AddPlayerList";
-import { useState } from "react";
 
 
 const ManageTeamModal = ({showManageTeamModal, handleCloseManageTeamModal,selectedTeam,setShowNameModal,

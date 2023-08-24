@@ -10,4 +10,6 @@ public interface IUserService
     public Task<Dictionary<string, UserLevel>> GetAllUsers();
     public Task<bool> UpdateUser(User user);
     public Task<User> GetUser(string username);
+
+    public string HashPassword(string password);
 }

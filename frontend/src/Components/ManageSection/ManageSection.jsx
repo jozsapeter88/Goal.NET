@@ -7,7 +7,6 @@ import "./ManageSection.css";
 import useCookies from "react-cookie/cjs/useCookies";
 import EditNameModal from "../EditNameModal";
 import ManageTeamModal from "../ManageTeamModal";
-import { API_URL } from "../../Variables";
 
 const ManageSection = ({
   teams,
@@ -31,7 +30,7 @@ const ManageSection = ({
   };
 
   const updateTeamName = (teamName, teamId) => {
-    return fetch(`${API_URL}/teams/user/updateTeamName/${teamId}`, {
+    return fetch(process.env.REACT_APP_API_URL + `/teams/user/updateTeamName/${teamId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -66,7 +65,7 @@ const ManageSection = ({
   const handleDeleteTeam = async (teamId) => {
     try {
       const response = await fetch(
-        `${API_URL}/teams/user/deleteTeam/${teamId}`,
+        process.env.REACT_APP_API_URL +`/teams/user/deleteTeam/${teamId}`,
         {
           method: "DELETE",
           headers: {

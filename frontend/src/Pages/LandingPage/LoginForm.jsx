@@ -2,11 +2,10 @@ import { useState } from "react"
 import SignIn from "../../Components/SignIn/SignIn";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { API_URL } from "../../Variables";
 
 const Authorize = async (username, password) => {
     const loginObj = {"UserName": username, "Password": password}
-    return await fetch(`${API_URL}/user/login`, {
+    return await fetch(process.env.REACT_APP_API_URL + "/user/login", {
         method: "POST", 
         headers: {
             "Content-Type": "application/json"
@@ -19,13 +18,11 @@ const Authorize = async (username, password) => {
      
 }
 
-
 const LoginForm = () => {
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies();
     const [showMsg, setShowMsg] = useState(true)
-    const [user, setUser] = useState(null)
-
+console.log(process.env.REACT_APP_API_URL)
     const onSubmit = async (e) => {
         setShowMsg(true);
         e.preventDefault();
@@ -43,7 +40,6 @@ const LoginForm = () => {
             setCookie("token", await auth.token)
             setCookie("username", username)
             console.log("Login successful!")
-            console.log(cookies["token"])
             navigate("/home");
         }
     }

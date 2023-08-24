@@ -81,7 +81,7 @@ public class UserService : IUserService
         throw new NotFoundException("User not found");
     }
 
-    private string HashPassword(string pass)
+    public string HashPassword(string pass)
     {
         byte[] salt = { 187, 69, 193, 241, 190, 187, 23, 10, 114, 164, 239, 80, 79, 38, 7, 93 };
 

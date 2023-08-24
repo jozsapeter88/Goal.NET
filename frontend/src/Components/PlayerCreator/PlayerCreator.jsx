@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import useCookies from "react-cookie/cjs/useCookies";
-import { API_URL } from "../../Variables";
 
 const PlayerCreator = () => {
   const [cookies, setCookies] = useCookies();
@@ -22,7 +21,7 @@ const PlayerCreator = () => {
 
   const fetchNationalities = async () => {
     try {
-      const response = await fetch(`${API_URL}/players/getNationalities`, {
+      const response = await fetch(process.env.REACT_APP_API_URL + "/players/getNationalities", {
         headers: {
           'Authorization': "Bearer " + cookies["token"]
         }});
@@ -39,7 +38,7 @@ const PlayerCreator = () => {
 
   const fetchPositions = async () => {
     try {
-      const response = await fetch(`${API_URL}/players/getPositions`);
+      const response = await fetch(process.env.REACT_APP_API_URL + "/players/getPositions");
       if (response.ok) {
         const data = await response.json();
         setPositions(data);
@@ -53,7 +52,7 @@ const PlayerCreator = () => {
 
   const fetchGenders = async () => {
     try {
-      const response = await fetch(`${API_URL}/players/getGender`);
+      const response = await fetch(process.env.REACT_APP_API_URL + "/players/getGender");
       if (response.ok) {
         const data = await response.json();
         setGenders(data);
@@ -90,7 +89,7 @@ const PlayerCreator = () => {
     };
 
     try {
-      const response = await fetch(`${API_URL}/players/admin/createPlayer`, {
+      const response = await fetch(process.env.REACT_APP_API_URL + "/players/admin/createPlayer", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

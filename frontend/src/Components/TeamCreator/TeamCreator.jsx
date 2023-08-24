@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import useCookies from "react-cookie/cjs/useCookies";
-import { API_URL } from "../../Variables";
 
 const TeamCreator = () => {
-  const [cookies, setCookies] = useCookies();
+  const [cookies] = useCookies();
   const [teamName, setTeamName] = useState('');
   const [teamColor, setTeamColor] = useState('');
 
@@ -23,7 +22,7 @@ const TeamCreator = () => {
     };
 
     try {
-      const response = await fetch(`${API_URL}/teams/addTeam`, {
+      const response = await fetch(process.env.REACT_APP_API_URL + "/teams/addTeam", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

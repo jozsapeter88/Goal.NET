@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Loading from "./Loading";
 import { Card, Button, Collapse } from "react-bootstrap";
 import useCookies from "react-cookie/cjs/useCookies";
-import { API_URL } from "../Variables";
 
 export default function MyTeams() {
   const [cookies] = useCookies();
@@ -14,7 +13,7 @@ export default function MyTeams() {
 
   const fetchTeamsOfUser = async () => {
     try {
-      const response = await fetch(`${API_URL}/teams/user/getTeams`, {
+      const response = await fetch(process.env.REACT_APP_API_URL + "/teams/user/getTeams", {
         headers: {
           Authorization: "Bearer " + cookies["token"],
         },
@@ -33,7 +32,7 @@ export default function MyTeams() {
   const fetchPlayersOfUsersTeam = async (teamId) => {
     try {
       const response = await fetch(
-        `${API_URL}/teams/user/getPlayersOfTeam/${teamId}`
+        process.env.REACT_APP_API_URL + "/teams/user/getPlayersOfTeam/${teamId}"
       );
       if (response.ok) {
         const data = await response.json();

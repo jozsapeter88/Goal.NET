@@ -1,13 +1,11 @@
 import { useState } from "react";
 import SignUp from "./SignUp/SignUp";
 import { useNavigate } from "react-router-dom";
-import Cookie from "universal-cookie";
 import { useCookies } from "react-cookie";
-import { API_URL } from "../Variables";
 
 const Authorize = async (username, password) => {
   const loginObj = { UserName: username, Password: password };
-  return await fetch(`${API_URL}/user/register`, {
+  return await fetch(process.env.REACT_APP_API_URL + "/user/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

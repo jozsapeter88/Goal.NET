@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  goaldotnetbackend:
+    container_name: goaldotnetbackend
+    build:
+      context: Backend
+      dockerfile: Dockerfile
+    ports:
+      - "5076:5076"
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5433:5432"
+
+  goaldotnetfrontend:
+    container_name: goaldotnetfrontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - goaldotnetbackend 

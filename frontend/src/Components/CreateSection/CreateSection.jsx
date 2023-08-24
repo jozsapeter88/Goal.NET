@@ -14,7 +14,6 @@ import {
 } from "react-bootstrap";
 import "./CreateSection";
 import useCookies from "react-cookie/cjs/useCookies";
-import { API_URL } from "../../Variables";
 
 const CreateSection = ({ setTeams }) => {
   const [cookies] = useCookies();
@@ -45,7 +44,7 @@ const CreateSection = ({ setTeams }) => {
 
   const fetchNationalities = async () => {
     try {
-      const response = await fetch(`${API_URL}/players/getNationalities`);
+      const response = await fetch(process.env.REACT_APP_API_URL + `/players/getNationalities`);
       if (response.ok) {
         const data = await response.json();
         setNationalities(data);
@@ -59,7 +58,7 @@ const CreateSection = ({ setTeams }) => {
 
   const fetchPositions = async () => {
     try {
-      const response = await fetch(`${API_URL}/players/getPositions`);
+      const response = await fetch(process.env.REACT_APP_API_URL + "/players/getPositions");
       if (response.ok) {
         const data = await response.json();
         setPositions(data);
@@ -73,7 +72,7 @@ const CreateSection = ({ setTeams }) => {
 
   const fetchGenders = async () => {
     try {
-      const response = await fetch(`${API_URL}/players/getGender`);
+      const response = await fetch(process.env.REACT_APP_API_URL + "/players/getGender");
       if (response.ok) {
         const data = await response.json();
         setGenders(data);
@@ -110,7 +109,7 @@ const CreateSection = ({ setTeams }) => {
     };
 
     try {
-      const response = await fetch(`${API_URL}/players/admin/createPlayer`, {
+      const response = await fetch(process.env.REACT_APP_API_URL + "/players/admin/createPlayer", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -156,7 +155,7 @@ const CreateSection = ({ setTeams }) => {
     };
 
     try {
-      const response = await fetch(`${API_URL}/teams/user/addTeamToUser`, {
+      const response = await fetch(process.env.REACT_APP_API_URL + "/teams/user/addTeamToUser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

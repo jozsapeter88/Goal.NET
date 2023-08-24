@@ -10,11 +10,13 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
+string connectionString = builder.Environment.IsDevelopment()
+    ? "DefaultConnection"
+    : "DockerCommandsConnectionString";
 
+Console.WriteLine(connectionString);
 builder.Services.AddDbContext<GoalContext>(options =>
-{
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+    options.UseNpgsql(builder.Configuration.GetConnectionString(connectionString ?? throw new InvalidOperationException("no connectionString"))));
 
 
 // Add services
@@ -24,7 +26,6 @@ builder.Services.AddTransient<IPlayerService, PlayerService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITeamService, TeamService>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
-
 
 builder.Services.AddCors();
 // Get values of JWT from appsettings.json
@@ -72,13 +73,14 @@ else
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<GoalContext>();
+    var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
     try
     {
 
         if (context.Database.EnsureCreated())
         {
             //context.Database.Migrate();
-            DbInitializer.Initialize(context);
+            DbInitializer.Initialize(context, userService);
         }
      
     }

@@ -7,7 +7,6 @@ import {
 } from "react-bootstrap";
 import "./Dashboard.css";
 import useCookies from "react-cookie/cjs/useCookies";
-import { API_URL } from "../../Variables";
 import MyTeams from "../../Components/MyTeams";
 import MatchHistory from "../../Components/MatchHistory";
 

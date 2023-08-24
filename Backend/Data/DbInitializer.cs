@@ -1,14 +1,47 @@
 ﻿using Backend.Enums;
 using Backend.Model;
+using Backend.Services;
 
 namespace Backend.Data;
 
 public class DbInitializer
 {
-    public static void Initialize(GoalContext context)
+    public static void Initialize(GoalContext context, IUserService userService)
     {
-        context.Database.EnsureCreated();
-
+        
+        if(context.GoalUsers.Any()) return;
+        var user = new User()
+        {
+            UserName = "guest",
+            Password = userService.HashPassword("guest"),
+            UserLevel = UserLevel.User,
+            Teams = new List<Team>()
+            {
+                new Team()
+                {
+                    Name = "GuestTeam",
+                    Coach = new Coach
+                    {
+                        Name = "Coach Guest",
+                        Nationality = NationalityEnum.Hungary,
+                        Gender = GenderEnum.Male
+                    },
+                    Color = "blue",
+                    AllPlayers = new List<Player>()
+                    {
+                        new Player()
+                        {
+                            Name = "Dominik Szoboszlai",
+                            Gender = GenderEnum.Male,
+                            Position = PositionEnum.Midfielder,
+                            Score = 90,
+                            Nationality = NationalityEnum.Hungary
+                        }
+                    }
+                }
+            }
+        };
+        context.GoalUsers.Add(user);
         if (context.Players.Any()) return;
 
         var players = new[]

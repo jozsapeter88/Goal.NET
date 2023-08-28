@@ -8,39 +8,40 @@
 ## <span style="font-size: 24px"><b>Introduction 👋</b></span>
 Welcome to Goal.NET, a fantasy football-themed application that brings together .NET on the backend and React on the frontend. Please keep in mind that this version is not yet production-ready and serves as a showcase of the potential this project holds for fantasy football enthusiasts.
 
-## <span style="font-size: 24px"><b>Installation Guide 🛠️</b></span>
+## <span style="font-size: 24px"><b>Running the Project with Docker Compose 🛠️</b></span>
 Follow these steps to run Goal.NET on your local machine:
-
 ```bash
 # Clone the repository to your local system.
 $ git clone git@github.com:jozsapeter88/Goal.NET.git
 
 # Open the solution
-# Navigate to the backend directory.
-$ cd backend
+# Navigate to the project directory.
+$ cd Goal.NET
 
-# Open the appsettings.json file and update the "DefaultConnection" value with your database connection string.
+# Make a copy of the .env_public files
+In the project root folder find .env_public_compose, rename it to .env and add your strong password,
+(in the frontend folder find .env_public_frontend you can modify the URL as well if you want)
 
-# Apply database migrations.
-$ dotnet ef database update
+# Open the appsettings.json file and you can update the "DockerCommandsConnectionString" value with your database connection string.
 
-# Navigate to the frontend directory.
-$ cd ../frontend
+# Build Docker Images:
+Navigate to the project directory and build the Docker images using the following command:
 
-# Install frontend dependencies.
-$ npm install
+$ docker-compose build
 
-# Start the backend server.
-$ cd ../backend
-$ dotnet run
+# Start the containers in the following order
 
-# Start the frontend development server.
-$ cd ../frontend
-$ npm start
+# Start the database container
+$ docker-compose up -d db
+
+# Start backend container
+$ docker-compose up -d goaldotnetbackend
+
+# Start frontend container
+$ docker-compose up -d goaldotnetfrontend
 
 # Open your web browser and go to http://localhost:3000 to explore the Goal.NET App.
 ```
-
 🚀 Enjoy your fantasy football experience with Goal.NET!
 
 # Stats

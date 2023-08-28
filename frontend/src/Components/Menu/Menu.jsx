@@ -10,7 +10,9 @@ import './Menu.css';
 function Menu() {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(true);
-  const userName = cookies["username"];    
+  const userName = cookies["username"];
+  const userLevel = cookies["userlevel"];
+  console.log(userLevel);
 
   function onLogout() {
     removeCookie("username");

@@ -165,11 +165,13 @@ const CreateSection = ({ setTeams }) => {
       });
 
       if (response.ok) {
+        console.log(response)
         const createdTeam = await response.json();
         console.log("Team created:", createdTeam);
         setTeams((prevTeams) => [...prevTeams, createdTeam]);
-        setTeamName("");
-        setTeamColor("");
+        setTeamName(createdTeam.name);
+        setTeamColor(createdTeam.color);
+        location.reload();
         setTeamSuccessMessage("Team created successfully.");
 
         // Check if it's the first team

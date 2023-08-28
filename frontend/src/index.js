@@ -51,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/teamList",
     element: <AddPlayerList />
+  },
+  {
+    path: "/admintool",
+    element: <UserEditor />
   }
   
 ]);

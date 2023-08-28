@@ -1,7 +1,6 @@
 import { useState } from "react";
 import SignUp from "./SignUp/SignUp";
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 
 const Authorize = async (username, password) => {
   const loginObj = { UserName: username, Password: password };
@@ -22,7 +21,6 @@ function timeout(delay) {
 
 const RegisterForm = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies();
   const [showMsg, setShowMsg] = useState(true);
   const [successfulReg, setReg] = useState(false);
 

@@ -26,6 +26,7 @@ const ManageSection = ({
 
   const handleManageTeamModal = (team) => {
     setSelectedTeam(team);
+    setTeamName(team.name);
     setShowManageTeamModal(true);
   };
 

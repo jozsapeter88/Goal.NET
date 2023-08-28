@@ -1,7 +1,12 @@
 import { useState } from "react"
 import SignIn from "../../Components/SignIn/SignIn";
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import { useCookies } from 'react-cookie';
+
+const GetUserLevel = async () => {
+    return await fetch(process.env.REACT_APP_API_URL + "/level")
+        .then(res => res.text())
+}
 
 const Authorize = async (username, password) => {
     const loginObj = {"UserName": username, "Password": password}
@@ -19,8 +24,8 @@ const Authorize = async (username, password) => {
 }
 
 const LoginForm = () => {
+    const [cookies, setCookie, removeCookie] = useCookies(true);
     const navigate = useNavigate();
-    const [cookies, setCookie] = useCookies();
     const [showMsg, setShowMsg] = useState(true)
 console.log(process.env.REACT_APP_API_URL)
     const onSubmit = async (e) => {
@@ -29,6 +34,8 @@ console.log(process.env.REACT_APP_API_URL)
         const username = e.target.formBasicUsername.value;
         const password = e.target.formBasicPassword.value;
         const auth = await Authorize(username, password);
+        const userLevel = await GetUserLevel();
+        console.log(userLevel)
         if(auth.status === 401) {
             setShowMsg(false);
             console.error("Wrong login credentials!")
@@ -39,6 +46,7 @@ console.log(process.env.REACT_APP_API_URL)
         else if(auth.status === 200){
             setCookie("token", await auth.token)
             setCookie("username", username)
+            setCookie("userlevel", userLevel)
             console.log("Login successful!")
             navigate("/home");
         }

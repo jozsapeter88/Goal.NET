@@ -73,6 +73,17 @@ public class UserController : ControllerBase
         return Unauthorized();
     }
 
+    [HttpGet("level")]
+    public ActionResult<string> GetUserLevel()
+    {
+        var user = GetCurrentUser().Result;
+        if (user == null)
+        {
+            return NotFound("User might not be logged in");
+        }
+        return Ok(user.UserLevel.ToString());
+    }
+
     private async Task<string> GenerateJwt(User user)
     {
         //get parameters from config
@@ -101,9 +112,21 @@ public class UserController : ControllerBase
             issuer,
             audience,
             claims,
-            expires: DateTime.Now.AddHours(1),
+            expires: DateTime.Now.AddHours(10),
             signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+    private async Task<User?> GetCurrentUser()
+    {
+        {
+            if (HttpContext.User.Identity is not ClaimsIdentity identity) return null;
+            var userClaims = identity.Claims;
+
+            var username = userClaims.FirstOrDefault(o => o.Type == ClaimTypes.NameIdentifier)?.Value;
+            if (username != null)
+                return await UserService.GetUser(username);
+            return null;
+        }
     }
 }

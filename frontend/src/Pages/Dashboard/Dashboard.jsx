@@ -6,12 +6,10 @@ import {
   Modal,
 } from "react-bootstrap";
 import "./Dashboard.css";
-import useCookies from "react-cookie/cjs/useCookies";
 import MyTeams from "../../Components/MyTeams";
 import MatchHistory from "../../Components/MatchHistory";
 
 const Dashboard = () => {
-  const [cookies] = useCookies();
 
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedMatchDetails, setSelectedMatchDetails] = useState("");

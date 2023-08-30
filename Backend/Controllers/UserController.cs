@@ -49,7 +49,6 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("levels")]
-    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<List<string>>> ProvideUserLevels()
     {
         var userLevels = Enum.GetNames(typeof(UserLevel)).ToList();
@@ -74,9 +73,9 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("level")]
-    public ActionResult<string> GetUserLevel()
+    public async Task<ActionResult> GetUserLevel()
     {
-        var user = GetCurrentUser().Result;
+        var user = await GetCurrentUser();
         if (user == null)
         {
             return NotFound("User might not be logged in");

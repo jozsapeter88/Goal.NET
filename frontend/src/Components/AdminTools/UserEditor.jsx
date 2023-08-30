@@ -4,6 +4,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import useCookies from "react-cookie/cjs/useCookies";
 import { useNavigate } from "react-router-dom";
+import auth from "../../auth/auth";
 
 const UserEditor = () => {
   const navigate = useNavigate();
@@ -12,6 +13,10 @@ const UserEditor = () => {
   const [Users, setUsers] = useState("");
   const [UserNames, setUserNames] = useState([]);
   const [SelectedUser, setSelectedUser] = useState("");
+
+  if (!auth(2)) {
+    window.location.href = "/home"
+  }
 
   const [HideLevel, setHideLevel] = useState(true);
   const [HideButton, setHideButton] = useState(true);

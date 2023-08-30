@@ -6,18 +6,21 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
 import './Menu.css';
+import auth from '../../auth/auth';
 
 function Menu() {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(true);
   const userName = cookies["username"];
   const userLevel = cookies["userlevel"];
-  console.log(userLevel);
+  console.log(userLevel)
 
   function onLogout() {
     removeCookie("username");
     removeCookie("token");
+    removeCookie("userlevel");
     navigate("/");
+    //ide kellene egy logout fetch
   }
 
   return (

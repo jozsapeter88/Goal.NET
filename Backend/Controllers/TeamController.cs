@@ -107,7 +107,7 @@ public class TeamController : ControllerBase
     [HttpPost("user/addTeamToUser")]
     public async Task<ActionResult<Team>> AddTeamToUser(long userId,TeamCreateDto team)
     {
-        var user = GetCurrentUser();
+        var user = await GetCurrentUser();
         var result = await _teamService.AddTeamToUser(user.Id, team);
         return Ok(result);
     }

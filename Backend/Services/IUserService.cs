@@ -11,5 +11,5 @@ public interface IUserService
     public Task<bool> UpdateUser(User user);
     public Task<User> GetUser(string username);
 
-    public string HashPassword(string password);
+    public string HashPassword(string username, string password);
 }

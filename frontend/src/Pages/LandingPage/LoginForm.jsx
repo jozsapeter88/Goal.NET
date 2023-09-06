@@ -63,7 +63,6 @@ console.log(process.env.REACT_APP_API_URL)
             const userLevels = await GetUserLevels(await auth.token);
             setCookie("userlevel", userLevel);
             setCookie("userlevels", userLevels);
-            console.log(userLevels)
             navigate("/home");
         }
     }

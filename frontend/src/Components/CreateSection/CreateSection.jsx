@@ -14,6 +14,7 @@ import {
 } from "react-bootstrap";
 import "./CreateSection";
 import useCookies from "react-cookie/cjs/useCookies";
+import auth from "../../auth/auth";
 
 const CreateSection = ({ setTeams }) => {
   const [cookies] = useCookies();
@@ -100,6 +101,10 @@ const CreateSection = ({ setTeams }) => {
   };
 
   const createPlayer = async () => {
+    if(!auth("Operator")){
+      console.error("Unauthorized");
+      return;
+    }
     const playerData = {
       name: playerName,
       nationality: playerNationality,
@@ -193,6 +198,104 @@ const CreateSection = ({ setTeams }) => {
       setTeamErrorMessage("Error creating team: " + error.message);
     }
   };
+
+  const createPlayerElement = (
+    <>
+    <Card
+                bg="dark"
+                text="white"
+                className={`create-card ${showCreatePlayer ? "active" : ""}`}
+              >
+                <Card.Header>
+                  <Button
+                    variant="text"
+                    onClick={handleToggleCreatePlayer}
+                    aria-controls="create-player-collapse"
+                    aria-expanded={showCreatePlayer}
+                    style={{color: "white", fontWeight: "bold"}}
+                  >
+                    <b>Create Player</b>
+                  </Button>
+                </Card.Header>
+                <Collapse in={showCreatePlayer}>
+                  <div id="create-player-collapse">
+                    <Card.Body>
+                      <Form onSubmit={handleCreatePlayer}>
+                        <Form.Group controlId="formPlayerName">
+                          <Form.Label>Player Name</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter player name"
+                            value={playerName}
+                            onChange={(e) => setPlayerName(e.target.value)}
+                          />
+                        </Form.Group>
+                        <Form.Group controlId="formPlayerNationality">
+                          <Form.Label>Nationality</Form.Label>
+                          <Form.Control
+                            as="select"
+                            value={playerNationality}
+                            onChange={(e) =>
+                              setPlayerNationality(e.target.value)
+                            }
+                          >
+                            <option value="">Select nationality</option>
+                            {nationalities.map((nationality) => (
+                              <option key={nationality} value={nationality}>
+                                {nationality}
+                              </option>
+                            ))}
+                          </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="formPlayerPosition">
+                          <Form.Label>Position</Form.Label>
+                          <Form.Control
+                            as="select"
+                            value={playerPosition}
+                            onChange={(e) => setPlayerPosition(e.target.value)}
+                          >
+                            <option value="">Select position</option>
+                            {positions.map((position) => (
+                              <option key={position} value={position}>
+                                {position}
+                              </option>
+                            ))}
+                          </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="formPlayerGender">
+                          <Form.Label>Gender</Form.Label>
+                          <Form.Control
+                            as="select"
+                            value={playerGender}
+                            onChange={(e) => setPlayerGender(e.target.value)}
+                          >
+                            <option value="">Select gender</option>
+                            {genders.map((gender) => (
+                              <option key={gender} value={gender}>
+                                {gender}
+                              </option>
+                            ))}
+                          </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="formPlayerOverall">
+                          <Form.Label>Overall Score</Form.Label>
+                          <Form.Control
+                            type="number"
+                            placeholder="Enter overall score"
+                            value={playerOverall}
+                            onChange={(e) => setPlayerOverall(e.target.value)}
+                          />
+                        </Form.Group>
+                        <Button variant="primary" type="submit">
+                          Create
+                        </Button>
+                      </Form>
+                    </Card.Body>
+                  </div>
+                </Collapse>
+              </Card>
+              </>
+)
 
   return (
     <>
@@ -309,99 +412,7 @@ const CreateSection = ({ setTeams }) => {
                   </div>
                 </Collapse>
               </Card>
-              <Card
-                bg="dark"
-                text="white"
-                className={`create-card ${showCreatePlayer ? "active" : ""}`}
-              >
-                <Card.Header>
-                  <Button
-                    variant="text"
-                    onClick={handleToggleCreatePlayer}
-                    aria-controls="create-player-collapse"
-                    aria-expanded={showCreatePlayer}
-                    style={{color: "white", fontWeight: "bold"}}
-                  >
-                    <b>Create Player</b>
-                  </Button>
-                </Card.Header>
-                <Collapse in={showCreatePlayer}>
-                  <div id="create-player-collapse">
-                    <Card.Body>
-                      <Form onSubmit={handleCreatePlayer}>
-                        <Form.Group controlId="formPlayerName">
-                          <Form.Label>Player Name</Form.Label>
-                          <Form.Control
-                            type="text"
-                            placeholder="Enter player name"
-                            value={playerName}
-                            onChange={(e) => setPlayerName(e.target.value)}
-                          />
-                        </Form.Group>
-                        <Form.Group controlId="formPlayerNationality">
-                          <Form.Label>Nationality</Form.Label>
-                          <Form.Control
-                            as="select"
-                            value={playerNationality}
-                            onChange={(e) =>
-                              setPlayerNationality(e.target.value)
-                            }
-                          >
-                            <option value="">Select nationality</option>
-                            {nationalities.map((nationality) => (
-                              <option key={nationality} value={nationality}>
-                                {nationality}
-                              </option>
-                            ))}
-                          </Form.Control>
-                        </Form.Group>
-                        <Form.Group controlId="formPlayerPosition">
-                          <Form.Label>Position</Form.Label>
-                          <Form.Control
-                            as="select"
-                            value={playerPosition}
-                            onChange={(e) => setPlayerPosition(e.target.value)}
-                          >
-                            <option value="">Select position</option>
-                            {positions.map((position) => (
-                              <option key={position} value={position}>
-                                {position}
-                              </option>
-                            ))}
-                          </Form.Control>
-                        </Form.Group>
-                        <Form.Group controlId="formPlayerGender">
-                          <Form.Label>Gender</Form.Label>
-                          <Form.Control
-                            as="select"
-                            value={playerGender}
-                            onChange={(e) => setPlayerGender(e.target.value)}
-                          >
-                            <option value="">Select gender</option>
-                            {genders.map((gender) => (
-                              <option key={gender} value={gender}>
-                                {gender}
-                              </option>
-                            ))}
-                          </Form.Control>
-                        </Form.Group>
-                        <Form.Group controlId="formPlayerOverall">
-                          <Form.Label>Overall Score</Form.Label>
-                          <Form.Control
-                            type="number"
-                            placeholder="Enter overall score"
-                            value={playerOverall}
-                            onChange={(e) => setPlayerOverall(e.target.value)}
-                          />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">
-                          Create
-                        </Button>
-                      </Form>
-                    </Card.Body>
-                  </div>
-                </Collapse>
-              </Card>
+              {renderElementWithAuth(createPlayerElement, "Operator")}
             </div>
           </Col>
         </div>
@@ -409,5 +420,11 @@ const CreateSection = ({ setTeams }) => {
     </>
   );
 };
+
+function renderElementWithAuth(htmlElement, minimumLevel) {
+  if(!auth(minimumLevel)) return <></>
+  else return htmlElement;
+}
+
 
 export default CreateSection;

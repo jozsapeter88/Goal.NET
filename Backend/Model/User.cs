@@ -11,7 +11,7 @@ public class User
     public string Password { get; set; } = string.Empty;
     public UserLevel UserLevel { get; set; }
     public List<Team>? Teams { get; set; }
-
+    public int Points { get; set; } = 100;
     public bool CheckPassword(string pass)
     {
         return Password.Equals(pass);

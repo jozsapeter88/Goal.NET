@@ -116,6 +116,8 @@ public class UserController : ControllerBase
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+    
+    [HttpGet("currentUser")]
     private async Task<User?> GetCurrentUser()
     {
         {

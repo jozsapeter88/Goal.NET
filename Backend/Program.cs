@@ -79,7 +79,7 @@ using (var scope = app.Services.CreateScope())
 
         if (context.Database.EnsureCreated())
         {
-            //context.Database.Migrate();
+            context.Database.Migrate();
             DbInitializer.Initialize(context, userService);
         }
      

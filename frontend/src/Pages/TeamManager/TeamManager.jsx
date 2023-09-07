@@ -13,8 +13,10 @@ const TeamManager = () => {
   const [loadingPlayers, setLoadingPlayers] = useState(true)
   const [teams, setTeams] = useState([]);
   const [players, setPlayers] = useState([])
-  console.log(players.length)
-  console.log(teams.length)
+  const [currentUser, setCurrentUser] = useState([])
+  console.log(players.length);
+  console.log(teams.length);
+  console.log("Current user is" + currentUser);
 
   const fetchPlayers = () => {
     return fetch(process.env.REACT_APP_API_URL + `/players/getAllPlayers`, {
@@ -30,6 +32,14 @@ const TeamManager = () => {
         Authorization: "Bearer " + cookies["token"],
       },
       signal,
+    }).then((res) => res.json());
+  };
+
+  const fetchCurrentUser = () => {
+    return fetch(process.env.REACT_APP_API_URL + `/user/currentUser`, {
+      headers: {
+        Authorization: "Bearer " + cookies["token"],
+      }
     }).then((res) => res.json());
   };
 
@@ -50,6 +60,11 @@ const TeamManager = () => {
 
   useEffect(() => {
     const controller = new AbortController();
+    fetchCurrentUser()
+    .then((userData) => {
+      setCurrentUser(userData);
+      setLoading(false);
+      })
     fetchTeamsOfUser()
       .then((teamsData) => {
         setTeams(teamsData);
@@ -92,6 +107,9 @@ const TeamManager = () => {
           }}
         >
           Team Manager
+        </h1>
+        <h1>
+          Available points:
         </h1>
       </div>
       <Container>

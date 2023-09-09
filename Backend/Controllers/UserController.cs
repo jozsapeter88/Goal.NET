@@ -28,9 +28,13 @@ public class UserController : ControllerBase
     {
         if (await UserService.Login(user.UserName, user.Password))
         {
-            var userFromDb = UserService.GetUser(user.UserName).Result;
+            var userFromDb = await UserService.GetUser(user.UserName);
             var token = await GenerateJwt(userFromDb);
-            return Ok(token);
+            return Ok(new
+            {
+                Token = token,
+                User = userFromDb
+            });
         }
 
         return Unauthorized();
@@ -117,8 +121,8 @@ public class UserController : ControllerBase
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
     
-    [HttpGet("currentUser")]
-    private async Task<User?> GetCurrentUser()
+    //[HttpGet("currentUser")]
+    public async Task<User?> GetCurrentUser()
     {
         {
             if (HttpContext.User.Identity is not ClaimsIdentity identity) return null;

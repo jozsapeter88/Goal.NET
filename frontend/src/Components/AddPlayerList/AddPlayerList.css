@@ -7,7 +7,7 @@
     background-color: #000000;
     border-radius: 10px;
     padding: 0.25em;
-    top: -600%;
+    top: 0%;
     left: 50%;
     transform: translate(-50%, 50%);
 }

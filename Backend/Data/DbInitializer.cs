@@ -15,13 +15,16 @@ public class DbInitializer
             UserName = "guest",
             Password = userService.HashPassword("guest"),
             UserLevel = UserLevel.User,
+            Points = 1000,
             Teams = new List<Team>()
             {
                 new Team()
                 {
+                    
                     Name = "GuestTeam",
                     Coach = new Coach
                     {
+                        
                         Name = "Coach Guest",
                         Nationality = NationalityEnum.Hungary,
                         Gender = GenderEnum.Male
@@ -31,6 +34,8 @@ public class DbInitializer
                     {
                         new Player()
                         {
+                            
+                            Id = -56,
                             Name = "Dominik Szoboszlai",
                             Gender = GenderEnum.Male,
                             Position = PositionEnum.Midfielder,

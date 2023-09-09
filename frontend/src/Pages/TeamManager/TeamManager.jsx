@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Menu from "../../Components/Menu/Menu";
 import CreateSection from "../../Components/CreateSection/CreateSection";
@@ -6,74 +6,71 @@ import ManageSection from "../../Components/ManageSection/ManageSection";
 import useCookies from "react-cookie/cjs/useCookies";
 import { useNavigate } from "react-router-dom/dist";
 import Loading from "../../Components/Loading";
+import { UserContext } from "../../Contexts/UserContext";
+import AddPlayerList from "../../Components/AddPlayerList/AddPlayerList";
+import ConfirmationModal from "../../Components/CofirmationModal";
 
+
+export const fetchCurrentUser = (cookies) => {
+  return fetch(process.env.REACT_APP_API_URL + `/user/currentUser`, {
+    headers: {
+      Authorization: "Bearer " + cookies["token"],
+    }
+  }).then((res) => res.json());
+};
+
+const fetchPlayers = (cookies) => {
+  return fetch(process.env.REACT_APP_API_URL + `/players/getAllPlayers`, {
+    headers: {
+      Authorization: "Bearer " + cookies["token"],
+    }  
+  }).then((res) => res.json());
+};
+
+const fetchTeamsOfUser = ( cookies) => {
+  return fetch(process.env.REACT_APP_API_URL + `/teams/user/getTeams`, {
+    headers: {
+      Authorization: "Bearer " + cookies["token"],
+    },
+  }).then((res) => res.json());
+};
+
+const buyPlayerByUser = async (cookies, teamId, playerId) => {
+  return await fetch(process.env.REACT_APP_API_URL + `/teams/addPlayerToTeam/${teamId}/${playerId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + cookies["token"],
+    },
+  })//.then((res) => res.json());
+}
+
+export const PlayerContext = createContext("player");
 const TeamManager = () => {
   const [cookies] = useCookies();
   const [loading, setLoading] = useState(true);
   const [loadingPlayers, setLoadingPlayers] = useState(true)
   const [teams, setTeams] = useState([]);
-  const [players, setPlayers] = useState([])
-  const [currentUser, setCurrentUser] = useState([])
-  console.log(players.length);
-  console.log(teams.length);
-  console.log("Current user is" + currentUser);
-
-  const fetchPlayers = () => {
-    return fetch(process.env.REACT_APP_API_URL + `/players/getAllPlayers`, {
-      headers: {
-        Authorization: "Bearer " + cookies["token"],
-      }  
-    }).then((res) => res.json());
-  };
-
-  const fetchTeamsOfUser = (signal) => {
-    return fetch(process.env.REACT_APP_API_URL + `/teams/user/getTeams`, {
-      headers: {
-        Authorization: "Bearer " + cookies["token"],
-      },
-      signal,
-    }).then((res) => res.json());
-  };
-
-  const fetchCurrentUser = () => {
-    return fetch(process.env.REACT_APP_API_URL + `/user/currentUser`, {
-      headers: {
-        Authorization: "Bearer " + cookies["token"],
-      }
-    }).then((res) => res.json());
-  };
+  const [showPlayerList, setShowPlayerList] = useState(false);
+  const [isBuyOpen, setIsBuyOpen] = useState(false)
+  const [playerId, setPlayerId] = useState(null);
+  const [teamId ,setTeamId] = useState(null);
+  const {user, setUser} = useContext(UserContext);
+  const [players, setPlayers] = useState([]);
+  const navigate = useNavigate();
+  
+  
 
   useEffect(() => {
-    fetchPlayers()
-      .then((playersData) => {
-        setPlayers(playersData)
-        setLoadingPlayers(false)
-      })
-      .catch((error) => {
-        if (error.name !== "AbortError") {
-          setPlayers([]);
-          throw error;
-        }
-      });
-
-  }, []);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    fetchCurrentUser()
-    .then((userData) => {
-      setCurrentUser(userData);
-      setLoading(false);
-      })
-    fetchTeamsOfUser()
+    fetchTeamsOfUser(cookies)
       .then((teamsData) => {
         setTeams(teamsData);
         setLoading(false);
       })
-    fetchPlayers()
+    fetchPlayers(cookies)
       .then((playersData) => {
         setPlayers(playersData)
-        setLoading(false)
+        setLoadingPlayers(false)
       })
       .catch((error) => {
         if (error.name !== "AbortError") {
@@ -81,11 +78,31 @@ const TeamManager = () => {
           throw error;
         }
       });
-
-    return () => controller.abort();
   }, []);
 
-  const navigate = useNavigate();
+  const onConfirm = async ()=> {
+     const buy = await buyPlayerByUser(cookies,teamId, playerId)
+     console.log("status: " + buy.status)
+     if(buy.status === 200){
+      
+      const data = await buy.json();
+      const updatedUser = { ...user, points: data.userPoint };
+      console.log(updatedUser)
+      console.log("points: " + data.userPoint)
+       // Update the 'user' item in localStorage
+       localStorage.setItem('user', JSON.stringify(updatedUser));
+       // Update the user context with the new user object
+       setUser(updatedUser);
+     }
+     else if(buy.status === 400){
+      alert("You can't afford this player or you already have it!")
+     }else if(buy.status === 404) 
+     {
+      alert("This team doesn't exist ")
+      }
+      setIsBuyOpen(!isBuyOpen)
+     }
+    
   
   if (cookies["token"] === undefined || cookies["username"] === undefined) {
     navigate("/");
@@ -96,6 +113,7 @@ const TeamManager = () => {
   }
   return (
     <>
+    <PlayerContext.Provider value={{players, setPlayers}}>
       <Menu />
       <div className="MyTeams">
         <h1
@@ -109,7 +127,7 @@ const TeamManager = () => {
           Team Manager
         </h1>
         <h1>
-          Available points:
+          Available points: {user.points}
         </h1>
       </div>
       <Container>
@@ -124,12 +142,33 @@ const TeamManager = () => {
             teams={teams}
             setTeams={setTeams}
             loading={loading}
-            players={players}
             loadingPlayers={loadingPlayers}
-            setLoadingPlayers={setLoadingPlayers} />
+            setLoadingPlayers={setLoadingPlayers}
+            showPlayerList={showPlayerList} 
+            setShowPlayerList={setShowPlayerList}
+            setTeamId={setTeamId} />
           </Col>
         </Row>
+        
+        {showPlayerList && (
+          <Row>
+            <AddPlayerList 
+            loadingPlayers={loadingPlayers} 
+            setIsBuyOpen={setIsBuyOpen} 
+            setPlayerId ={setPlayerId} />
+          </Row>
+)}
+
+        
+      {isBuyOpen && (
+              <ConfirmationModal
+              isBuyOpen={isBuyOpen}
+              setIsBuyOpen={setIsBuyOpen}
+              onConfirm= {onConfirm}
+              />
+            )}
       </Container>
+      </PlayerContext.Provider>
     </>
   );
 };

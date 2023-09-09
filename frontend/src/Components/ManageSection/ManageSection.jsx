@@ -1,19 +1,22 @@
 /*-------------------This component is used in the TeamManager-------------------*/
 
 import React, { useState, useEffect } from "react";
-import { Row, Table } from "react-bootstrap";
+import { Button, Row, Table } from "react-bootstrap";
 import Loading from "../Loading";
 import "./ManageSection.css";
 import useCookies from "react-cookie/cjs/useCookies";
 import EditNameModal from "../EditNameModal";
 import ManageTeamModal from "../ManageTeamModal";
+import AddPlayerList from "../AddPlayerList/AddPlayerList";
 
 const ManageSection = ({
   teams,
   setTeams,
   loading,
   loadingPlayers,
-  players,
+  showPlayerList,
+   setShowPlayerList,
+  setTeamId,
 }) => {
   const [cookies] = useCookies();
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
@@ -22,13 +25,21 @@ const ManageSection = ({
   const [showManageTeamModal, setShowManageTeamModal] = useState(false);
   const [showNameModal, setShowNameModal] = useState(false);
   const [teamName, setTeamName] = useState("");
-  const [showTeamList, setShowTeamList] = useState(false);
+  
 
   const handleManageTeamModal = (team) => {
     setSelectedTeam(team);
+    
     setTeamName(team.name);
     setShowManageTeamModal(true);
   };
+
+  const handleBuyPlayers = (team) => {
+    setShowPlayerList(true)
+    setTeamId(team.id)
+  }
+
+  
 
   const updateTeamName = (teamName, teamId) => {
     return fetch(process.env.REACT_APP_API_URL + `/teams/user/updateTeamName/${teamId}`, {
@@ -60,7 +71,7 @@ const ManageSection = ({
     setShowManageTeamModal(false);
 
     setSelectedTeam(null);
-    setShowTeamList(false);
+    setShowPlayerList(false);
   };
 
   const handleDeleteTeam = async (teamId) => {
@@ -97,7 +108,7 @@ const ManageSection = ({
   }
 
   return (
-    <div>
+    <><div>
       <div className="dashboard-container">
         <Row>
           <Table striped bordered hover variant="dark">
@@ -108,14 +119,18 @@ const ManageSection = ({
             </thead>
             <tbody>
               {teams.map((team) => (
-                <tr key={team.id} onClick={() => handleManageTeamModal(team)}>
+                <tr key={team.id}>
                   <td className="team-name">{team.name}</td>
+                  <Button onClick={() => handleManageTeamModal(team)}>Edit Team</Button>
+                  <Button onClick={() => handleBuyPlayers(team)}>Buy Players</Button>
                 </tr>
               ))}
             </tbody>
           </Table>
+
         </Row>
       </div>
+
       {/* Manage Team Modal */}
       {selectedTeam && (
         <ManageTeamModal
@@ -124,11 +139,10 @@ const ManageSection = ({
           selectedTeam={selectedTeam}
           setShowNameModal={setShowNameModal}
           handleDeleteTeam={handleDeleteTeam}
-          setShowTeamList={setShowTeamList}
-          showTeamList={showTeamList}
-          players={players}
-          loadingPlayers={loadingPlayers}
-        />
+          setShowPlayerList={setShowPlayerList}
+          showPlayerList={showPlayerList}
+          setShowManageTeamModal={setShowManageTeamModal}
+          loadingPlayers={loadingPlayers} />
       )}
       {/* Name Modal */}
       {selectedTeam && (
@@ -138,10 +152,9 @@ const ManageSection = ({
           setTeamName={setTeamName}
           teamName={teamName}
           selectedTeam={selectedTeam}
-          showNameModal={showNameModal}
-        />
+          showNameModal={showNameModal} />
       )}
-    </div>
+    </div></>
   );
 };
 

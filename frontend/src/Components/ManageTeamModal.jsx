@@ -9,9 +9,9 @@ const ManageTeamModal = ({
   selectedTeam,
   setShowNameModal,
   handleDeleteTeam,
-  showTeamList,
-  setShowTeamList,
-  players,
+  showPlayerList,
+  setShowPlayerList,
+  setShowManageTeamModal,
   loadingPlayers,
 }) => {
   return (
@@ -25,7 +25,7 @@ const ManageTeamModal = ({
         <Modal.Title>Manage Team: {selectedTeam.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Button variant="success" onClick={() => setShowTeamList(true)}>
+        <Button variant="success" onClick={() => setShowPlayerList(true)}>
           Add Player
         </Button>
         <Button variant="warning" onClick={(e) => setShowNameModal(true)}>
@@ -37,8 +37,10 @@ const ManageTeamModal = ({
         >
           Delete
         </Button>
-        {showTeamList && (
-          <AddPlayerList players={players} loadingPlayers={loadingPlayers} />
+        {showPlayerList && (
+          <AddPlayerList 
+           loadingPlayers={loadingPlayers}
+           setShowManageTeamModal={setShowManageTeamModal} />
         )}
         <Button variant="primary" onClick={() => handleCloseManageTeamModal()}>
           Close

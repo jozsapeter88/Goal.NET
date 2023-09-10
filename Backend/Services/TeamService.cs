@@ -1,5 +1,6 @@
 using AutoMapper;
 using Backend.DTOs;
+using Backend.Exception;
 using Backend.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -102,7 +103,7 @@ public class TeamService : ITeamService
     public async Task<Team?> UserDeleteTeam(long userId, long teamId)
     {
         var user = await _context.GoalUsers
-            .Include(u => u.Teams)
+            .Include(u => u.Teams)!.ThenInclude(team => team.AllPlayers)
             .FirstOrDefaultAsync(u => u.Id == userId);
         if (user != null && user.Teams != null)
         {
@@ -113,7 +114,7 @@ public class TeamService : ITeamService
                 user.Teams.Remove(team);
                 if (team.AllPlayers != null)
                     foreach (var player in team.AllPlayers)
-                        player.Team.Remove(team);
+                        player.Team?.Remove(team);
                 _context.Teams.Remove(team);
             }
 
@@ -124,32 +125,44 @@ public class TeamService : ITeamService
         return null;
     }
 
-    public async Task<Team?> AddPlayerToTeam(long userId, long teamId, long playerId)
+    public async Task<(Team?,int)> AddPlayerToTeam(long userId, long teamId, long playerId)
     {
         var user = await _context.GoalUsers
-            .Include(u => u.Teams)
+            .Include(u => u.Teams)!.ThenInclude(team => team.AllPlayers)
             .FirstOrDefaultAsync(u => u.Id == userId);
         var team = user?.Teams?
             .FirstOrDefault(t => t.Id == teamId);
         var player = await _context.Players
             .Include(p => p.Team)
             .FirstOrDefaultAsync(p => p.Id == playerId);
-        if (team != null)
-            if (player != null)
-            {
-                if (player.Team != null)
+        if (user == null) return (null, StatusCodes.Status404NotFound); // User not found
+        if (team == null) return (null, StatusCodes.Status404NotFound); // Team not found
+        if (player == null) return (null, StatusCodes.Status404NotFound); // Player not found
+
+        bool canAffordIt = HandlePoints(user, player);
+        if (!canAffordIt) return (null, StatusCodes.Status400BadRequest); // Not enough points
+        bool alreadyHave = CheckHavingPlayer(team, player);
+        if (alreadyHave) return (null, StatusCodes.Status400BadRequest); // Already having this player
+                if (player.Team != null )
+                {
                     player.Team.Add(team);
+                }
                 else
+                {
                     player.Team = new List<Team> { team };
+                }
 
                 if (team.AllPlayers != null)
+                {
                     team.AllPlayers.Add(player);
+                }
                 else
+                {
                     team.AllPlayers = new List<Player> { player };
-            }
+                }
+                await _context.SaveChangesAsync();
+                return (team, user.Points);
 
-        await _context.SaveChangesAsync();
-        return team ?? null;
     }
 
     public async Task<List<Team>?> AddTeamToUser(long userId, TeamCreateDto team)
@@ -168,5 +181,21 @@ public class TeamService : ITeamService
         await _context.SaveChangesAsync();
 
         return user?.Teams ?? null;
+    }
+
+    private bool HandlePoints(User user, Player player)
+    {
+        if (user.Points >= player.Score)
+        {
+            user.Points -= player.Score;
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool CheckHavingPlayer(Team team, Player player)
+    {
+        return team.AllPlayers!.Contains(player);
     }
 }

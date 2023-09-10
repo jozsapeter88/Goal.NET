@@ -60,7 +60,7 @@ public class TeamController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("user/getPlayersOfTeam/{teamId}")]
+    [HttpGet("getPlayersOfTeam/{teamId}")]
     public async Task<ActionResult<List<Team>>> GetPlayersOfTeam(long teamId)
     {
         var user = await GetCurrentUser();
@@ -112,15 +112,28 @@ public class TeamController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPut("user/addPlayerToTeam/{teamId}/{playerId}")]
-    public async Task<ActionResult<Team>> AddPlayer(long teamId, long playerId)
+    [HttpPut("addPlayerToTeam/{teamId}/{playerId}")]
+    public async Task<ActionResult> AddPlayer(long teamId, long playerId)
     {
         var user = await GetCurrentUser();
-        if (user == null) return NotFound("Probably user is not logged in!");
         var result = await _teamService.AddPlayerToTeam(user.Id, teamId, playerId);
-        if (result == null) return NotFound("Player or Team was not found");
-
-        return Ok(result);
+        if (result.Item1 == null)
+        {
+            switch (result.Item2)
+            {
+                case StatusCodes.Status404NotFound:
+                    return NotFound("Player or Team or User was not found");
+                case StatusCodes.Status400BadRequest:
+                    return BadRequest("You already have this player or do not have enough points");
+            }
+        }
+        Console.WriteLine(result.Item1);
+        Console.WriteLine(result.Item2);
+        return Ok(new
+        {
+            Team = result.Item1,
+            UserPoint = result.Item2
+        });
     }
 
     [HttpDelete("user/deleteTeam/{teamId}")]

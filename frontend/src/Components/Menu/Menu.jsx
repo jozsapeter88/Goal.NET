@@ -19,6 +19,8 @@ function Menu() {
     removeCookie("username");
     removeCookie("token");
     removeCookie("userlevel");
+    localStorage.clear();
+
     navigate("/");
     //ide kellene egy logout fetch
   }

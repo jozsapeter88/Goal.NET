@@ -71,7 +71,7 @@ export default function MyTeams() {
     }
     setTeams((prevTeams) =>
       prevTeams.map((team) =>
-        team.id === teamId ? { ...team, showDetails: !team.showDetails } : team
+        team.id === teamId ? { ...team, showDetails: !team.showDetails } : { ...team, showDetails: false }
       )
     );
   };

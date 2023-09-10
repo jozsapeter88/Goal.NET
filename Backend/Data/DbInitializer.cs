@@ -8,7 +8,6 @@ public class DbInitializer
 {
     public static void Initialize(GoalContext context, IUserService userService)
     {
-        
         if(context.GoalUsers.Any()) return;
         var user = new User()
         {
@@ -20,11 +19,9 @@ public class DbInitializer
             {
                 new Team()
                 {
-                    
                     Name = "GuestTeam",
                     Coach = new Coach
                     {
-                        
                         Name = "Coach Guest",
                         Nationality = NationalityEnum.Hungary,
                         Gender = GenderEnum.Male
@@ -34,8 +31,6 @@ public class DbInitializer
                     {
                         new Player()
                         {
-                            
-                            Id = -56,
                             Name = "Dominik Szoboszlai",
                             Gender = GenderEnum.Male,
                             Position = PositionEnum.Midfielder,

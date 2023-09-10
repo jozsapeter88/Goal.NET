@@ -13,7 +13,7 @@ public class DbInitializer
         var user = new User()
         {
             UserName = "guest",
-            Password = userService.HashPassword("guest"),
+            Password = userService.HashPassword("guest", "guest"),
             UserLevel = UserLevel.User,
             Points = 1000,
             Teams = new List<Team>()

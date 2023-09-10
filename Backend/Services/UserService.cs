@@ -27,7 +27,7 @@ public class UserService : IUserService
             return false;
         }
 
-        return !user.Equals(null) && user.CheckPassword(HashPassword(password));
+        return !user.Equals(null) && user.CheckPassword(HashPassword(username, password));
     }
 
     public async Task<bool> Register(string username, string password)
@@ -40,7 +40,7 @@ public class UserService : IUserService
             _dbContext.GoalUsers.Add(new User
             {
                 UserName = username,
-                Password = HashPassword(password),
+                Password = HashPassword(username, password),
                 UserLevel = 0
             });
             await _dbContext.SaveChangesAsync();
@@ -81,7 +81,7 @@ public class UserService : IUserService
         throw new NotFoundException("User not found");
     }
 
-    public string HashPassword(string pass)
+    public string HashPassword(string username, string pass)
     {
         byte[] salt = { 187, 69, 193, 241, 190, 187, 23, 10, 114, 164, 239, 80, 79, 38, 7, 93 };
 
@@ -93,5 +93,24 @@ public class UserService : IUserService
             256 / 8));
 
         return hashed;
+    }
+
+    private List<byte[]> GenerateSalt(string username)
+    {
+        List<byte[]> salt = new List<byte[]>();
+        List<char> _abc = new()
+        {
+            'a', 'á', 'b', 'c', 'd', 'e', 'é', 'f', 'g', 'h',
+            'i', 'í', 'j', 'k', 'l', 'm', 'n', 'o', 'ó', 'ö', 'ő', 'p', 'q', 
+            'r', 's', 't', 'u', 'ú', 'ü', 'ű', 'v', 'w', 'x', 'y', 'z'
+        };
+        var charList = username.ToList();
+        charList.Sort();
+        charList.Reverse();
+        foreach (var c in charList)
+        {
+            salt.Add(BitConverter.GetBytes(_abc.IndexOf(c)));
+        }
+        return salt;
     }
 }

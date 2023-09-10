@@ -1,5 +1,5 @@
 .gallery {
-    position: absolute;
+    position: relative;
     display: grid;
     grid-template-rows: repeat(1, 300px);
     grid-template-columns: repeat(11, 160px);

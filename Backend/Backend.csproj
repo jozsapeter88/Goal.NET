@@ -33,4 +33,8 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Exception\AlreadyHaveException.cs" />
+    </ItemGroup>
+
 </Project>

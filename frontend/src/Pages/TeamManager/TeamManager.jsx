@@ -42,7 +42,19 @@ const buyPlayerByUser = async (cookies, teamId, playerId) => {
       "Content-Type": "application/json",
       Authorization: "Bearer " + cookies["token"],
     },
-  })//.then((res) => res.json());
+  })
+}
+
+ export const fetchPlayersOfTeam = async(cookies, teamId)=> {
+  console.log(teamId)
+  return await fetch(process.env.REACT_APP_API_URL + `/teams/getPlayersOfTeam/${teamId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + cookies["token"],
+    },
+  })
+
 }
 
 export const PlayerContext = createContext("player");
@@ -57,10 +69,10 @@ const TeamManager = () => {
   const [teamId ,setTeamId] = useState(null);
   const {user, setUser} = useContext(UserContext);
   const [players, setPlayers] = useState([]);
+  const [showMyPlayers, setShowMyPlayers] = useState(false)
+  const [teamPlayers, setTeamPlayers] = useState([])
   const navigate = useNavigate();
-  
-  
-
+ 
   useEffect(() => {
     fetchTeamsOfUser(cookies)
       .then((teamsData) => {
@@ -80,11 +92,22 @@ const TeamManager = () => {
       });
   }, []);
 
+  const onClickMyPlayers = async(team)=> {
+    const players = await fetchPlayersOfTeam(cookies, team.id)
+    if(players.status === 200){
+      const data = await players.json();
+      console.log('data', data )
+      setTeamPlayers(data)
+    }else if(players.status === 404){
+      console.log('no player')
+      alert("No players yet!")
+    }
+  }
+
   const onConfirm = async ()=> {
      const buy = await buyPlayerByUser(cookies,teamId, playerId)
      console.log("status: " + buy.status)
-     if(buy.status === 200){
-      
+     if(buy.status === 200){  
       const data = await buy.json();
       const updatedUser = { ...user, points: data.userPoint };
       console.log(updatedUser)
@@ -93,6 +116,7 @@ const TeamManager = () => {
        localStorage.setItem('user', JSON.stringify(updatedUser));
        // Update the user context with the new user object
        setUser(updatedUser);
+       alert("Player is successfully purchased!")
      }
      else if(buy.status === 400){
       alert("You can't afford this player or you already have it!")
@@ -103,7 +127,6 @@ const TeamManager = () => {
       setIsBuyOpen(!isBuyOpen)
      }
     
-  
   if (cookies["token"] === undefined || cookies["username"] === undefined) {
     navigate("/");
   }
@@ -146,19 +169,32 @@ const TeamManager = () => {
             setLoadingPlayers={setLoadingPlayers}
             showPlayerList={showPlayerList} 
             setShowPlayerList={setShowPlayerList}
-            setTeamId={setTeamId} />
+            setTeamId={setTeamId}
+            setShowMyPlayers={setShowMyPlayers}
+            showMyPlayers={showMyPlayers} 
+            onClickMyPlayers={onClickMyPlayers}/>
           </Col>
         </Row>
-        
-        {showPlayerList && (
-          <Row>
-            <AddPlayerList 
-            loadingPlayers={loadingPlayers} 
-            setIsBuyOpen={setIsBuyOpen} 
-            setPlayerId ={setPlayerId} />
-          </Row>
-)}
+        <Row>
+  {showPlayerList && (
+    <AddPlayerList 
+      loadingPlayers={loadingPlayers} 
+      setIsBuyOpen={setIsBuyOpen} 
+      setPlayerId={setPlayerId}
+      players={players}
+    />
+  )}
 
+  {showMyPlayers && (
+    <AddPlayerList 
+      loadingPlayers={loadingPlayers} 
+      showMyPlayers={showMyPlayers}
+      setShowMyPlayers={setShowMyPlayers}
+      setPlayerId={setPlayerId}
+      players={teamPlayers}
+    />
+  )}
+</Row>
         
       {isBuyOpen && (
               <ConfirmationModal

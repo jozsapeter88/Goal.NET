@@ -4,11 +4,12 @@ import React, { useState, useEffect } from "react";
 import Loading from "./Loading";
 import { Card, Button, Collapse } from "react-bootstrap";
 import useCookies from "react-cookie/cjs/useCookies";
+import { fetchPlayersOfTeam } from "../Pages/TeamManager/TeamManager";
 
 export default function MyTeams() {
   const [cookies] = useCookies();
   const [teams, setTeams] = useState([]);
-  const [players, setPlayers] = useState([]);
+  const [teamPlayers, setTeamPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchTeamsOfUser = async () => {
@@ -29,22 +30,7 @@ export default function MyTeams() {
     }
     return [];
   };
-  const fetchPlayersOfUsersTeam = async (teamId) => {
-    try {
-      const response = await fetch(
-        process.env.REACT_APP_API_URL + "/teams/user/getPlayersOfTeam/${teamId}"
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setPlayers(data);
-      } else {
-        console.error("Error fetching players:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching players:", error);
-    }
-    return [];
-  };
+ 
 
   useEffect(() => {
     fetchTeamsOfUser()
@@ -73,8 +59,16 @@ export default function MyTeams() {
     );
   }
 
-  const handleToggleDetails = (teamId) => {
-    fetchPlayersOfUsersTeam(teamId);
+  const handleToggleDetails = async (teamId) => {
+    const playersOfTeam = await fetchPlayersOfTeam(cookies, teamId);
+    if(playersOfTeam.status === 200){
+      const data = await playersOfTeam.json();
+      console.log('data', data )
+      setTeamPlayers(data)
+    }else if(playersOfTeam.status === 404){
+      console.log('no player')
+      alert("No players yet!")
+    }
     setTeams((prevTeams) =>
       prevTeams.map((team) =>
         team.id === teamId ? { ...team, showDetails: !team.showDetails } : team
@@ -112,8 +106,8 @@ export default function MyTeams() {
                       </tr>
                     </thead>
                     <tbody>
-                      {players
-                        ? players.map((player) => (
+                      {teamPlayers
+                        ? teamPlayers.map((player) => (
                             <tr key={player.id}>
                               <td>{player.name}</td>
                               <td>{player.position}</td>

@@ -5,9 +5,11 @@ import { Button } from "react-bootstrap";
 import { PlayerContext } from "../../Pages/TeamManager/TeamManager";
 import ConfirmationModal from "../CofirmationModal";
 
-const AddPlayerList = ({loadingPlayers, setIsBuyOpen, setPlayerId }) => {
-
-  const{players} = useContext(PlayerContext)
+const AddPlayerList = ({
+  loadingPlayers, 
+  setIsBuyOpen, 
+  setPlayerId,
+  players }) => {
  
   const handleBuy = (playerId)=> {
     console.log(playerId)
@@ -27,9 +29,7 @@ const AddPlayerList = ({loadingPlayers, setIsBuyOpen, setPlayerId }) => {
               <h3 className="teamCard-title">Card</h3>
               <div className="teamCard-description">
                 <p>{p.name}</p>
-
                 <p>{p.nationality}</p>
-
                 <p>{p.score}</p>
               </div>
               <Button variant="warning" onClick={(e) => handleBuy(p.id)}>
@@ -37,13 +37,11 @@ const AddPlayerList = ({loadingPlayers, setIsBuyOpen, setPlayerId }) => {
               </Button>
             </div>
           ))
-        ) : (
-          <div>
-            <p>No Players</p>
-          </div>
+        ) : (<div>
+              <p>No Players</p>
+            </div>
         )}
       </div>
-
     </>
   );
 };

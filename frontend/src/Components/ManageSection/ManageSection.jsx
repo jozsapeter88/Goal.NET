@@ -7,7 +7,6 @@ import "./ManageSection.css";
 import useCookies from "react-cookie/cjs/useCookies";
 import EditNameModal from "../EditNameModal";
 import ManageTeamModal from "../ManageTeamModal";
-import AddPlayerList from "../AddPlayerList/AddPlayerList";
 
 const ManageSection = ({
   teams,
@@ -15,8 +14,10 @@ const ManageSection = ({
   loading,
   loadingPlayers,
   showPlayerList,
-   setShowPlayerList,
+  setShowPlayerList,
   setTeamId,
+  setShowMyPlayers,
+  onClickMyPlayers
 }) => {
   const [cookies] = useCookies();
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
@@ -26,20 +27,22 @@ const ManageSection = ({
   const [showNameModal, setShowNameModal] = useState(false);
   const [teamName, setTeamName] = useState("");
   
-
   const handleManageTeamModal = (team) => {
     setSelectedTeam(team);
-    
     setTeamName(team.name);
     setShowManageTeamModal(true);
   };
 
   const handleBuyPlayers = (team) => {
+    setShowMyPlayers(false)
     setShowPlayerList(true)
     setTeamId(team.id)
   }
-
-  
+  const handleMyPlayers = async(team) => {
+    setShowPlayerList(false)
+    onClickMyPlayers(team)
+    setShowMyPlayers(true)
+  }
 
   const updateTeamName = (teamName, teamId) => {
     return fetch(process.env.REACT_APP_API_URL + `/teams/user/updateTeamName/${teamId}`, {
@@ -123,6 +126,7 @@ const ManageSection = ({
                   <td className="team-name">{team.name}</td>
                   <Button onClick={() => handleManageTeamModal(team)}>Edit Team</Button>
                   <Button onClick={() => handleBuyPlayers(team)}>Buy Players</Button>
+                  <Button onClick={() => handleMyPlayers(team)}>My Players</Button>
                 </tr>
               ))}
             </tbody>

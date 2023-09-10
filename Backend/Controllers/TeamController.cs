@@ -60,7 +60,7 @@ public class TeamController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("user/getPlayersOfTeam/{teamId}")]
+    [HttpGet("getPlayersOfTeam/{teamId}")]
     public async Task<ActionResult<List<Team>>> GetPlayersOfTeam(long teamId)
     {
         var user = await GetCurrentUser();

@@ -1,12 +1,8 @@
-.team-name {
-    transition: all 1s;
-    cursor:pointer;
-}
-.team-name:hover {
-    scale: 0.9;
-    transition: all 1s;
+.managesection-container {
+    width: 60%;
+    margin: 0 auto;
 }
 
-.teamModal {
-    background-color: rgba(0, 0, 0, 0.301);
+.btn-primary {
+    margin: 10px;
 }

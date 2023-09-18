@@ -1,7 +1,7 @@
 /*-------------------This component is used in the TeamManager-------------------*/
 
-import React, { useState, useEffect } from "react";
-import { Collapse, Card, Button, Col, Form } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
 import "./CreateSection";
 import useCookies from "react-cookie/cjs/useCookies";
 
@@ -11,12 +11,21 @@ const CreateSection = ({ setTeams }) => {
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
   const [teamErrorMessage, setTeamErrorMessage] = useState("");
   const [teamCount, setTeamCount] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const [teamName, setTeamName] = useState("");
   const [teamColor, setTeamColor] = useState("");
 
   const handleToggleCreateTeam = () => {
     setShowCreateTeam(!showCreateTeam);
+  };
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   const handleCreateTeam = async (event) => {
@@ -68,63 +77,51 @@ const CreateSection = ({ setTeams }) => {
       setTeamSuccessMessage("");
       setTeamErrorMessage("Error creating team: " + error.message);
     }
+    handleCloseModal();
   };
 
   return (
     <>
       <div>
-        <div>
-          <Col sm={4}>
-            <div>
-              <Card
-                bg="dark"
-                text="white"
-                className={`create-card ${showCreateTeam ? "active" : ""}`}
-              >
-                <Card.Header>
-                  <Button
-                    variant="text"
-                    onClick={handleToggleCreateTeam}
-                    aria-controls="create-team-collapse"
-                    aria-expanded={showCreateTeam}
-                    style={{ color: "white", fontWeight: "bold" }}
-                  >
-                    <b>Create Team</b>
-                  </Button>
-                </Card.Header>
-                <Collapse in={showCreateTeam}>
-                  <div id="create-team-collapse">
-                    <Card.Body>
-                      <Form onSubmit={handleCreateTeam}>
-                        <Form.Group controlId="teamName">
-                          <Form.Label>Name</Form.Label>
-                          <Form.Control
-                            type="text"
-                            required
-                            value={teamName}
-                            onChange={(e) => setTeamName(e.target.value)}
-                          />
-                        </Form.Group>
-                        <Form.Group controlId="teamColor">
-                          <Form.Label>Color</Form.Label>
-                          <Form.Control
-                            type="text"
-                            required
-                            value={teamColor}
-                            onChange={(e) => setTeamColor(e.target.value)}
-                          />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">
-                          Create
-                        </Button>
-                      </Form>
-                    </Card.Body>
-                  </div>
-                </Collapse>
-              </Card>
-            </div>
-          </Col>
-        </div>
+        <Button onClick={handleOpenModal} className="createBtn float-right">
+          Create Team
+        </Button>
+
+        <Modal show={showModal} onHide={handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Create Team</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={handleCreateTeam}>
+              <Form.Group controlId="teamName">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  required
+                  value={teamName}
+                  onChange={(e) => setTeamName(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId="teamColor">
+                <Form.Label>Color</Form.Label>
+                <Form.Control
+                  type="text"
+                  required
+                  value={teamColor}
+                  onChange={(e) => setTeamColor(e.target.value)}
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Create
+              </Button>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </>
   );

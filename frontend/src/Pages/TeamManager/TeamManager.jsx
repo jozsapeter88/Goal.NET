@@ -145,10 +145,11 @@ const TeamManager = () => {
     <>
       <PlayerContext.Provider value={{ players, setPlayers }}>
         <Menu />
-        <div className="teammanager-title">
+        <div className="teammanager-title" style={{ marginTop:'5vh', marginBottom:'5vh', marginLeft: 'auto', marginRight: 'auto', width: '62%' }}>
           <h1
             style={{
               color: "white",
+              fontSize: "1.7rem"
             }}
           >
             Available points:
@@ -164,9 +165,6 @@ const TeamManager = () => {
             {user.points}
           </h1>
         </div>
-        <Button onClick={handleCreateTeamModal}>Create a team</Button>
-
-        <CreateSection setTeams={setTeams} />
 
         <ManageSection
           teams={teams}

@@ -7,6 +7,7 @@ import "./ManageSection.css";
 import useCookies from "react-cookie/cjs/useCookies";
 import EditNameModal from "../EditNameModal";
 import ManageTeamModal from "../ManageTeamModal";
+import CreateSection from "../CreateSection/CreateSection";
 
 const ManageSection = ({
   teams,
@@ -17,7 +18,7 @@ const ManageSection = ({
   setShowPlayerList,
   setTeamId,
   setShowMyPlayers,
-  onClickMyPlayers
+  onClickMyPlayers,
 }) => {
   const [cookies] = useCookies();
   const [teamSuccessMessage, setTeamSuccessMessage] = useState("");
@@ -26,7 +27,7 @@ const ManageSection = ({
   const [showManageTeamModal, setShowManageTeamModal] = useState(false);
   const [showNameModal, setShowNameModal] = useState(false);
   const [teamName, setTeamName] = useState("");
-  
+
   const handleManageTeamModal = (team) => {
     setSelectedTeam(team);
     setTeamName(team.name);
@@ -34,25 +35,28 @@ const ManageSection = ({
   };
 
   const handleBuyPlayers = (team) => {
-    setShowMyPlayers(false)
-    setShowPlayerList(true)
-    setTeamId(team.id)
-  }
-  const handleMyPlayers = async(team) => {
-    setShowPlayerList(false)
-    onClickMyPlayers(team)
-    setShowMyPlayers(true)
-  }
+    setShowMyPlayers(false);
+    setShowPlayerList(true);
+    setTeamId(team.id);
+  };
+  const handleMyPlayers = async (team) => {
+    setShowPlayerList(false);
+    onClickMyPlayers(team);
+    setShowMyPlayers(true);
+  };
 
   const updateTeamName = (teamName, teamId) => {
-    return fetch(process.env.REACT_APP_API_URL + `/teams/user/updateTeamName/${teamId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + cookies["token"],
-      },
-      body: JSON.stringify(teamName),
-    }).then((res) => res.json());
+    return fetch(
+      process.env.REACT_APP_API_URL + `/teams/user/updateTeamName/${teamId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + cookies["token"],
+        },
+        body: JSON.stringify(teamName),
+      }
+    ).then((res) => res.json());
   };
 
   const handleUpdateTeamNameChange = (teamId) => {
@@ -80,7 +84,7 @@ const ManageSection = ({
   const handleDeleteTeam = async (teamId) => {
     try {
       const response = await fetch(
-        process.env.REACT_APP_API_URL +`/teams/user/deleteTeam/${teamId}`,
+        process.env.REACT_APP_API_URL + `/teams/user/deleteTeam/${teamId}`,
         {
           method: "DELETE",
           headers: {
@@ -111,54 +115,67 @@ const ManageSection = ({
   }
 
   return (
-    <><div>
-      <div className="dashboard-container">
-        <Row>
-          <Table striped bordered hover variant="dark">
-            <thead>
-              <tr>
-                <th>Manage Your Team</th>
-              </tr>
-            </thead>
-            <tbody>
-              {teams.map((team) => (
-                <tr key={team.id}>
-                  <td className="team-name">{team.name}</td>
-                  <Button onClick={() => handleManageTeamModal(team)}>Edit Team</Button>
-                  <Button onClick={() => handleBuyPlayers(team)}>Buy Players</Button>
-                  <Button onClick={() => handleMyPlayers(team)}>My Players</Button>
+    <>
+      <div>
+        <div className="managesection-container">
+          <Row>
+            <Table striped bordered hover variant="dark">
+              <thead>
+                <tr>
+                  <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Manage Your Teams</th>
+                  <th>
+                    {" "}
+                    <CreateSection setTeams={setTeams} />
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {teams.map((team) => (
+                  <tr key={team.id}>
+                    <td className="team-name">{team.name}</td>
+                    <Button onClick={() => handleManageTeamModal(team)}>
+                      Edit Team
+                    </Button>
+                    <Button onClick={() => handleBuyPlayers(team)}>
+                      Buy Players
+                    </Button>
+                    <Button onClick={() => handleMyPlayers(team)}>
+                      My Players
+                    </Button>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Row>
+        </div>
 
-        </Row>
+        {/* Manage Team Modal */}
+        {selectedTeam && (
+          <ManageTeamModal
+            showManageTeamModal={showManageTeamModal}
+            handleCloseManageTeamModal={handleCloseManageTeamModal}
+            selectedTeam={selectedTeam}
+            setShowNameModal={setShowNameModal}
+            handleDeleteTeam={handleDeleteTeam}
+            setShowPlayerList={setShowPlayerList}
+            showPlayerList={showPlayerList}
+            setShowManageTeamModal={setShowManageTeamModal}
+            loadingPlayers={loadingPlayers}
+          />
+        )}
+        {/* Name Modal */}
+        {selectedTeam && (
+          <EditNameModal
+            setShowNameModal={setShowNameModal}
+            handleUpdateTeamNameChange={handleUpdateTeamNameChange}
+            setTeamName={setTeamName}
+            teamName={teamName}
+            selectedTeam={selectedTeam}
+            showNameModal={showNameModal}
+          />
+        )}
       </div>
-
-      {/* Manage Team Modal */}
-      {selectedTeam && (
-        <ManageTeamModal
-          showManageTeamModal={showManageTeamModal}
-          handleCloseManageTeamModal={handleCloseManageTeamModal}
-          selectedTeam={selectedTeam}
-          setShowNameModal={setShowNameModal}
-          handleDeleteTeam={handleDeleteTeam}
-          setShowPlayerList={setShowPlayerList}
-          showPlayerList={showPlayerList}
-          setShowManageTeamModal={setShowManageTeamModal}
-          loadingPlayers={loadingPlayers} />
-      )}
-      {/* Name Modal */}
-      {selectedTeam && (
-        <EditNameModal
-          setShowNameModal={setShowNameModal}
-          handleUpdateTeamNameChange={handleUpdateTeamNameChange}
-          setTeamName={setTeamName}
-          teamName={teamName}
-          selectedTeam={selectedTeam}
-          showNameModal={showNameModal} />
-      )}
-    </div></>
+    </>
   );
 };
 

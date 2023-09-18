@@ -10,7 +10,6 @@ import HomePage from './Pages/Home/HomePage';
 import LoginForm from './Pages/LandingPage/LoginForm';
 import RegisterForm from './Components/RegisterForm';
 import PlayerCreator from './Components/PlayerCreator/PlayerCreator';
-import TeamCreator from './Components/TeamCreator/TeamCreator';
 import PlayerList from './Components/PlayerList/PlayerList';
 import TeamManager from './Pages/TeamManager/TeamManager';
 import AddPlayerList from "./Components/AddPlayerList/AddPlayerList";
@@ -36,7 +35,6 @@ useEffect(() => {
         <Route path="register" element={<RegisterForm/>} />
         <Route path="home" element={<HomePage />} />
         <Route path="createPlayer" element={<PlayerCreator/>} />
-        <Route path="createTeam" element={<TeamCreator/>} />
         <Route path="playerList" element={<PlayerList/>} />
         <Route path="userEditor" element={<UserEditor/>} />
         <Route path="teamManager" element={ <TeamManager/>} />

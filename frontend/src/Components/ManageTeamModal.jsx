@@ -25,9 +25,6 @@ const ManageTeamModal = ({
         <Modal.Title>Manage Team: {selectedTeam.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Button variant="success" onClick={() => setShowPlayerList(true)}>
-          Add Player
-        </Button>
         <Button variant="warning" onClick={(e) => setShowNameModal(true)}>
           Edit Name
         </Button>

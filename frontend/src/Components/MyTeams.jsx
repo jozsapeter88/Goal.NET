@@ -79,7 +79,7 @@ export default function MyTeams() {
   return (
     <div>
       {teams.map((team) => (
-        <Card key={team.id} bg="dark" text="white" className="team-card">
+        <Card key={team.id} bg="dark" text="white" className="team-card" style={{ marginLeft: '42vh'}}>
           <Card.Header>
             <Button
               variant="text"

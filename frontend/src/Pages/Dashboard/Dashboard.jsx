@@ -21,12 +21,12 @@ const Dashboard = () => {
   return (
     <div>
       <div className="MyTeams">
-        <h1 style={{ color: "White" }}>Dashboard</h1>
+        <h1 style={{ color: "White", marginLeft: '42vh'}}>Dashboard</h1>
       </div>
       <div className="dashboard-container">
         <Row>
-          <Col sm={4}>
-            <MyTeams />
+          <Col sm={6}>
+            <MyTeams  />
           </Col>
           <Col sm={4} className="mb-4">
             <MatchHistory />

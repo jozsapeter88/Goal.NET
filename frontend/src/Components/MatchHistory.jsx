@@ -88,7 +88,7 @@ export default function MatchHistory() {
   ];
 
   return (
-    <Card bg="dark" text="white">
+    <Card bg="dark" text="white" style={{ width: "90%"}}>
       <Card.Body>
         <h4>Previous Match History</h4>
         <Table striped bordered hover variant="dark">

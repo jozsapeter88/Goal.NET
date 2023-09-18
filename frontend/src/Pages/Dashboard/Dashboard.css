@@ -75,24 +75,27 @@
   z-index: -10;
 }
 
-/* Add a media query for screen widths less than or equal to 768px (adjust as needed) */
-@media (max-width: 768px) {
-  /* Style for smaller screens */
-  
-  /* Remove any previous width or margin settings for .team-card and .create-card */
-  .team-card,
-  .create-card {
-    width: 100%; /* Expand to full width */
-    margin-right: 0; /* Remove right margin */
-  }
+/* Styles for screens smaller than 576px (extra small) */
+@media (max-width: 575px) {
 
-  .create-cards-container {
-    align-items: flex-start; /* Align items to the start (top) of the container */
-  }
+}
 
-  .player-table {
-    /* Adjust styles for the "Previous Match History" table as needed */
-    width: 100%; /* Expand to full width */
-    margin-top: 1rem; /* Add margin to separate it from the above content */
-  }
+/* Styles for screens between 576px and 768px (small to medium) */
+@media (min-width: 576px) and (max-width: 767px) {
+
+}
+
+/* Styles for screens between 768px and 992px (medium to large) */
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/* Styles for screens between 992px and 1600px (large) */
+@media (min-width: 992px) and (max-width: 1599px) {
+
+}
+
+/* Styles for screens larger than or equal to 1600px (extra large) */
+@media (min-width: 1600px) {
+
 }

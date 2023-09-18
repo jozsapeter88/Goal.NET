@@ -24,7 +24,7 @@ const Dashboard = () => {
         <h1 style={{ color: "White", marginLeft: '42vh'}}>Dashboard</h1>
       </div>
       <div className="dashboard-container">
-        <Row>
+        <Row style={{ marginLeft: '0', marginRight: '0'}}>
           <Col sm={6}>
             <MyTeams  />
           </Col>
